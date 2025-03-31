@@ -5,6 +5,21 @@
 
 
 
+bool StringUtilities::String_IsASCII(const string& str)
+{
+    for (unsigned char ch : str)
+    {
+        if (ch > 127)
+        {
+            return false;
+        }
+    }
+
+
+    return true;
+}
+
+
 bool StringUtilities::String_Contains(const string& str, const string& substr)
 {
     return str.find(substr) != string::npos;

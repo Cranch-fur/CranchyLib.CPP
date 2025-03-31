@@ -14,6 +14,8 @@ using namespace std;
 class StringUtilities
 {
 public:
+	static bool String_IsASCII(const string& str);
+
 	static bool String_Contains(const string& str, const string& substr);
 
 	static string String_ReplaceFirst(string str, const string& find, const string& replace);
