@@ -90,6 +90,16 @@ string StringUtilities::String_ReplaceAll(string str, const string& find, const 
 }
 
 
+string StringUtilities::String_Reverse(const string& str)
+{
+    string reversedString(str);
+
+
+    reverse(reversedString.begin(), reversedString.end());
+    return reversedString;
+}
+
+
 wstring StringUtilities::String_ToWString(const string& str)
 {
     wstring_convert<codecvt_utf8<wchar_t>> conv;
@@ -158,6 +168,16 @@ wstring StringUtilities::WString_ReplaceAll(wstring wstr, const wstring& find, c
 
 
     return wstr;
+}
+
+
+wstring StringUtilities::WString_Reverse(const wstring& wstr)
+{
+    wstring reversedString(wstr);
+
+
+    reverse(reversedString.begin(), reversedString.end());
+    return reversedString;
 }
 
 

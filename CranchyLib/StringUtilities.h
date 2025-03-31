@@ -22,6 +22,8 @@ public:
 	static string String_ReplaceLast(string str, const string& find, const string& replace);
 	static string String_ReplaceAll(string str, const string& find, const string& replace);
 
+	static string String_Reverse(const string& str);
+
 	static wstring String_ToWString(const string& str);
 
 
@@ -32,6 +34,8 @@ public:
 	static wstring WString_ReplaceFirst(wstring wstr, const wstring& find, const wstring& replace);
 	static wstring WString_ReplaceLast(wstring wstr, const wstring& find, const wstring& replace);
 	static wstring WString_ReplaceAll(wstring wstr, const wstring& find, const wstring& replace);
+
+	static wstring WString_Reverse(const wstring& wstr);
 
 	static string WString_ToString(const wstring& wstr);
 };
