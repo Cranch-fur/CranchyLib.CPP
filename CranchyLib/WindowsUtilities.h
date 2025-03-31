@@ -28,12 +28,21 @@ public:
 
 
     static string GetKnownDirectory(REFKNOWNFOLDERID folderId);
+    static string GetSystemDirectory();
+    static string GetProgramFilesDirectory();
+    static string GetProgramFilesX86Directory();
+    static string GetUserDirectory();
     static string GetDesktopDirectory();
     static string GetDownloadsDirectory();
     static string GetDocumentsDirectory();
     static string GetPicturesDirectory();
     static string GetVideosDirectory();
     static string GetMusicDirectory();
+    static string GetAppDataLocalDirectory();
+    static string GetAppDataLocalLowDirectory();
+    static string GetAppDataRoamingDirectory();
+
+    static string GetSystemDrive();
 
 
 

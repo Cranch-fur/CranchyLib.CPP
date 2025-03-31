@@ -68,6 +68,26 @@ string WindowsUtilities::GetKnownDirectory(REFKNOWNFOLDERID folderId)
 }
 
 
+string WindowsUtilities::GetSystemDirectory()
+{
+    GetKnownDirectory(FOLDERID_Windows);
+}
+
+string WindowsUtilities::GetProgramFilesDirectory()
+{
+    return GetKnownDirectory(FOLDERID_ProgramFiles);
+}
+
+string WindowsUtilities::GetProgramFilesX86Directory()
+{
+    return GetKnownDirectory(FOLDERID_ProgramFilesX86);
+}
+
+string WindowsUtilities::GetUserDirectory()
+{
+    return GetKnownDirectory(FOLDERID_Profile);
+}
+
 string WindowsUtilities::GetDesktopDirectory()
 {
     return GetKnownDirectory(FOLDERID_Desktop);
@@ -96,6 +116,34 @@ string WindowsUtilities::GetVideosDirectory()
 string WindowsUtilities::GetMusicDirectory()
 {
     return GetKnownDirectory(FOLDERID_Music);
+}
+
+string WindowsUtilities::GetAppDataLocalDirectory()
+{
+    return GetKnownDirectory(FOLDERID_LocalAppData);
+}
+
+string WindowsUtilities::GetAppDataLocalLowDirectory()
+{
+    return GetKnownDirectory(FOLDERID_LocalAppDataLow);
+}
+
+string WindowsUtilities::GetAppDataRoamingDirectory()
+{
+    return GetKnownDirectory(FOLDERID_RoamingAppData);
+}
+
+
+string WindowsUtilities::GetSystemDrive()
+{
+    string systemPath = GetSystemDirectory();
+    if (systemPath.empty() == false && systemPath.size() >= 3)
+    {
+        return systemPath.substr(0, 3);
+    }
+
+
+    return string();
 }
 
 
