@@ -2,6 +2,7 @@
 
 #include <string>
 #include <filesystem>
+#include <iostream>
 #include <stdio.h>
 #include <shlobj.h>
 #include <Windows.h>
@@ -47,8 +48,8 @@ public:
 
 
 
-public:
-    static void CreateConsole(bool setTitle = true, bool redirectStreams = false, bool increaseBufferSize = false);
+    static void CreateConsole(bool setTitle = true, bool redirectStreams = false);
+    static void SetConsoleBufferSize(short newBufferSize = 9999);
     static void ClearConsole();
 
     static void ConsoleUTF8(); // Universal
@@ -60,7 +61,41 @@ public:
 
 
 
-public:
     static string FileOpenDialog(HWND hwndOwner = nullptr, string filesFilter = "All Files\0*.*\0", bool startingPoint = true);
-};
 
+
+
+
+
+
+    template<typename T>
+    static void WriteLineConsole(const T& value)
+    {
+        std::cout << value << std::endl;
+    }
+
+    template<typename Container>
+    static void WriteAllLinesConsole(const Container& lines)
+    {
+        for (const auto& line : lines)
+        {
+            std::cout << line << std::endl;
+        }
+    }
+
+
+    template<typename T>
+    static void WriteWLineConsole(const T& value)
+    {
+        std::wcout << value << std::endl;
+    }
+
+    template<typename Container>
+    static void WriteAllWLinesConsole(const Container& lines)
+    {
+        for (const auto& line : lines)
+        {
+            std::wcout << line << std::endl;
+        }
+    }
+};

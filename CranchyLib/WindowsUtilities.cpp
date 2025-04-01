@@ -151,7 +151,7 @@ string WindowsUtilities::GetSystemDrive()
 
 
 
-void WindowsUtilities::CreateConsole(bool setTitle, bool redirectStreams, bool increaseBufferSize)
+void WindowsUtilities::CreateConsole(bool setTitle, bool redirectStreams)
 {
     AllocConsole();
 
@@ -177,21 +177,28 @@ void WindowsUtilities::CreateConsole(bool setTitle, bool redirectStreams, bool i
         freopen_s(&fConsole, "CONOUT$", "w", stdout);
         freopen_s(&fConsole, "CONOUT$", "w", stderr);
     }
+}
 
 
-    if (increaseBufferSize)
+void WindowsUtilities::SetConsoleBufferSize(short newBufferSize)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hConsole)
     {
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        if (hConsole)
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        if (GetConsoleScreenBufferInfo(hConsole, &csbi))
         {
-            CONSOLE_SCREEN_BUFFER_INFO csbi;
-            if (GetConsoleScreenBufferInfo(hConsole, &csbi))
-            {
-                COORD newSize;
-                newSize.X = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-                newSize.Y = 9999;
-                SetConsoleScreenBufferSize(hConsole, newSize);
-            }
+            short minHeight = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+            short maxHeight = 32767;
+
+
+            newBufferSize = clamp(newBufferSize, minHeight, maxHeight);
+
+
+            COORD newSize;
+            newSize.X = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+            newSize.Y = newBufferSize;
+            SetConsoleScreenBufferSize(hConsole, newSize);
         }
     }
 }
