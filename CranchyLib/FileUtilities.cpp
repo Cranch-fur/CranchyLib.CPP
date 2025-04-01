@@ -5,7 +5,7 @@
 
 
 
-string FileUtilities::ReadFileContents(const string& filePath)
+std::string FileUtilities::ReadFileContents(const std::string& filePath)
 {
     HANDLE hFile = CreateFileA(
         filePath.c_str(),      // File path.
@@ -20,7 +20,7 @@ string FileUtilities::ReadFileContents(const string& filePath)
 
     if (hFile == INVALID_HANDLE_VALUE) // Check if handle isn't valid.
     {
-        throw runtime_error("Failed to create file handle.");
+        throw std::runtime_error("Failed to create file handle.");
     }
 
 
@@ -28,36 +28,36 @@ string FileUtilities::ReadFileContents(const string& filePath)
     if (!GetFileSizeEx(hFile, &fileSize)) // Get file size & write it in to variable.
     {
         CloseHandle(hFile);
-        throw runtime_error("Failed to retrieve file size.");
+        throw std::runtime_error("Failed to retrieve file size.");
     }
 
 
-    vector<char> buffer(fileSize.QuadPart); // Allocate memory for file contents.
+    std::vector<char> buffer(fileSize.QuadPart); // Allocate memory for file contents.
     DWORD bytesRead;
     if (!ReadFile(hFile, buffer.data(), static_cast<DWORD>(fileSize.QuadPart), &bytesRead, nullptr)) {
         CloseHandle(hFile);
-        throw runtime_error("Failed to read file contents.");
+        throw std::runtime_error("Failed to read file contents.");
     }
 
     // Close file handle and return its contents from the buffer.
     CloseHandle(hFile);
-    string fileContents = string(buffer.begin(), buffer.end());
+    std::string fileContents = std::string(buffer.begin(), buffer.end());
 
 
     return fileContents;
 }
 
-vector<string> FileUtilities::ReadFileLines(const string& filePath)
+std::vector<std::string> FileUtilities::ReadFileLines(const std::string& filePath)
 {
-    string fileContents = ReadFileContents(filePath);
-    vector<string> lines;
+    std::string fileContents = ReadFileContents(filePath);
+    std::vector<std::string> lines;
     size_t start = 0;
     size_t pos = 0;
 
 
-    while ((pos = fileContents.find('\n', start)) != string::npos)
+    while ((pos = fileContents.find('\n', start)) != std::string::npos)
     {
-        string line = fileContents.substr(start, pos - start);
+        std::string line = fileContents.substr(start, pos - start);
 
 
         // If line ends with an '\r', remove it.
@@ -75,7 +75,7 @@ vector<string> FileUtilities::ReadFileLines(const string& filePath)
     // Add last line if it isn't empty.
     if (start < fileContents.size())
     {
-        string line = fileContents.substr(start);
+        std::string line = fileContents.substr(start);
 
 
         if (!line.empty() && line.back() == '\r') 
@@ -92,7 +92,7 @@ vector<string> FileUtilities::ReadFileLines(const string& filePath)
 }
 
 
-wstring FileUtilities::ReadFileWContents(const wstring& filePath)
+std::wstring FileUtilities::ReadFileWContents(const std::wstring& filePath)
 {
     HANDLE hFile = CreateFileW(
         filePath.c_str(),      // File path.
@@ -107,7 +107,7 @@ wstring FileUtilities::ReadFileWContents(const wstring& filePath)
 
     if (hFile == INVALID_HANDLE_VALUE) // Check if handle isn't valid.
     {
-        throw runtime_error("Failed to create file handle.");
+        throw std::runtime_error("Failed to create file handle.");
     }
 
 
@@ -115,45 +115,45 @@ wstring FileUtilities::ReadFileWContents(const wstring& filePath)
     if (!GetFileSizeEx(hFile, &fileSize)) // Get file size & write it in to variable.
     {
         CloseHandle(hFile);
-        throw runtime_error("Failed to retrieve file size.");
+        throw std::runtime_error("Failed to retrieve file size.");
     }
 
     
     if (fileSize.QuadPart % sizeof(wchar_t) != 0) // File size must be multiple of sizeof(wchar_t).
     {
         CloseHandle(hFile);
-        throw runtime_error("File size is not valid for wide characters.");
+        throw std::runtime_error("File size is not valid for wide characters.");
     }
 
 
     size_t wCharCount = fileSize.QuadPart / sizeof(wchar_t);
 
 
-    vector<wchar_t> buffer(wCharCount); // Allocate memory for file contents.
+    std::vector<wchar_t> buffer(wCharCount); // Allocate memory for file contents.
     DWORD bytesRead;
     if (!ReadFile(hFile, buffer.data(), static_cast<DWORD>(fileSize.QuadPart), &bytesRead, nullptr))
     {
         CloseHandle(hFile);
-        throw runtime_error("Failed to read file contents.");
+        throw std::runtime_error("Failed to read file contents.");
     }
 
 
     // Close file handle and return its contents from the buffer.
     CloseHandle(hFile);
-    return wstring(buffer.begin(), buffer.end());
+    return std::wstring(buffer.begin(), buffer.end());
 }
 
-vector<wstring> FileUtilities::ReadFileWLines(const wstring& filePath)
+std::vector<std::wstring> FileUtilities::ReadFileWLines(const std::wstring& filePath)
 {
-    wstring fileContents = ReadFileWContents(filePath);
-    vector<wstring> lines;
+    std::wstring fileContents = ReadFileWContents(filePath);
+    std::vector<std::wstring> lines;
     size_t start = 0;
     size_t pos = 0;
 
 
-    while ((pos = fileContents.find(L'\n', start)) != wstring::npos)
+    while ((pos = fileContents.find(L'\n', start)) != std::wstring::npos)
     {
-        wstring line = fileContents.substr(start, pos - start);
+        std::wstring line = fileContents.substr(start, pos - start);
 
 
         if (!line.empty() && line.back() == L'\r')
@@ -169,7 +169,7 @@ vector<wstring> FileUtilities::ReadFileWLines(const wstring& filePath)
 
     if (start < fileContents.size())
     {
-        wstring line = fileContents.substr(start);
+        std::wstring line = fileContents.substr(start);
 
 
         if (!line.empty() && line.back() == L'\r')
@@ -188,7 +188,7 @@ vector<wstring> FileUtilities::ReadFileWLines(const wstring& filePath)
 
 
 
-void FileUtilities::WriteFileContents(const string& filePath, const string& content)
+void FileUtilities::WriteFileContents(const std::string& filePath, const std::string& content)
 {
     HANDLE hFile = CreateFileA(
         filePath.c_str(),      // File path.
@@ -203,7 +203,7 @@ void FileUtilities::WriteFileContents(const string& filePath, const string& cont
 
     if (hFile == INVALID_HANDLE_VALUE)
     {
-        throw runtime_error("Failed to create file handle.");
+        throw std::runtime_error("Failed to create file handle.");
     }
 
 
@@ -211,7 +211,7 @@ void FileUtilities::WriteFileContents(const string& filePath, const string& cont
     if (!WriteFile(hFile, content.c_str(), static_cast<DWORD>(content.size()), &bytesWritten, nullptr)) 
     {
         CloseHandle(hFile);
-        throw runtime_error("Failed to write file contents.");
+        throw std::runtime_error("Failed to write file contents.");
     }
 
 
@@ -219,7 +219,7 @@ void FileUtilities::WriteFileContents(const string& filePath, const string& cont
 }
 
 
-void FileUtilities::WriteFileWContents(const wstring& filePath, const wstring& content)
+void FileUtilities::WriteFileWContents(const std::wstring& filePath, const std::wstring& content)
 {
     HANDLE hFile = CreateFileW(
         filePath.c_str(),      // File path.

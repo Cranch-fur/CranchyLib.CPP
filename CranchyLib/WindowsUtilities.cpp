@@ -5,145 +5,247 @@
 
 
 
-string WindowsUtilities::GetExecutablePath()
+std::string WindowsUtilities::GetExecutablePath()
 {
     char executablePath[MAX_PATH] = { 0 };
     if (GetModuleFileNameA(NULL, executablePath, MAX_PATH))
     {
-        return string(executablePath);
+        return std::string(executablePath);
     }
 
 
-    return string();
+    return std::string();
 }
 
 
-string WindowsUtilities::GetExecutableName(bool includeExtension)
+std::string WindowsUtilities::GetExecutableName(bool includeExtension)
 {
-    string executablePath = GetExecutablePath();
+    std::string executablePath = GetExecutablePath();
     if (executablePath.empty())
     {
-        return string();
+        return std::string();
     }
 
 
-    filesystem::path fsPath(executablePath);
+    std::filesystem::path fsPath(executablePath);
     return includeExtension ? fsPath.filename().string() : fsPath.stem().string();
 }
 
 
-string WindowsUtilities::GetExecutableDirectory()
+std::string WindowsUtilities::GetExecutableDirectory()
 {
-    string executablePath = GetExecutablePath();
+    std::string executablePath = GetExecutablePath();
     if (executablePath.empty())
     {
-        return string();
+        return std::string();
     }
 
 
-    filesystem::path fsPath(executablePath);
+    std::filesystem::path fsPath(executablePath);
     return fsPath.parent_path().string();
 }
 
 
 
 
-string WindowsUtilities::GetKnownDirectory(REFKNOWNFOLDERID folderId)
+std::string WindowsUtilities::GetEnvironmentValue(const std::string& varName)
 {
-    PWSTR folderPath = nullptr;
+    char* directoryPath = nullptr;
+    size_t len = 0;
 
 
-    HRESULT hr = SHGetKnownFolderPath(folderId, 0, NULL, &folderPath);
-    if (SUCCEEDED(hr))
+    if (_dupenv_s(&directoryPath, &len, varName.c_str()) == 0 && directoryPath != nullptr)
     {
-        wstring wFolderPath(folderPath);
-        CoTaskMemFree(folderPath);
+        std::string outPath(directoryPath);
+        free(directoryPath);
 
 
-        return StringUtilities::WString_ToString(wFolderPath);
+        return outPath;
     }
 
 
-    return string();
+    return std::string();
 }
 
 
-string WindowsUtilities::GetSystemDirectory()
-{
-    GetKnownDirectory(FOLDERID_Windows);
-}
 
-string WindowsUtilities::GetProgramFilesDirectory()
-{
-    return GetKnownDirectory(FOLDERID_ProgramFiles);
-}
 
-string WindowsUtilities::GetProgramFilesX86Directory()
+std::string WindowsUtilities::GetSystemDirectory()
 {
-    return GetKnownDirectory(FOLDERID_ProgramFilesX86);
-}
+    char buffer[MAX_PATH];
+    UINT len = GetWindowsDirectoryA(buffer, MAX_PATH);
+    if (len > 0)
+    {
+        return std::string(buffer);
+    }
 
-string WindowsUtilities::GetUserDirectory()
-{
-    return GetKnownDirectory(FOLDERID_Profile);
-}
 
-string WindowsUtilities::GetDesktopDirectory()
-{
-    return GetKnownDirectory(FOLDERID_Desktop);
-}
-
-string WindowsUtilities::GetDownloadsDirectory()
-{
-    return GetKnownDirectory(FOLDERID_Downloads);
-}
-
-string WindowsUtilities::GetDocumentsDirectory()
-{
-    return GetKnownDirectory(FOLDERID_Documents);
-}
-
-string WindowsUtilities::GetPicturesDirectory()
-{
-    return GetKnownDirectory(FOLDERID_Pictures);
-}
-
-string WindowsUtilities::GetVideosDirectory()
-{
-    return GetKnownDirectory(FOLDERID_Videos);
-}
-
-string WindowsUtilities::GetMusicDirectory()
-{
-    return GetKnownDirectory(FOLDERID_Music);
-}
-
-string WindowsUtilities::GetAppDataLocalDirectory()
-{
-    return GetKnownDirectory(FOLDERID_LocalAppData);
-}
-
-string WindowsUtilities::GetAppDataLocalLowDirectory()
-{
-    return GetKnownDirectory(FOLDERID_LocalAppDataLow);
-}
-
-string WindowsUtilities::GetAppDataRoamingDirectory()
-{
-    return GetKnownDirectory(FOLDERID_RoamingAppData);
+    return std::string();
 }
 
 
-string WindowsUtilities::GetSystemDrive()
+std::string WindowsUtilities::GetProgramFilesDirectory()
 {
-    string systemPath = GetSystemDirectory();
+    std::string outPath = GetEnvironmentValue("ProgramFiles");
+    if (!outPath.empty())
+    {
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetProgramFilesX86Directory()
+{
+    std::string outPath = GetEnvironmentValue("ProgramFiles(x86)");
+    if (!outPath.empty())
+    {
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetUserDirectory()
+{
+    std::string outPath = GetEnvironmentValue("USERPROFILE");
+    if (!outPath.empty())
+    {
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetDesktopDirectory()
+{
+    std::string outPath = GetEnvironmentValue("USERPROFILE");
+    if (!outPath.empty())
+    {
+        outPath += "\\Desktop";
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetDownloadsDirectory()
+{
+    std::string outPath = GetEnvironmentValue("USERPROFILE");
+    if (!outPath.empty())
+    {
+        outPath += "\\Downloads";
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetDocumentsDirectory()
+{
+    std::string outPath = GetEnvironmentValue("USERPROFILE");
+    if (!outPath.empty())
+    {
+        outPath += "\\Documents";
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetPicturesDirectory()
+{
+    std::string outPath = GetEnvironmentValue("USERPROFILE");
+    if (!outPath.empty())
+    {
+        outPath += "\\Pictures";
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetVideosDirectory()
+{
+    std::string outPath = GetEnvironmentValue("USERPROFILE");
+    if (!outPath.empty())
+    {
+        outPath += "\\Videos";
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetMusicDirectory()
+{
+    std::string outPath = GetEnvironmentValue("USERPROFILE");
+    if (!outPath.empty())
+    {
+        outPath += "\\Music";
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetAppDataLocalDirectory()
+{
+    std::string outPath = GetEnvironmentValue("LOCALAPPDATA");
+    if (!outPath.empty())
+    {
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetAppDataLocalLowDirectory()
+{
+    std::string outPath = GetEnvironmentValue("USERPROFILE");
+    if (!outPath.empty())
+    {
+        outPath += "\\AppData\\LocalLow";
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+std::string WindowsUtilities::GetAppDataRoamingDirectory()
+{
+    std::string outPath = GetEnvironmentValue("APPDATA");
+    if (!outPath.empty())
+    {
+        return outPath;
+    }
+
+
+    return std::string();
+}
+
+
+std::string WindowsUtilities::GetSystemDrive()
+{
+    std::string systemPath = GetSystemDirectory();
     if (systemPath.empty() == false && systemPath.size() >= 3)
     {
         return systemPath.substr(0, 3);
     }
 
 
-    return string();
+    return std::string();
 }
 
 
@@ -158,7 +260,7 @@ void WindowsUtilities::CreateConsole(bool setTitle, bool redirectStreams)
 
     if (setTitle)
     {
-        string executableName = GetExecutableName(false);
+        std::string executableName = GetExecutableName(false);
         if (executableName.empty())
         {
             SetConsoleTitleA("DEBUG CONSOLE");
@@ -192,7 +294,7 @@ void WindowsUtilities::SetConsoleBufferSize(short newBufferSize)
             short maxHeight = 32767;
 
 
-            newBufferSize = clamp(newBufferSize, minHeight, maxHeight);
+            newBufferSize = std::clamp(newBufferSize, minHeight, maxHeight);
 
 
             COORD newSize;
@@ -275,7 +377,7 @@ void WindowsUtilities::Console437()
 
 
 
-string WindowsUtilities::FileOpenDialog(HWND hwndOwner, string filesFilter, bool startingPoint)
+std::string WindowsUtilities::FileOpenDialog(HWND hwndOwner, std::string filesFilter, bool startingPoint)
 {
     char filePath[MAX_PATH] = { 0 };
 
@@ -291,7 +393,7 @@ string WindowsUtilities::FileOpenDialog(HWND hwndOwner, string filesFilter, bool
 
     if (startingPoint == true)
     {
-        string executableDirectory = GetExecutableDirectory();
+        std::string executableDirectory = GetExecutableDirectory();
         if (executableDirectory.empty())
         {
 
@@ -299,10 +401,10 @@ string WindowsUtilities::FileOpenDialog(HWND hwndOwner, string filesFilter, bool
         WCHAR executablePath[MAX_PATH] = { 0 };
         if (GetModuleFileNameEx(GetCurrentProcess(), nullptr, executablePath, MAX_PATH))
         {
-            filesystem::path fsPath(executablePath);
+            std::filesystem::path fsPath(executablePath);
 
 
-            string executableDirectory = fsPath.parent_path().string();
+            std::string executableDirectory = fsPath.parent_path().string();
             ofn.lpstrInitialDir = executableDirectory.c_str();
         }
     }
@@ -310,6 +412,6 @@ string WindowsUtilities::FileOpenDialog(HWND hwndOwner, string filesFilter, bool
 
     if (GetOpenFileNameA(&ofn))
     {
-        return string(filePath);
+        return std::string(filePath);
     }
 }

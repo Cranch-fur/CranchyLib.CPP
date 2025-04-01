@@ -4,14 +4,11 @@
 #include <filesystem>
 #include <iostream>
 #include <stdio.h>
-#include <shlobj.h>
 #include <Windows.h>
 #include <processthreadsapi.h>
 
-#include "Psapi.h";
-#include "StringUtilities.h";
-
-using namespace std;
+#include "Psapi.h"
+#include "StringUtilities.h"
 
 
 
@@ -21,29 +18,32 @@ using namespace std;
 class WindowsUtilities
 {
 public:
-    static string GetExecutablePath();
-    static string GetExecutableName(bool includeExtension = true);
-    static string GetExecutableDirectory();
+    static std::string GetExecutablePath();
+    static std::string GetExecutableName(bool includeExtension = true);
+    static std::string GetExecutableDirectory();
 
 
 
+    static std::string GetEnvironmentValue(const std::string& varName);
 
-    static string GetKnownDirectory(REFKNOWNFOLDERID folderId);
-    static string GetSystemDirectory();
-    static string GetProgramFilesDirectory();
-    static string GetProgramFilesX86Directory();
-    static string GetUserDirectory();
-    static string GetDesktopDirectory();
-    static string GetDownloadsDirectory();
-    static string GetDocumentsDirectory();
-    static string GetPicturesDirectory();
-    static string GetVideosDirectory();
-    static string GetMusicDirectory();
-    static string GetAppDataLocalDirectory();
-    static string GetAppDataLocalLowDirectory();
-    static string GetAppDataRoamingDirectory();
 
-    static string GetSystemDrive();
+
+    static std::string GetSystemDirectory();
+
+    static std::string GetProgramFilesDirectory();
+    static std::string GetProgramFilesX86Directory();
+    static std::string GetUserDirectory();
+    static std::string GetDesktopDirectory();
+    static std::string GetDownloadsDirectory();
+    static std::string GetDocumentsDirectory();
+    static std::string GetPicturesDirectory();
+    static std::string GetVideosDirectory();
+    static std::string GetMusicDirectory();
+    static std::string GetAppDataLocalDirectory();
+    static std::string GetAppDataLocalLowDirectory();
+    static std::string GetAppDataRoamingDirectory();
+
+    static std::string GetSystemDrive();
 
 
 
@@ -61,7 +61,7 @@ public:
 
 
 
-    static string FileOpenDialog(HWND hwndOwner = nullptr, string filesFilter = "All Files\0*.*\0", bool startingPoint = true);
+    static std::string FileOpenDialog(HWND hwndOwner = nullptr, std::string filesFilter = "All Files\0*.*\0", bool startingPoint = true);
 
 
 

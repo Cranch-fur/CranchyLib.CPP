@@ -4,8 +4,6 @@
 #include <locale>
 #include <codecvt>
 
-using namespace std;
-
 
 
 
@@ -14,28 +12,28 @@ using namespace std;
 class StringUtilities
 {
 public:
-	static bool String_IsASCII(const string& str);
+	static bool String_IsASCII(const std::string& str);
 
-	static bool String_Contains(const string& str, const string& substr);
+	static bool String_Contains(const std::string& str, const std::string& substr);
 
-	static string String_ReplaceFirst(string str, const string& find, const string& replace);
-	static string String_ReplaceLast(string str, const string& find, const string& replace);
-	static string String_ReplaceAll(string str, const string& find, const string& replace);
+	static std::string String_ReplaceFirst(std::string str, const std::string& find, const std::string& replace);
+	static std::string String_ReplaceLast(std::string str, const std::string& find, const std::string& replace);
+	static std::string String_ReplaceAll(std::string str, const std::string& find, const std::string& replace);
 
-	static string String_Reverse(const string& str);
+	static std::string String_Reverse(const std::string& str);
 
-	static wstring String_ToWString(const string& str);
-
-
+	static std::wstring String_ToWString(const std::string& str);
 
 
-	static bool WString_Contains(const wstring& wstr, const wstring& subWStr);
 
-	static wstring WString_ReplaceFirst(wstring wstr, const wstring& find, const wstring& replace);
-	static wstring WString_ReplaceLast(wstring wstr, const wstring& find, const wstring& replace);
-	static wstring WString_ReplaceAll(wstring wstr, const wstring& find, const wstring& replace);
 
-	static wstring WString_Reverse(const wstring& wstr);
+	static bool WString_Contains(const std::wstring& wstr, const std::wstring& subWStr);
 
-	static string WString_ToString(const wstring& wstr);
+	static std::wstring WString_ReplaceFirst(std::wstring wstr, const std::wstring& find, const std::wstring& replace);
+	static std::wstring WString_ReplaceLast(std::wstring wstr, const std::wstring& find, const std::wstring& replace);
+	static std::wstring WString_ReplaceAll(std::wstring wstr, const std::wstring& find, const std::wstring& replace);
+
+	static std::wstring WString_Reverse(const std::wstring& wstr);
+
+	static std::string WString_ToString(const std::wstring& wstr);
 };

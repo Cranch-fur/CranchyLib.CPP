@@ -5,8 +5,6 @@
 #include <vector>
 #include <windows.h>
 
-using namespace std;
-
 
 
 
@@ -15,16 +13,16 @@ using namespace std;
 class FileUtilities
 {
 public:
-	static string ReadFileContents(const string& filePath);
-	static vector<string> ReadFileLines(const string& filePath);
+	static std::string ReadFileContents(const std::string& filePath);
+	static std::vector<std::string> ReadFileLines(const std::string& filePath);
 
-	static wstring ReadFileWContents(const wstring& filePath);
-	static vector<wstring> ReadFileWLines(const wstring& filePath);
+	static std::wstring ReadFileWContents(const std::wstring& filePath);
+	static std::vector<std::wstring> ReadFileWLines(const std::wstring& filePath);
 
 
-	static void WriteFileContents(const string& filePath, const string& content);
+	static void WriteFileContents(const std::string& filePath, const std::string& content);
 
-	static void WriteFileWContents(const wstring& filePath, const wstring& content);
+	static void WriteFileWContents(const std::wstring& filePath, const std::wstring& content);
 
 
 
@@ -32,9 +30,9 @@ public:
 
 
     template<typename Container>
-    static void WriteFileLines(const string& filePath, const Container& lines)
+    static void WriteFileLines(const std::string& filePath, const Container& lines)
     {
-        string content;
+        std::string content;
         bool first = true;
 
 
@@ -52,9 +50,9 @@ public:
 
 
     template<typename Container>
-    static void WriteFileAllWLines(const wstring& filePath, const Container& lines)
+    static void WriteFileAllWLines(const std::wstring& filePath, const Container& lines)
     {
-        wstring content;
+        std::wstring content;
         bool first = true;
 
 
