@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <regex>
 #include <filesystem>
 #include <iostream>
 #include <stdio.h>
@@ -62,6 +63,11 @@ public:
 
 
     static std::string FileOpenDialog(HWND hwndOwner = nullptr, std::string filesFilter = "All Files\0*.*\0", bool startingPoint = true);
+
+
+
+
+    static bool StartProcess(const std::string& executablePath, const std::string& startupArguments = "");
 
 
 

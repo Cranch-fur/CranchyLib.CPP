@@ -13,6 +13,11 @@
 class FileUtilities
 {
 public:
+    static bool FileExist(const std::string& filePath);
+
+
+
+
 	static std::string ReadFileContents(const std::string& filePath);
 	static std::vector<std::string> ReadFileLines(const std::string& filePath);
 
@@ -20,9 +25,9 @@ public:
 	static std::vector<std::wstring> ReadFileWLines(const std::wstring& filePath);
 
 
-	static void WriteFileContents(const std::string& filePath, const std::string& content);
+	static bool WriteFileContents(const std::string& filePath, const std::string& content);
 
-	static void WriteFileWContents(const std::wstring& filePath, const std::wstring& content);
+	static bool WriteFileWContents(const std::wstring& filePath, const std::wstring& content);
 
 
 
@@ -30,7 +35,7 @@ public:
 
 
     template<typename Container>
-    static void WriteFileLines(const std::string& filePath, const Container& lines)
+    static bool WriteFileLines(const std::string& filePath, const Container& lines)
     {
         std::string content;
         bool first = true;
@@ -45,12 +50,12 @@ public:
         }
 
 
-        WriteFileContents(filePath, content);
+        return WriteFileContents(filePath, content);
     }
 
 
     template<typename Container>
-    static void WriteFileAllWLines(const std::wstring& filePath, const Container& lines)
+    static bool WriteFileAllWLines(const std::wstring& filePath, const Container& lines)
     {
         std::wstring content;
         bool first = true;
@@ -65,7 +70,7 @@ public:
         }
 
 
-        WriteFileWContents(filePath, content);
+        return WriteFileWContents(filePath, content);
     }
 };
 

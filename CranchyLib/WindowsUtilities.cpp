@@ -415,3 +415,61 @@ std::string WindowsUtilities::FileOpenDialog(HWND hwndOwner, std::string filesFi
         return std::string(filePath);
     }
 }
+
+
+
+
+bool WindowsUtilities::StartProcess(const std::string& executablePath, const std::string& startupArguments)
+{
+    if (executablePath.empty()) 
+    {
+        return false;
+    }
+
+
+    std::string commandLine;
+    const std::regex driveRegex("^[A-Za-z]:\\\\");
+    
+
+    if (std::regex_search(executablePath, driveRegex)) 
+    {
+        commandLine = "\"" + executablePath + "\"";
+    }
+    else 
+    {
+        commandLine = "\"" + GetExecutableDirectory() + "\\" + executablePath + "\"";
+    }
+
+
+    if (startupArguments.empty() == false) 
+    {
+        commandLine += " " + startupArguments;
+    }
+
+
+    // Prepare the structures for process creation
+    STARTUPINFOA si = { 0 };
+    si.cb = sizeof(si);
+
+    PROCESS_INFORMATION pi = { 0 };
+
+
+    bool createProcessResult = CreateProcessA(NULL,                           // Module name (NULL when using commandLine)
+                                              &commandLine[0],                // Command line (modifiable array of characters)
+                                              NULL,                           // Process security attributes
+                                              NULL,                           // Thread security attributes
+                                              FALSE,                          // Inherit handles
+                                              0,                              // Creation flags
+                                              NULL,                           // Environment variables
+                                              NULL,                           // Current directory
+                                              &si,                            // STARTUPINFO structure
+                                              &pi);
+
+
+    // Close the process and thread handles
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+
+
+    return createProcessResult;
+}
