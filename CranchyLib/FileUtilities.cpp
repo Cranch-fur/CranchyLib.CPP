@@ -5,32 +5,6 @@
 
 
 
-bool FileUtilities::FileExist(const std::string& filePath)
-{
-    HANDLE hFile = CreateFileA(
-        filePath.c_str(),      // File path.
-        GENERIC_READ,          // Desired access.
-        FILE_SHARE_READ,       // Shared access.
-        nullptr,               // Security attributes.
-        OPEN_EXISTING,         // Creation disposition.
-        FILE_ATTRIBUTE_NORMAL, // Flags and attributes.
-        nullptr                // Template file.
-    );
-
-
-    if (hFile == INVALID_HANDLE_VALUE) // Check if handle isn't valid.
-    {
-        return false;
-    }
-
-
-    CloseHandle(hFile);
-    return true;
-}
-
-
-
-
 std::string FileUtilities::ReadFileContents(const std::string& filePath)
 {
     HANDLE hFile = CreateFileA(

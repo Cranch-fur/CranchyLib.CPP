@@ -13,11 +13,6 @@
 class FileUtilities
 {
 public:
-    static bool FileExist(const std::string& filePath);
-
-
-
-
 	static std::string ReadFileContents(const std::string& filePath);
 	static std::vector<std::string> ReadFileLines(const std::string& filePath);
 

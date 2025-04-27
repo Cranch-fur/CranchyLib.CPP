@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <Windows.h>
+#include <tlhelp32.h>
 #include <processthreadsapi.h>
 
 #include "Psapi.h"
@@ -19,6 +20,41 @@
 class WindowsUtilities
 {
 public:
+    enum class E_ClipboardFormat
+    {
+        None,
+        TextAnsi,          // CF_TEXT
+        TextUnicode,       // CF_UNICODETEXT
+        Bitmap,            // CF_BITMAP
+        Dib,               // CF_DIB
+        DibV5,             // CF_DIBV5
+        MetafilePict,      // CF_METAFILEPICT
+        EnhancedMetafile,  // CF_ENHMETAFILE
+        Palette,           // CF_PALETTE
+        FileList,          // CF_HDROP
+        Locale,            // CF_LOCALE
+        Custom             // Any other format (ID > CF_GDIOBJLAST)
+    };
+
+
+    enum class E_MessageBoxResult
+    {
+        Ok,
+        Cancel,
+        Abort,
+        Retry,
+        Ignore,
+        Yes,
+        No,
+        Timeout,
+        Unknown
+    };
+
+
+
+
+
+
     static std::string GetExecutablePath();
     static std::string GetExecutableName(bool includeExtension = true);
     static std::string GetExecutableDirectory();
@@ -62,12 +98,64 @@ public:
 
 
 
-    static std::string FileOpenDialog(HWND hwndOwner = nullptr, std::string filesFilter = "All Files\0*.*\0", bool startingPoint = true);
+    static E_ClipboardFormat GetClipboardFormat();
+
+
+    static std::string GetClipboardString();
+    static std::wstring GetClipboardUnicodeString();
+    static HBITMAP GetClipboardImage();
+
+
+    static bool SetClipboard(const std::string& text);
+    static bool SetClipboard(const std::wstring& text);
+    static bool SetClipboard(HBITMAP hBitmap);
+
+
+    static bool ClipboardContains(const std::string& substring);
+    static bool ClipboardContains(const std::wstring& substring);
+
+
+    static bool ClipboardContainsRegex(const std::string& pattern);
+    static bool ClipboardContainsRegex(const std::wstring& pattern);
+
+
+
+
+    static E_MessageBoxResult ShowMessageBox(HWND hwndOwner, const std::string& title, const std::string& message, UINT type);
+    static E_MessageBoxResult ShowMessageBox(const std::string& title, const std::string& message, UINT type);
+    static E_MessageBoxResult ShowMessageBox(const std::string& title, const std::string& message);
+    static E_MessageBoxResult ShowMessageBox(const std::string& message, UINT type);
+    static E_MessageBoxResult ShowMessageBox(const std::string& message);
+
+
+
+
+    static std::string ShowFileOpenDialog(HWND hwndOwner, const std::string& initialDirectory, DWORD flags);
+    static std::string ShowFileOpenDialog(HWND hwndOwner, const std::string& initialDirectory);
+    static std::string ShowFileOpenDialog(HWND hwndOwner, DWORD flags);
+    static std::string ShowFileOpenDialog(const std::string& initialDirectory);
+    static std::string ShowFileOpenDialog(DWORD flags);
+    static std::string ShowFileOpenDialog();
+
+
+
+
+    static bool FileExist(const std::string& filePath);
+    static bool DirectoryExist(const std::string& directoryPath);
 
 
 
 
     static bool StartProcess(const std::string& executablePath, const std::string& startupArguments = "");
+
+
+    static DWORD FindProcessIdByExeName(const std::wstring& exeName);
+    static HANDLE FindProcessByExeName(const std::wstring& exeName, DWORD desiredAccess = PROCESS_ALL_ACCESS);
+
+
+    static bool CloseProcess(HANDLE hProcess);
+    static bool CloseProcess(DWORD processId);
+    static bool CloseProcess(const std::wstring& exeName);
 
 
 

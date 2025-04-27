@@ -377,34 +377,328 @@ void WindowsUtilities::Console437()
 
 
 
-std::string WindowsUtilities::FileOpenDialog(HWND hwndOwner, std::string filesFilter, bool startingPoint)
+bool WindowsUtilities::SetClipboard(const std::string& newText)
+{
+    if (OpenClipboard(nullptr)) 
+    {
+        EmptyClipboard();
+        size_t newTextSize = newText.size() + 1;
+
+
+        HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE, newTextSize);
+        if (hGlobal)
+        {
+            void* pMem = GlobalLock(hGlobal);
+            if (pMem)
+            {
+                std::memcpy(pMem, newText.c_str(), newTextSize);
+                GlobalUnlock(hGlobal);
+
+                SetClipboardData(CF_TEXT, hGlobal);
+
+                CloseClipboard();
+                return true;
+            }
+
+
+            GlobalUnlock(hGlobal);
+        }
+
+
+        CloseClipboard();
+    }
+
+
+    return true;
+}
+
+
+
+
+WindowsUtilities::E_ClipboardFormat WindowsUtilities::GetClipboardFormat()
+{
+    if (OpenClipboard(nullptr))
+    {
+        UINT clipboardFormat = EnumClipboardFormats(0);
+        CloseClipboard();
+
+
+        switch (clipboardFormat)
+        {
+            case CF_TEXT:           return E_ClipboardFormat::TextAnsi;
+            case CF_BITMAP:         return E_ClipboardFormat::Bitmap;
+            case CF_METAFILEPICT:   return E_ClipboardFormat::MetafilePict;
+            case CF_DIB:            return E_ClipboardFormat::Dib;
+            case CF_PALETTE:        return E_ClipboardFormat::Palette;
+            case CF_UNICODETEXT:    return E_ClipboardFormat::TextUnicode;
+            case CF_ENHMETAFILE:    return E_ClipboardFormat::EnhancedMetafile;
+            case CF_HDROP:          return E_ClipboardFormat::FileList;
+            case CF_LOCALE:         return E_ClipboardFormat::Locale;
+            case CF_DIBV5:          return E_ClipboardFormat::DibV5;
+            default:
+                if (clipboardFormat > CF_GDIOBJLAST)
+                    return E_ClipboardFormat::Custom;
+                else
+                    return E_ClipboardFormat::None;
+        }
+    }
+
+
+    return E_ClipboardFormat::None;
+}
+
+
+
+
+std::string WindowsUtilities::GetClipboardString()
+{
+    if (OpenClipboard(nullptr))
+    {
+        HANDLE hData = GetClipboardData(CF_TEXT);
+        if (hData)
+        {
+            char* pData = static_cast<char*>(GlobalLock(hData));
+            if (pData)
+            {
+                std::string text(pData);
+                GlobalUnlock(hData);
+
+                CloseClipboard();
+                return text;
+            }
+
+
+            GlobalUnlock(hData);
+        }
+
+
+        CloseClipboard();
+    }
+
+
+    return std::string();
+}
+
+
+std::wstring WindowsUtilities::GetClipboardUnicodeString()
+{
+    if (OpenClipboard(nullptr))
+    {
+        HANDLE hData = GetClipboardData(CF_UNICODETEXT);
+        if (hData)
+        {
+            wchar_t* pData = static_cast<wchar_t*>(GlobalLock(hData));
+            if (pData)
+            {
+                std::wstring text(pData);
+                GlobalUnlock(hData);
+
+                CloseClipboard();
+                return text;
+            }
+
+
+            GlobalUnlock(hData);
+        }
+
+
+        CloseClipboard();
+    }
+
+
+    return std::wstring();
+}
+
+
+HBITMAP WindowsUtilities::GetClipboardImage()
+{
+    if (OpenClipboard(nullptr))
+    {
+        HBITMAP hBitmap = static_cast<HBITMAP>(GetClipboardData(CF_BITMAP));
+
+        CloseClipboard();
+        return hBitmap;
+    }
+
+
+    return nullptr;
+}
+
+
+
+
+bool WindowsUtilities::SetClipboard(const std::wstring& newText)
+{
+    if (OpenClipboard(nullptr))
+    {
+        EmptyClipboard();
+
+        size_t newTextSize = (newText.size() + 1) * sizeof(wchar_t);
+        HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE, newTextSize);
+        if (hGlobal)
+        {
+            void* pMem = GlobalLock(hGlobal);
+            if (pMem)
+            {
+                std::memcpy(pMem, newText.c_str(), newTextSize);
+                GlobalUnlock(hGlobal);
+
+                SetClipboardData(CF_UNICODETEXT, hGlobal);
+
+                CloseClipboard();
+                return true;
+            }
+
+
+            GlobalUnlock(hGlobal);
+        }
+
+
+        CloseClipboard();
+    }
+
+
+    return false;
+}
+
+
+bool WindowsUtilities::SetClipboard(HBITMAP hBitmap)
+{
+    if (OpenClipboard(nullptr))
+    {
+        EmptyClipboard();
+        SetClipboardData(CF_BITMAP, hBitmap);
+        CloseClipboard();
+
+
+        return true;
+    }
+
+
+    return false;
+}
+
+
+
+
+bool WindowsUtilities::ClipboardContains(const std::string& substring)
+{
+    std::string text = GetClipboardString();
+    return (text.find(substring) != std::string::npos);
+}
+
+
+bool WindowsUtilities::ClipboardContains(const std::wstring& substring)
+{
+    std::wstring text = GetClipboardUnicodeString();
+    return (text.find(substring) != std::wstring::npos);
+}
+
+
+
+
+bool WindowsUtilities::ClipboardContainsRegex(const std::string& pattern)
+{
+    std::string text = GetClipboardString();
+    try
+    {
+        std::regex re(pattern);
+        return std::regex_search(text, re);
+    }
+    catch (std::regex_error&)
+    {
+        return false;
+    }
+}
+
+
+bool WindowsUtilities::ClipboardContainsRegex(const std::wstring& pattern)
+{
+    std::wstring text = GetClipboardUnicodeString();
+    try
+    {
+        std::wregex re(pattern);
+        return std::regex_search(text, re);
+    }
+    catch (std::regex_error&)
+    {
+        return false;
+    }
+}
+
+
+
+
+WindowsUtilities::E_MessageBoxResult WindowsUtilities::ShowMessageBox(HWND hwndOwner, const std::string& title, const std::string& message, UINT type)
+{
+    int winResult = MessageBoxA(hwndOwner, message.c_str(), title.c_str(), type);
+
+
+    switch (winResult)
+    {
+        case IDOK:      return E_MessageBoxResult::Ok;
+        case IDCANCEL:  return E_MessageBoxResult::Cancel;
+        case IDABORT:   return E_MessageBoxResult::Abort;
+        case IDRETRY:   return E_MessageBoxResult::Retry;
+        case IDIGNORE:  return E_MessageBoxResult::Ignore;
+        case IDYES:     return E_MessageBoxResult::Yes;
+        case IDNO:      return E_MessageBoxResult::No;
+        case 0:         return E_MessageBoxResult::Timeout;  // if MB_SERVICE_NOTIFICATION or timeout
+        default:        return E_MessageBoxResult::Unknown;
+    }
+
+}
+
+
+WindowsUtilities::E_MessageBoxResult WindowsUtilities::ShowMessageBox(const std::string& title, const std::string& message, UINT type)
+{
+    return ShowMessageBox(nullptr, title, message, type);
+}
+
+
+WindowsUtilities::E_MessageBoxResult WindowsUtilities::ShowMessageBox(const std::string& title, const std::string& message)
+{
+    return ShowMessageBox(nullptr, title, message, MB_OK);
+}
+
+
+WindowsUtilities::E_MessageBoxResult WindowsUtilities::ShowMessageBox(const std::string& message, UINT type)
+{
+    return ShowMessageBox(nullptr, GetExecutableName(false), message, type);
+}
+
+
+WindowsUtilities::E_MessageBoxResult WindowsUtilities::ShowMessageBox(const std::string& message)
+{
+    return ShowMessageBox(nullptr, GetExecutableName(false), message, MB_OK);
+}
+
+
+
+
+std::string WindowsUtilities::ShowFileOpenDialog(HWND hwndOwner, const std::string& initialDirectory, DWORD flags)
 {
     char filePath[MAX_PATH] = { 0 };
 
 
     OPENFILENAMEA ofn = { 0 };
     ofn.lStructSize = sizeof(OPENFILENAMEA);
-    ofn.hwndOwner = hwndOwner; // OPTIONAL: if main window is present, you can pass its handle here
+    ofn.hwndOwner = hwndOwner;
     ofn.lpstrFile = filePath;
     ofn.nMaxFile = sizeof(filePath);
-    ofn.lpstrFilter = filesFilter.c_str();
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER;
+    ofn.lpstrFilter = NULL;
+    ofn.Flags = flags;
 
 
-    if (startingPoint == true)
+    if (initialDirectory.empty() == false && DirectoryExist(initialDirectory))
+    {
+        ofn.lpstrInitialDir = initialDirectory.c_str();
+    }
+    else 
     {
         std::string executableDirectory = GetExecutableDirectory();
-        if (executableDirectory.empty())
+        if (executableDirectory.empty() == false && DirectoryExist(executableDirectory))
         {
-
-        }
-        WCHAR executablePath[MAX_PATH] = { 0 };
-        if (GetModuleFileNameEx(GetCurrentProcess(), nullptr, executablePath, MAX_PATH))
-        {
-            std::filesystem::path fsPath(executablePath);
-
-
-            std::string executableDirectory = fsPath.parent_path().string();
             ofn.lpstrInitialDir = executableDirectory.c_str();
         }
     }
@@ -414,6 +708,68 @@ std::string WindowsUtilities::FileOpenDialog(HWND hwndOwner, std::string filesFi
     {
         return std::string(filePath);
     }
+}
+
+
+std::string WindowsUtilities::ShowFileOpenDialog(HWND hwndOwner, const std::string& initialDirectory)
+{
+    return ShowFileOpenDialog(hwndOwner, initialDirectory, OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER);
+}
+
+
+std::string WindowsUtilities::ShowFileOpenDialog(HWND hwndOwner, DWORD flags)
+{
+    return ShowFileOpenDialog(hwndOwner, std::string(), flags);
+}
+
+
+std::string WindowsUtilities::ShowFileOpenDialog(const std::string& initialDirectory)
+{
+    return ShowFileOpenDialog(nullptr, initialDirectory, OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER);
+}
+
+
+std::string WindowsUtilities::ShowFileOpenDialog(DWORD flags)
+{
+    return ShowFileOpenDialog(nullptr, std::string(), flags);
+}
+
+
+std::string WindowsUtilities::ShowFileOpenDialog()
+{
+    return ShowFileOpenDialog(nullptr, std::string(), OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER);
+}
+
+
+
+
+
+
+bool WindowsUtilities::FileExist(const std::string& filePath)
+{
+    bool fileExist = false;
+
+
+    std::filesystem::path p(filePath);
+    if (std::filesystem::exists(p))
+    {
+        fileExist = std::filesystem::is_regular_file(p);
+    }
+    else 
+    {
+        std::filesystem::path pV2(GetExecutableDirectory() + "\\" + filePath);
+        fileExist = (std::filesystem::exists(pV2) && std::filesystem::is_regular_file(pV2));
+    }
+
+
+    return fileExist;
+}
+
+
+bool WindowsUtilities::DirectoryExist(const std::string& directoryPath)
+{
+    std::filesystem::path p(directoryPath);
+    return std::filesystem::exists(p) && std::filesystem::is_directory(p);
 }
 
 
@@ -472,4 +828,104 @@ bool WindowsUtilities::StartProcess(const std::string& executablePath, const std
 
 
     return createProcessResult;
+}
+
+
+
+
+DWORD WindowsUtilities::FindProcessIdByExeName(const std::wstring& exeName)
+{
+    DWORD pid = 0;
+    HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (snap == INVALID_HANDLE_VALUE)
+        return 0;
+
+
+    PROCESSENTRY32W pe;
+    pe.dwSize = sizeof(pe);
+
+
+    if (Process32FirstW(snap, &pe)) 
+    {
+        do 
+        {
+            if (_wcsicmp(pe.szExeFile, exeName.c_str()) == 0) 
+            {
+                pid = pe.th32ProcessID;
+                break;
+            }
+        } while (Process32NextW(snap, &pe));
+    }
+
+
+    CloseHandle(snap);
+    return pid;
+}
+
+
+HANDLE WindowsUtilities::FindProcessByExeName(const std::wstring& exeName, DWORD desiredAccess)
+{
+    DWORD pid = FindProcessIdByExeName(exeName);
+    return (pid != 0) ? OpenProcess(desiredAccess, FALSE, pid) : nullptr;
+}
+
+
+
+
+bool WindowsUtilities::CloseProcess(HANDLE hProcess)
+{
+    if (hProcess == nullptr || hProcess == INVALID_HANDLE_VALUE)
+        return false;
+
+
+    if (!TerminateProcess(hProcess, 0))
+        return false;
+
+
+    DWORD wait = WaitForSingleObject(hProcess, INFINITE);
+    return (wait == WAIT_OBJECT_0);
+}
+
+
+bool WindowsUtilities::CloseProcess(DWORD processId)
+{
+    HANDLE hProcess = OpenProcess(PROCESS_TERMINATE | PROCESS_QUERY_INFORMATION, FALSE, processId);
+    if (!hProcess)
+        return false;
+
+
+    bool result = CloseProcess(hProcess);
+    CloseHandle(hProcess);
+    return result;
+}
+
+
+bool WindowsUtilities::CloseProcess(const std::wstring& exeName)
+{
+    bool anyClosed = false;
+
+
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hSnapshot == INVALID_HANDLE_VALUE)
+        return false;
+
+
+    PROCESSENTRY32W pe{};
+    pe.dwSize = sizeof(pe);
+
+
+    if (Process32FirstW(hSnapshot, &pe)) 
+    {
+        do {
+            if (_wcsicmp(pe.szExeFile, exeName.c_str()) == 0) 
+            {
+                if (CloseProcess(pe.th32ProcessID))
+                    anyClosed = true;
+            }
+        } while (Process32NextW(hSnapshot, &pe));
+    }
+
+
+    CloseHandle(hSnapshot);
+    return anyClosed;
 }
