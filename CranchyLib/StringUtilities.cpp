@@ -102,8 +102,7 @@ std::string StringUtilities::String_Reverse(const std::string& str)
 
 std::wstring StringUtilities::String_ToWString(const std::string& str)
 {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    return conv.from_bytes(str);
+    return std::wstring(str.begin(), str.end());
 }
 
 
@@ -183,6 +182,5 @@ std::wstring StringUtilities::WString_Reverse(const std::wstring& wstr)
 
 std::string StringUtilities::WString_ToString(const std::wstring& wstr)
 {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    return conv.to_bytes(wstr);
+    return std::string(wstr.begin(), wstr.end());
 }
