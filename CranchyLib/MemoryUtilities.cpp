@@ -1,4 +1,83 @@
 #include "MemoryUtilities.h"
+#include <Psapi.h>
+
+
+
+
+
+
+int16_t MemoryUtilities::Convertion::HEX_ToInt16(const char& c)
+{
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+
+    return -1;
+}
+
+char MemoryUtilities::Convertion::Int16_ToHEX(const int16_t& value)
+{
+    if (value >= 0 && value <= 9) // 0 -> '0', 1 -> '1', …, 9 -> '9'
+    {
+        return static_cast<char>('0' + value);
+    }
+    if (value >= 10 && value <= 15) // 10 -> 'A', 11 -> 'B', …, 15 -> 'F'
+    {
+        return static_cast<char>('A' + (value - 10));
+    }
+
+    /* Out-of-range value */
+    return '?';
+}
+
+
+
+
+std::vector<std::optional<uint8_t>> MemoryUtilities::Convertion::MemoryPattern_ToBytesPattern(const std::string& memoryPattern)
+{
+    std::vector<std::optional<uint8_t>> outBytes;
+
+    size_t i = 0;
+    const size_t patternSize = memoryPattern.size();
+    while (i < patternSize)
+    {
+        /* Skip whitespace between tokens. */
+        if (std::isspace(static_cast<unsigned char>(memoryPattern[i])))
+        {
+            i++;
+            continue;
+        }
+
+        /* If we see "??", treat it as a wildcard. */
+        if (i + 1 < patternSize && memoryPattern[i] == '?' && memoryPattern[i + 1] == '?')
+        {
+            outBytes.push_back(std::nullopt);
+            i += 2;
+        }
+        else if (i + 1 < patternSize) // Otherwise, expect two HEX digits.
+        {
+            int16_t highPart = Convertion::HEX_ToInt16(memoryPattern[i]);
+            int16_t lowPart = Convertion::HEX_ToInt16(memoryPattern[i + 1]);
+
+            // On invalid HEX digit, abort parsing and return an empty pattern.
+            if (highPart < 0 || lowPart < 0)
+            {
+                return {};
+            }
+
+            /* Combine the high and low parts into a single byte. */
+            uint8_t combinedByte = static_cast<uint8_t>((highPart << 4) | lowPart);
+            outBytes.push_back(combinedByte);
+            i += 2;
+        }
+        else // A single trailing character is not enough for a byte or wildcard.
+        {
+            return {};
+        }
+    }
+
+    return outBytes;
+}
 
 
 
@@ -106,6 +185,90 @@ uintptr_t MemoryUtilities::AddressFollowPointerChain(const uintptr_t& memoryAddr
 
     /* After processing all offsets, 'ptr' should point to the final data. */
     return newMemoryAddress;
+}
+
+
+
+
+uintptr_t MemoryUtilities::ScanForBytesPattern(const uint8_t* startingAddress, size_t size, const std::vector<std::optional<uint8_t>>& bytesPattern)
+{
+    const size_t patternLength = bytesPattern.size();
+    if (patternLength == 0 || size < patternLength) // If there's nothing to search for, or the region is too small, give up.
+    {
+        return 0x0;
+    }
+
+    /* Slide a window of patternLength across the region. */
+    for (size_t offset = 0; offset <= size - patternLength; ++offset) 
+    {
+        bool match = true;
+        for (size_t j = 0; j < patternLength; ++j) 
+        {
+            /* If this pattern position has a concrete byte, it must match exactly. */
+            /* If it's std::nullopt, it's a wildcard - accept any byte. */
+            if (bytesPattern[j].has_value() && startingAddress[offset + j] != bytesPattern[j].value())
+            {
+                match = false;
+                break;
+            }
+        }
+        if (match) 
+        {
+            return reinterpret_cast<uintptr_t>(startingAddress + offset);
+        }
+    }
+
+    return 0x0;
+}
+
+uintptr_t MemoryUtilities::ScanForMemoryPattern(const uint8_t* startingAddress, size_t size, const std::string& memoryPattern)
+{
+    /* Parse the mask string into a byte-pattern vector. */
+    auto bytesPattern = Convertion::MemoryPattern_ToBytesPattern(memoryPattern);
+    if (bytesPattern.empty())
+    {
+        return 0x0;
+    }
+
+    return ScanForBytesPattern(startingAddress, size, bytesPattern);
+}
+
+
+
+
+uintptr_t MemoryUtilities::SearchForBytesPattern(const std::vector<std::optional<uint8_t>>& bytesPattern)
+{
+    /* Obtain the module handle for the current executable or DLL. */
+    HMODULE hModule = GetModuleHandleW(nullptr);
+    if (!hModule)
+    {
+        return 0x0;
+    }
+
+    /* Retrieve information about the module: base address and image size. */
+    MODULEINFO modInfo;
+    if (!GetModuleInformation(GetCurrentProcess(), hModule, &modInfo, sizeof(modInfo)))
+    {
+        return 0x0;
+    }
+
+    const uint8_t* baseAddress = reinterpret_cast<const uint8_t*>(modInfo.lpBaseOfDll);
+    const size_t imageSize = static_cast<size_t>(modInfo.SizeOfImage);
+
+    /* Scan the entire module image for the pattern. */
+    return ScanForBytesPattern(baseAddress, imageSize, bytesPattern);
+}
+
+uintptr_t MemoryUtilities::SearchForMemoryPattern(const std::string& memoryPattern)
+{
+    /* Parse the mask string into a byte-pattern vector. */
+    auto bytesPattern = Convertion::MemoryPattern_ToBytesPattern(memoryPattern);
+    if (bytesPattern.empty())
+    {
+        return 0x0;
+    }
+
+    return SearchForBytesPattern(bytesPattern);
 }
 
 

@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <string>
 #include <vector>
+#include <optional>
+
 
 
 
@@ -10,18 +12,120 @@
 
 class MemoryUtilities
 {
+	class Convertion
+	{
+	public:
+		/**
+		* @brief Converts a single hexadecimal character to its int16 value.
+		* @param c - A character in a ['0'..'9','A'..'F','a'..'f'] range.
+		* @return 0–15 on success, or -1 if `c` is not a valid hex digit.
+		*/
+		static int16_t HEX_ToInt16(const char& c);
+		/**
+		* @brief Converts a int16 value to its single hexadecimal character.
+		* @param value - A signed 16-bit integer expected to be in the range 0–15.
+		* @return The hex character ('0'–'9', 'A'–'F'), or '?' if out of range.
+		*/
+		static char Int16_ToHEX(const int16_t& value);
+
+
+		/**
+		* @brief Converts a hexadecimal string to vector of bytes.  
+		* @param memoryPattern - A string mask of hexadecimal byte values (with wildcards). 
+		* @return A vector of optional<uint8_t>, where wildcards ("??") are represented by std::nullopt. Any parsing error results in an empty vector.
+		*/
+		static std::vector<std::optional<uint8_t>> MemoryPattern_ToBytesPattern(const std::string& memoryPattern);
+	};
+
+
+
+
+
+
 public:
+	/**
+	* @brief Determines whether a given pointer refers to a valid, committed, and readable (or executable) memory region.
+	* @param memoryPtr - Pointer to the memory location to check.
+	* @return true if the region is committed, and has read or execute+read permissions; false otherwise.
+	*/
 	static bool IsValidPtr(void* memoryPtr);
+	/**
+	* @brief Determines whether a given memory address refers to a valid, committed, and readable (or executable) memory region.
+	* @param memoryAddress - Address of the memory location to check.
+	* @return true if the region is committed, and has read or execute+read permissions; false otherwise.
+	*/
 	static bool IsValidAddress(const uintptr_t& memoryAddress);
 
+	/**
+	* @brief Adds a byte offset to a base memory address and verifies that the resulting address range is readable.
+	* @param memoryPtr - Pointer to the starting memory location to which the offset will be added.
+	* @param offset - The number of bytes to add to the base address.
+	* @return The new valid pointer to the memory location if both the beginning and end of the target region are readable;
+	*         otherwise returns 'nullptr' to indicate an invalid or unreadable address.
+	*/
 	static void* PtrAddOffset(void* memoryPtr, size_t offset);
+	/**
+	* @brief Adds a byte offset to a base memory address and verifies that the resulting address range is readable.
+	* @param memoryAddress - Address of the memory location to which the offset will be added.
+	* @param offset - The number of bytes to add to the base address.
+	* @return The new valid pointer to the memory location if both the beginning and end of the target region are readable;
+	*         otherwise returns 'nullptr' to indicate an invalid or unreadable address.
+	*/
 	static void* PtrAddOffset(const uintptr_t& memoryAddress, size_t offset);
 
+	/**
+	* @brief Adds a byte offset to a base memory address and verifies that the resulting address range is readable.
+	* @param memoryPtr - Pointer to the starting memory location to which the offset will be added.
+	* @param offset - The number of bytes to add to the base address.
+	* @return The new valid memory address if both the beginning and end of the target region are readable;
+	*         otherwise returns '0x0' to indicate an invalid or unreadable address.
+	*/
 	static uintptr_t AddressAddOffset(void* memoryPtr, size_t offset);
+	/**
+	* @brief Adds a byte offset to a base memory address and verifies that the resulting address range is readable.
+	* @param memoryAddress - Address of the memory location to which the offset will be added.
+	* @param offset - The number of bytes to add to the base address.
+	* @return The new valid memory address if both the beginning and end of the target region are readable;
+	*         otherwise returns '0x0' to indicate an invalid or unreadable address.
+	*/
 	static uintptr_t AddressAddOffset(const uintptr_t& memoryAddress, size_t offset);
 
+	/**
+	* @brief Follows a chain of pointers starting from a base address, applying a sequence of offsets.
+	* @param memoryPtr - Pointer to the starting memory location from which the pointer chain will be resolved.
+	* @return The new valid memory address if pointer chain was successfully resolved and final destination was reached;
+	*         otherwise returns 'nullptr' to indicate an invalid or unreadable address.
+	*/
 	static void*	 PtrFollowPointerChain(void* memoryPtr, const std::vector<uintptr_t>& memoryOffsets);
+	/**
+	* @brief Follows a chain of pointers starting from a base address, applying a sequence of offsets.
+	* @param memoryAddress - Address of the memory location from which the pointer chain will be resolved.
+	* @return The new valid memory address if pointer chain was successfully resolved and final destination was reached;
+	*         otherwise returns '0x0' to indicate an invalid or unreadable address.
+	*/
 	static uintptr_t AddressFollowPointerChain(const uintptr_t& memoryAddress, const std::vector<uintptr_t>& memoryOffsets);
+
+
+	
+
+	/**
+	* @brief [EXPERIMENTAL] Function wasn't properly tested just yet and is more of an theoretical idea.
+	*/
+	static uintptr_t ScanForBytesPattern(const uint8_t* startingAddress, size_t size, const std::vector<std::optional<uint8_t>>& bytesPattern);
+	/**
+	* @brief [EXPERIMENTAL] Function wasn't properly tested just yet and is more of an theoretical idea.
+	*/
+	static uintptr_t ScanForMemoryPattern(const uint8_t* startingAddress, size_t size, const std::string& memoryPattern);
+
+
+	/**
+	* @brief [EXPERIMENTAL] Function wasn't properly tested just yet and is more of an theoretical idea.
+	*/
+	static uintptr_t SearchForBytesPattern(const std::vector<std::optional<uint8_t>>& bytesPattern);
+	/**
+	* @brief [EXPERIMENTAL] Function wasn't properly tested just yet and is more of an theoretical idea.
+	*/
+	static uintptr_t SearchForMemoryPattern(const std::string& memoryPattern);
 
 
 
