@@ -20,13 +20,13 @@ class MemoryUtilities
 		* @param c - A character in a ['0'..'9','A'..'F','a'..'f'] range.
 		* @return 0–15 on success, or -1 if `c` is not a valid hex digit.
 		*/
-		static int16_t HEX_ToInt16(const char& c);
+		static int16_t HEXChar_ToInt16(const char& c);
 		/**
 		* @brief Converts a int16 value to its single hexadecimal character.
 		* @param value - A signed 16-bit integer expected to be in the range 0–15.
 		* @return The hex character ('0'–'9', 'A'–'F'), or '?' if out of range.
 		*/
-		static char Int16_ToHEX(const int16_t& value);
+		static char Int16_ToHEXChar(const int16_t& value);
 
 
 		/**

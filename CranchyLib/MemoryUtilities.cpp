@@ -6,7 +6,7 @@
 
 
 
-int16_t MemoryUtilities::Convertion::HEX_ToInt16(const char& c)
+int16_t MemoryUtilities::Convertion::HEXChar_ToInt16(const char& c)
 {
     if (c >= '0' && c <= '9') return c - '0';
     if (c >= 'A' && c <= 'F') return c - 'A' + 10;
@@ -15,7 +15,7 @@ int16_t MemoryUtilities::Convertion::HEX_ToInt16(const char& c)
     return -1;
 }
 
-char MemoryUtilities::Convertion::Int16_ToHEX(const int16_t& value)
+char MemoryUtilities::Convertion::Int16_ToHEXChar(const int16_t& value)
 {
     if (value >= 0 && value <= 9) // 0 -> '0', 1 -> '1', …, 9 -> '9'
     {
@@ -56,8 +56,8 @@ std::vector<std::optional<uint8_t>> MemoryUtilities::Convertion::MemoryPattern_T
         }
         else if (i + 1 < patternSize) // Otherwise, expect two HEX digits.
         {
-            int16_t highPart = Convertion::HEX_ToInt16(memoryPattern[i]);
-            int16_t lowPart = Convertion::HEX_ToInt16(memoryPattern[i + 1]);
+            int16_t highPart = Convertion::HEXChar_ToInt16(memoryPattern[i]);
+            int16_t lowPart = Convertion::HEXChar_ToInt16(memoryPattern[i + 1]);
 
             // On invalid HEX digit, abort parsing and return an empty pattern.
             if (highPart < 0 || lowPart < 0)
