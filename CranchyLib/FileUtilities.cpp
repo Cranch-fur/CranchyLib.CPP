@@ -47,6 +47,12 @@ std::string FileUtilities::ReadFileContents(const std::string& filePath)
     return fileContents;
 }
 
+std::string FileUtilities::ReadFileContents(const std::wstring& filePath)
+{
+    return ReadFileContents(std::string(filePath.begin(), filePath.end()));
+}
+
+
 std::vector<std::string> FileUtilities::ReadFileLines(const std::string& filePath)
 {
     std::string fileContents = ReadFileContents(filePath);
@@ -91,10 +97,15 @@ std::vector<std::string> FileUtilities::ReadFileLines(const std::string& filePat
     return lines;
 }
 
-
-std::wstring FileUtilities::ReadFileWContents(const std::wstring& filePath)
+std::vector<std::string> FileUtilities::ReadFileLines(const std::wstring& filePath)
 {
-    HANDLE hFile = CreateFileW(
+    return ReadFileLines(std::string(filePath.begin(), filePath.end()));
+}
+
+
+std::wstring FileUtilities::ReadFileWContents(const std::string& filePath)
+{
+    HANDLE hFile = CreateFileA(
         filePath.c_str(),      // File path.
         GENERIC_READ,          // Desired access.
         FILE_SHARE_READ,       // Shared access.
@@ -118,7 +129,7 @@ std::wstring FileUtilities::ReadFileWContents(const std::wstring& filePath)
         return std::wstring();
     }
 
-    
+
     if (fileSize.QuadPart % sizeof(wchar_t) != 0) // File size must be multiple of sizeof(wchar_t).
     {
         CloseHandle(hFile);
@@ -141,9 +152,16 @@ std::wstring FileUtilities::ReadFileWContents(const std::wstring& filePath)
     // Close file handle and return its contents from the buffer.
     CloseHandle(hFile);
     return std::wstring(buffer.begin(), buffer.end());
+    
 }
 
-std::vector<std::wstring> FileUtilities::ReadFileWLines(const std::wstring& filePath)
+std::wstring FileUtilities::ReadFileWContents(const std::wstring& filePath)
+{
+    return ReadFileWContents(std::string(filePath.begin(), filePath.end()));
+}
+
+
+std::vector<std::wstring> FileUtilities::ReadFileWLines(const std::string& filePath)
 {
     std::wstring fileContents = ReadFileWContents(filePath);
     std::vector<std::wstring> lines;
@@ -185,6 +203,11 @@ std::vector<std::wstring> FileUtilities::ReadFileWLines(const std::wstring& file
     return lines;
 }
 
+std::vector<std::wstring> FileUtilities::ReadFileWLines(const std::wstring& filePath)
+{
+    return ReadFileWLines(std::string(filePath.begin(), filePath.end()));
+}
+
 
 
 
@@ -219,10 +242,15 @@ bool FileUtilities::WriteFileContents(const std::string& filePath, const std::st
     return true;
 }
 
-
-bool FileUtilities::WriteFileWContents(const std::wstring& filePath, const std::wstring& content)
+bool FileUtilities::WriteFileContents(const std::wstring& filePath, const std::string& content)
 {
-    HANDLE hFile = CreateFileW(
+    return WriteFileContents(std::string(filePath.begin(), filePath.end()), content);
+}
+
+
+bool FileUtilities::WriteFileWContents(const std::string& filePath, const std::wstring& content)
+{
+    HANDLE hFile = CreateFileA(
         filePath.c_str(),      // File path.
         GENERIC_WRITE,         // Desired access.
         0,                     // Shared access.
@@ -248,4 +276,9 @@ bool FileUtilities::WriteFileWContents(const std::wstring& filePath, const std::
 
 
     CloseHandle(hFile);
+}
+
+bool FileUtilities::WriteFileWContents(const std::wstring& filePath, const std::wstring& content)
+{
+    return WriteFileWContents(std::string(filePath.begin(), filePath.end()), content);
 }
