@@ -143,7 +143,8 @@ uintptr_t MemoryUtilities::Internal::AddressAddOffset(const uintptr_t& memoryAdd
 
     /* Before dereferencing, verify we can read sizeof(uintptr_t) bytes at 'newMemoryAddress'. */
     /* Abort and return 0 if memory isn't readable */
-    if (IsValidAddress(newMemoryAddress) == false || IsValidAddress((newMemoryAddress + sizeof(uintptr_t) - 1)) == false)
+    if (IsValidAddress(newMemoryAddress) == false || 
+        IsValidAddress((newMemoryAddress + sizeof(uintptr_t) - 1)) == false)
         return 0x0;
 
     /* Return the valid address */
@@ -175,7 +176,8 @@ uintptr_t MemoryUtilities::Internal::AddressFollowPointerChain(const uintptr_t& 
     {
         /* Before dereferencing, verify we can read sizeof(uintptr_t) bytes at 'newMemoryAddress'. */
         /* Abort and return 0 if memory isn't readable */
-        if (IsValidAddress(newMemoryAddress) == false || IsValidAddress((newMemoryAddress + sizeof(uintptr_t) - 1)) == false)
+        if (IsValidAddress(newMemoryAddress) == false || 
+            IsValidAddress((newMemoryAddress + sizeof(uintptr_t) - 1)) == false)
             return 0x0;
 
         /* Read the next pointer value from memory and add the current offset to advance to the next address in the chain. */
@@ -2208,4 +2210,92 @@ bool MemoryUtilities::External::IsValidAddress(const HANDLE& hProcess, const uin
 {
     void* memoryPtr = reinterpret_cast<void*>(memoryAddress);
     return IsValidPtr(hProcess, memoryPtr);
+}
+
+
+void* MemoryUtilities::External::PtrAddOffset(const HANDLE& hProcess, void* memoryPtr, size_t offset)
+{
+    /* Since void* doesn't support pointer arithmetics, we need to convert it to uintptr_t first. */
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return PtrAddOffset(hProcess, memoryAddress, offset);
+}
+
+void* MemoryUtilities::External::PtrAddOffset(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t offset)
+{
+    /* Calculate the new address by adding the offset. */
+    uintptr_t newMemoryAddress = AddressAddOffset(hProcess, memoryAddress, offset);
+    if (newMemoryAddress == 0x0) // Return null pointer if memory region is invalid.
+        return nullptr;
+
+    return reinterpret_cast<void*>(newMemoryAddress);
+}
+
+
+uintptr_t MemoryUtilities::External::AddressAddOffset(const HANDLE& hProcess, void* memoryPtr, size_t offset)
+{
+    /* Since void* doesn't support pointer arithmetics, we need to convert it to uintptr_t first. */
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return AddressAddOffset(hProcess, memoryAddress, offset);
+}
+
+uintptr_t MemoryUtilities::External::AddressAddOffset(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t offset)
+{
+    /* Calculate the new address by adding the offset. */
+    uintptr_t newMemoryAddress = memoryAddress + offset;
+
+    /* Before dereferencing, verify we can read sizeof(uintptr_t) bytes at 'newMemoryAddress'. */
+    /* Abort and return 0 if memory isn't readable */
+    if (IsValidAddress(hProcess, newMemoryAddress) == false ||
+        IsValidAddress(hProcess, (newMemoryAddress + sizeof(uintptr_t) - 1)) == false)
+        return 0x0;
+
+    /* Return the valid address */
+    return newMemoryAddress;
+}
+
+
+
+
+void* MemoryUtilities::External::PtrFollowPointerChain(const HANDLE& hProcess, void* memoryPtr, const std::vector<uintptr_t>& memoryOffsets)
+{
+    /* Since void* doesn't support pointer arithmetics, we need to convert it to uintptr_t first. */
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+
+    /* Calculate the new address by following the pointer chain. */
+    uintptr_t newMemoryAddress = AddressFollowPointerChain(hProcess, memoryAddress, memoryOffsets);
+    if (newMemoryAddress == 0x0) // Return null pointer if memory region is invalid.
+        return nullptr;
+
+    return reinterpret_cast<void*>(newMemoryAddress);
+}
+
+uintptr_t MemoryUtilities::External::AddressFollowPointerChain(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::vector<uintptr_t>& memoryOffsets)
+{
+    uintptr_t newMemoryAddress = memoryAddress;
+    size_t offsetsCount = memoryOffsets.size();
+
+    for (size_t i = 0; i < offsetsCount; ++i)
+    {
+        /* Before dereferencing, verify we can read sizeof(uintptr_t) bytes at 'newMemoryAddress'. */
+        /* Abort and return 0 if memory isn't readable */
+        if (IsValidAddress(hProcess, newMemoryAddress) == false ||
+            IsValidAddress(hProcess, (newMemoryAddress + sizeof(uintptr_t) - 1)) == false)
+            return 0x0;
+
+        /* Read the next pointer value from memory and add the current offset to advance to the next address in the chain. */
+        uintptr_t nextPtr = 0;
+        SIZE_T bytesRead = 0;
+        if (!ReadProcessMemory(hProcess,
+            reinterpret_cast<LPCVOID>(newMemoryAddress),
+            &nextPtr,
+            sizeof(nextPtr),
+            &bytesRead) || bytesRead != sizeof(nextPtr))
+            return 0x0;
+
+        newMemoryAddress = nextPtr;
+        newMemoryAddress += memoryOffsets[i];
+    }
+
+    /* After processing all offsets, 'ptr' should point to the final data. */
+    return newMemoryAddress;
 }

@@ -400,8 +400,74 @@ class MemoryUtilities
 		*/
 		static bool IsValidProcessHandle(const HANDLE& hProcess);
 
-
+		/**
+		* @brief Determines whether a given pointer refers to a valid, committed, and readable (or executable) memory region.
+		* @param hProcess - Process HANDLE in whose address space to check.
+		* @param memoryPtr - Pointer to the memory location to check.
+		* @return true if the region is committed, and has read or execute+read permissions; false otherwise.
+		*/
 		static bool IsValidPtr(const HANDLE& hProcess, const void* memoryPtr);
+		/**
+		* @brief Determines whether a given memory address refers to a valid, committed, and readable (or executable) memory region.
+		* @param hProcess - Process HANDLE in whose address space to check.
+		* @param memoryAddress - Address of the memory location to check.
+		* @return true if the region is committed, and has read or execute+read permissions; false otherwise.
+		*/
 		static bool IsValidAddress(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		/**
+		* @brief Adds a byte offset to a base memory address and verifies that the resulting address range is readable.
+		* @param hProcess  - Process HANDLE in whose address space to operate.
+		* @param memoryPtr - Pointer to the starting memory location to which the offset will be added.
+		* @param offset - The number of bytes to add to the base address.
+		* @return The new valid pointer to the memory location if both the beginning and end of the target region are readable;
+		*         otherwise returns 'nullptr' to indicate an invalid or unreadable address.
+		*/
+		static void* PtrAddOffset(const HANDLE& hProcess, void* memoryPtr, size_t offset);
+		/**
+		* @brief Adds a byte offset to a base memory address and verifies that the resulting address range is readable.
+		* @param hProcess  - Process HANDLE in whose address space to operate.
+		* @param memoryAddress - Address of the memory location to which the offset will be added.
+		* @param offset - The number of bytes to add to the base address.
+		* @return The new valid pointer to the memory location if both the beginning and end of the target region are readable;
+		*         otherwise returns 'nullptr' to indicate an invalid or unreadable address.
+		*/
+		static void* PtrAddOffset(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t offset);
+
+		/**
+		* @brief Adds a byte offset to a base memory address and verifies that the resulting address range is readable.
+		* @param hProcess  - Process HANDLE in whose address space to operate.
+		* @param memoryPtr - Pointer to the starting memory location to which the offset will be added.
+		* @param offset - The number of bytes to add to the base address.
+		* @return The new valid memory address if both the beginning and end of the target region are readable;
+		*         otherwise returns '0x0' to indicate an invalid or unreadable address.
+		*/
+		static uintptr_t AddressAddOffset(const HANDLE& hProcess, void* memoryPtr, size_t offset);
+		/**
+		* @brief Adds a byte offset to a base memory address and verifies that the resulting address range is readable.
+		* @param hProcess  - Process HANDLE in whose address space to operate.
+		* @param memoryAddress - Address of the memory location to which the offset will be added.
+		* @param offset - The number of bytes to add to the base address.
+		* @return The new valid memory address if both the beginning and end of the target region are readable;
+		*         otherwise returns '0x0' to indicate an invalid or unreadable address.
+		*/
+		static uintptr_t AddressAddOffset(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t offset);
+
+		/**
+		* @brief Follows a chain of pointers starting from a base address, applying a sequence of offsets.
+		* @param hProcess  - Process HANDLE in whose address space to operate.
+		* @param memoryPtr - Pointer to the starting memory location from which the pointer chain will be resolved.
+		* @return The new valid memory address if pointer chain was successfully resolved and final destination was reached;
+		*         otherwise returns 'nullptr' to indicate an invalid or unreadable address.
+		*/
+		static void* PtrFollowPointerChain(const HANDLE& hProcess, void* memoryPtr, const std::vector<uintptr_t>& memoryOffsets);
+		/**
+		* @brief Follows a chain of pointers starting from a base address, applying a sequence of offsets.
+		* @param hProcess  - Process HANDLE in whose address space to operate.
+		* @param memoryAddress - Address of the memory location from which the pointer chain will be resolved.
+		* @return The new valid memory address if pointer chain was successfully resolved and final destination was reached;
+		*         otherwise returns '0x0' to indicate an invalid or unreadable address.
+		*/
+		static uintptr_t AddressFollowPointerChain(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::vector<uintptr_t>& memoryOffsets);
 	};
 };
