@@ -84,7 +84,7 @@ std::vector<std::optional<uint8_t>> MemoryUtilities::Convertion::MemoryPattern_T
 
 
 
-bool MemoryUtilities::IsValidPtr(void* memoryPtr)
+bool MemoryUtilities::Internal::IsValidPtr(void* memoryPtr)
 {
     MEMORY_BASIC_INFORMATION mbi;
 
@@ -102,7 +102,7 @@ bool MemoryUtilities::IsValidPtr(void* memoryPtr)
     return true;
 }
 
-bool MemoryUtilities::IsValidAddress(const uintptr_t& memoryAddress)
+bool MemoryUtilities::Internal::IsValidAddress(const uintptr_t& memoryAddress)
 {
     void* memoryPtr = reinterpret_cast<void*>(memoryAddress);
     return IsValidPtr(memoryPtr);
@@ -111,14 +111,14 @@ bool MemoryUtilities::IsValidAddress(const uintptr_t& memoryAddress)
 
 
 
-void* MemoryUtilities::PtrAddOffset(void* memoryPtr, size_t offset)
+void* MemoryUtilities::Internal::PtrAddOffset(void* memoryPtr, size_t offset)
 {
     /* Since void* doesn't support pointer arithmetics, we need to convert it to uintptr_t first. */
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PtrAddOffset(memoryAddress, offset);
 }
 
-void* MemoryUtilities::PtrAddOffset(const uintptr_t& memoryAddress, size_t offset)
+void* MemoryUtilities::Internal::PtrAddOffset(const uintptr_t& memoryAddress, size_t offset)
 {
     /* Calculate the new address by adding the offset. */
     uintptr_t newMemoryAddress = AddressAddOffset(memoryAddress, offset);
@@ -129,14 +129,14 @@ void* MemoryUtilities::PtrAddOffset(const uintptr_t& memoryAddress, size_t offse
 }
 
 
-uintptr_t MemoryUtilities::AddressAddOffset(void* memoryPtr, size_t offset)
+uintptr_t MemoryUtilities::Internal::AddressAddOffset(void* memoryPtr, size_t offset)
 {
     /* Since void* doesn't support pointer arithmetics, we need to convert it to uintptr_t first. */
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return AddressAddOffset(memoryAddress, offset);
 }
 
-uintptr_t MemoryUtilities::AddressAddOffset(const uintptr_t& memoryAddress, size_t offset)
+uintptr_t MemoryUtilities::Internal::AddressAddOffset(const uintptr_t& memoryAddress, size_t offset)
 {
     /* Calculate the new address by adding the offset. */
     uintptr_t newMemoryAddress = memoryAddress + offset;
@@ -153,7 +153,7 @@ uintptr_t MemoryUtilities::AddressAddOffset(const uintptr_t& memoryAddress, size
 
 
 
-void* MemoryUtilities::PtrFollowPointerChain(void* memoryPtr, const std::vector<uintptr_t>& memoryOffsets)
+void* MemoryUtilities::Internal::PtrFollowPointerChain(void* memoryPtr, const std::vector<uintptr_t>& memoryOffsets)
 {
     /* Since void* doesn't support pointer arithmetics, we need to convert it to uintptr_t first. */
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
@@ -166,7 +166,7 @@ void* MemoryUtilities::PtrFollowPointerChain(void* memoryPtr, const std::vector<
     return reinterpret_cast<void*>(newMemoryAddress);
 }
 
-uintptr_t MemoryUtilities::AddressFollowPointerChain(const uintptr_t& memoryAddress, const std::vector<uintptr_t>& memoryOffsets)
+uintptr_t MemoryUtilities::Internal::AddressFollowPointerChain(const uintptr_t& memoryAddress, const std::vector<uintptr_t>& memoryOffsets)
 {
     uintptr_t newMemoryAddress = memoryAddress;
     size_t offsetsCount = memoryOffsets.size();
@@ -190,7 +190,7 @@ uintptr_t MemoryUtilities::AddressFollowPointerChain(const uintptr_t& memoryAddr
 
 
 
-uintptr_t MemoryUtilities::ScanForBytesPattern(const uint8_t* startingAddress, size_t size, const std::vector<std::optional<uint8_t>>& bytesPattern)
+uintptr_t MemoryUtilities::Internal::ScanForBytesPattern(const uint8_t* startingAddress, size_t size, const std::vector<std::optional<uint8_t>>& bytesPattern)
 {
     const size_t patternLength = bytesPattern.size();
     if (patternLength == 0 || size < patternLength) // If there's nothing to search for, or the region is too small, give up.
@@ -221,7 +221,7 @@ uintptr_t MemoryUtilities::ScanForBytesPattern(const uint8_t* startingAddress, s
     return 0x0;
 }
 
-uintptr_t MemoryUtilities::ScanForMemoryPattern(const uint8_t* startingAddress, size_t size, const std::string& memoryPattern)
+uintptr_t MemoryUtilities::Internal::ScanForMemoryPattern(const uint8_t* startingAddress, size_t size, const std::string& memoryPattern)
 {
     /* Parse the mask string into a byte-pattern vector. */
     auto bytesPattern = Convertion::MemoryPattern_ToBytesPattern(memoryPattern);
@@ -236,7 +236,7 @@ uintptr_t MemoryUtilities::ScanForMemoryPattern(const uint8_t* startingAddress, 
 
 
 
-uintptr_t MemoryUtilities::SearchForBytesPattern(const std::vector<std::optional<uint8_t>>& bytesPattern)
+uintptr_t MemoryUtilities::Internal::SearchForBytesPattern(const std::vector<std::optional<uint8_t>>& bytesPattern)
 {
     /* Obtain the module handle for the current executable or DLL. */
     HMODULE hModule = GetModuleHandleW(nullptr);
@@ -259,7 +259,7 @@ uintptr_t MemoryUtilities::SearchForBytesPattern(const std::vector<std::optional
     return ScanForBytesPattern(baseAddress, imageSize, bytesPattern);
 }
 
-uintptr_t MemoryUtilities::SearchForMemoryPattern(const std::string& memoryPattern)
+uintptr_t MemoryUtilities::Internal::SearchForMemoryPattern(const std::string& memoryPattern)
 {
     /* Parse the mask string into a byte-pattern vector. */
     auto bytesPattern = Convertion::MemoryPattern_ToBytesPattern(memoryPattern);
@@ -274,13 +274,13 @@ uintptr_t MemoryUtilities::SearchForMemoryPattern(const std::string& memoryPatte
 
 
 
-bool MemoryUtilities::GetBool(void* memoryPtr)
+bool MemoryUtilities::Internal::GetBool(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetBool(memoryAddress);
 }
 
-bool MemoryUtilities::GetBool(const uintptr_t& memoryAddress)
+bool MemoryUtilities::Internal::GetBool(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -290,13 +290,13 @@ bool MemoryUtilities::GetBool(const uintptr_t& memoryAddress)
     return *reinterpret_cast<bool*>(memoryAddress);
 }
 
-bool MemoryUtilities::SetBool(void* memoryPtr, bool newValue)
+bool MemoryUtilities::Internal::SetBool(void* memoryPtr, bool newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetBool(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetBool(const uintptr_t& memoryAddress, bool newValue)
+bool MemoryUtilities::Internal::SetBool(const uintptr_t& memoryAddress, bool newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -321,13 +321,13 @@ bool MemoryUtilities::SetBool(const uintptr_t& memoryAddress, bool newValue)
     return true;
 }
 
-bool MemoryUtilities::PatchBool(void* memoryPtr, bool from, bool to)
+bool MemoryUtilities::Internal::PatchBool(void* memoryPtr, bool from, bool to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchBool(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchBool(const uintptr_t& memoryAddress, bool from, bool to)
+bool MemoryUtilities::Internal::PatchBool(const uintptr_t& memoryAddress, bool from, bool to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -354,13 +354,13 @@ bool MemoryUtilities::PatchBool(const uintptr_t& memoryAddress, bool from, bool 
     return true;
 }
 
-bool MemoryUtilities::IndirectGetBool(void* memoryPtr)
+bool MemoryUtilities::Internal::IndirectGetBool(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetBool(memoryAddress);
 }
 
-bool MemoryUtilities::IndirectGetBool(const uintptr_t& memoryAddress)
+bool MemoryUtilities::Internal::IndirectGetBool(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -375,13 +375,13 @@ bool MemoryUtilities::IndirectGetBool(const uintptr_t& memoryAddress)
     return *reinterpret_cast<bool*>(dataAddress);
 }
 
-bool MemoryUtilities::IndirectSetBool(void* memoryPtr, bool newValue)
+bool MemoryUtilities::Internal::IndirectSetBool(void* memoryPtr, bool newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetBool(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetBool(const uintptr_t& memoryAddress, bool newValue)
+bool MemoryUtilities::Internal::IndirectSetBool(const uintptr_t& memoryAddress, bool newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -411,13 +411,13 @@ bool MemoryUtilities::IndirectSetBool(const uintptr_t& memoryAddress, bool newVa
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchBool(void* memoryPtr, bool from, bool to)
+bool MemoryUtilities::Internal::IndirectPatchBool(void* memoryPtr, bool from, bool to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchBool(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchBool(const uintptr_t& memoryAddress, bool from, bool to)
+bool MemoryUtilities::Internal::IndirectPatchBool(const uintptr_t& memoryAddress, bool from, bool to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -452,13 +452,13 @@ bool MemoryUtilities::IndirectPatchBool(const uintptr_t& memoryAddress, bool fro
 
 
 
-int8_t MemoryUtilities::GetInt8(void* memoryPtr)
+int8_t MemoryUtilities::Internal::GetInt8(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetInt8(memoryAddress);
 }
 
-int8_t MemoryUtilities::GetInt8(const uintptr_t& memoryAddress)
+int8_t MemoryUtilities::Internal::GetInt8(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -468,13 +468,13 @@ int8_t MemoryUtilities::GetInt8(const uintptr_t& memoryAddress)
     return *reinterpret_cast<int8_t*>(memoryAddress);
 }
 
-bool MemoryUtilities::SetInt8(void* memoryPtr, int8_t newValue)
+bool MemoryUtilities::Internal::SetInt8(void* memoryPtr, int8_t newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetInt8(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetInt8(const uintptr_t& memoryAddress, int8_t newValue)
+bool MemoryUtilities::Internal::SetInt8(const uintptr_t& memoryAddress, int8_t newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -499,13 +499,13 @@ bool MemoryUtilities::SetInt8(const uintptr_t& memoryAddress, int8_t newValue)
     return true;
 }
 
-bool MemoryUtilities::PatchInt8(void* memoryPtr, int8_t from, int8_t to)
+bool MemoryUtilities::Internal::PatchInt8(void* memoryPtr, int8_t from, int8_t to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchInt8(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchInt8(const uintptr_t& memoryAddress, int8_t from, int8_t to)
+bool MemoryUtilities::Internal::PatchInt8(const uintptr_t& memoryAddress, int8_t from, int8_t to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -532,13 +532,13 @@ bool MemoryUtilities::PatchInt8(const uintptr_t& memoryAddress, int8_t from, int
     return true;
 }
 
-int8_t MemoryUtilities::IndirectGetInt8(void* memoryPtr)
+int8_t MemoryUtilities::Internal::IndirectGetInt8(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetInt8(memoryAddress);
 }
 
-int8_t MemoryUtilities::IndirectGetInt8(const uintptr_t& memoryAddress)
+int8_t MemoryUtilities::Internal::IndirectGetInt8(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -553,13 +553,13 @@ int8_t MemoryUtilities::IndirectGetInt8(const uintptr_t& memoryAddress)
     return *reinterpret_cast<int8_t*>(dataAddress);
 }
 
-bool MemoryUtilities::IndirectSetInt8(void* memoryPtr, int8_t newValue)
+bool MemoryUtilities::Internal::IndirectSetInt8(void* memoryPtr, int8_t newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetInt8(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetInt8(const uintptr_t& memoryAddress, int8_t newValue)
+bool MemoryUtilities::Internal::IndirectSetInt8(const uintptr_t& memoryAddress, int8_t newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -589,13 +589,13 @@ bool MemoryUtilities::IndirectSetInt8(const uintptr_t& memoryAddress, int8_t new
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchInt8(void* memoryPtr, int8_t from, int8_t to)
+bool MemoryUtilities::Internal::IndirectPatchInt8(void* memoryPtr, int8_t from, int8_t to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchInt8(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchInt8(const uintptr_t& memoryAddress, int8_t from, int8_t to)
+bool MemoryUtilities::Internal::IndirectPatchInt8(const uintptr_t& memoryAddress, int8_t from, int8_t to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -631,13 +631,13 @@ bool MemoryUtilities::IndirectPatchInt8(const uintptr_t& memoryAddress, int8_t f
 
 
 
-int16_t MemoryUtilities::GetInt16(void* memoryPtr)
+int16_t MemoryUtilities::Internal::GetInt16(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetInt16(memoryAddress);
 }
 
-int16_t MemoryUtilities::GetInt16(const uintptr_t& memoryAddress)
+int16_t MemoryUtilities::Internal::GetInt16(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -647,13 +647,13 @@ int16_t MemoryUtilities::GetInt16(const uintptr_t& memoryAddress)
     return *reinterpret_cast<int16_t*>(memoryAddress);
 }
 
-bool MemoryUtilities::SetInt16(void* memoryPtr, int16_t newValue)
+bool MemoryUtilities::Internal::SetInt16(void* memoryPtr, int16_t newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetInt16(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetInt16(const uintptr_t& memoryAddress, int16_t newValue)
+bool MemoryUtilities::Internal::SetInt16(const uintptr_t& memoryAddress, int16_t newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -678,13 +678,13 @@ bool MemoryUtilities::SetInt16(const uintptr_t& memoryAddress, int16_t newValue)
     return true;
 }
 
-bool MemoryUtilities::PatchInt16(void* memoryPtr, int16_t from, int16_t to)
+bool MemoryUtilities::Internal::PatchInt16(void* memoryPtr, int16_t from, int16_t to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchInt16(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchInt16(const uintptr_t& memoryAddress, int16_t from, int16_t to)
+bool MemoryUtilities::Internal::PatchInt16(const uintptr_t& memoryAddress, int16_t from, int16_t to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -711,13 +711,13 @@ bool MemoryUtilities::PatchInt16(const uintptr_t& memoryAddress, int16_t from, i
     return true;
 }
 
-int16_t MemoryUtilities::IndirectGetInt16(void* memoryPtr)
+int16_t MemoryUtilities::Internal::IndirectGetInt16(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetInt16(memoryAddress);
 }
 
-int16_t MemoryUtilities::IndirectGetInt16(const uintptr_t& memoryAddress)
+int16_t MemoryUtilities::Internal::IndirectGetInt16(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -732,13 +732,13 @@ int16_t MemoryUtilities::IndirectGetInt16(const uintptr_t& memoryAddress)
     return *reinterpret_cast<int16_t*>(dataAddress);
 }
 
-bool MemoryUtilities::IndirectSetInt16(void* memoryPtr, int16_t newValue)
+bool MemoryUtilities::Internal::IndirectSetInt16(void* memoryPtr, int16_t newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetInt16(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetInt16(const uintptr_t& memoryAddress, int16_t newValue)
+bool MemoryUtilities::Internal::IndirectSetInt16(const uintptr_t& memoryAddress, int16_t newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -768,13 +768,13 @@ bool MemoryUtilities::IndirectSetInt16(const uintptr_t& memoryAddress, int16_t n
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchInt16(void* memoryPtr, int16_t from, int16_t to)
+bool MemoryUtilities::Internal::IndirectPatchInt16(void* memoryPtr, int16_t from, int16_t to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchInt16(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchInt16(const uintptr_t& memoryAddress, int16_t from, int16_t to)
+bool MemoryUtilities::Internal::IndirectPatchInt16(const uintptr_t& memoryAddress, int16_t from, int16_t to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -810,14 +810,14 @@ bool MemoryUtilities::IndirectPatchInt16(const uintptr_t& memoryAddress, int16_t
 
 
 
-int32_t MemoryUtilities::GetInt32(void* memoryPtr)
+int32_t MemoryUtilities::Internal::GetInt32(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetInt32(memoryAddress);
 
 }
 
-int32_t MemoryUtilities::GetInt32(const uintptr_t& memoryAddress)
+int32_t MemoryUtilities::Internal::GetInt32(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -827,13 +827,13 @@ int32_t MemoryUtilities::GetInt32(const uintptr_t& memoryAddress)
     return *reinterpret_cast<int32_t*>(memoryAddress);
 }
 
-bool MemoryUtilities::SetInt32(void* memoryPtr, int32_t newValue)
+bool MemoryUtilities::Internal::SetInt32(void* memoryPtr, int32_t newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetInt32(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetInt32(const uintptr_t& memoryAddress, int32_t newValue)
+bool MemoryUtilities::Internal::SetInt32(const uintptr_t& memoryAddress, int32_t newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -858,13 +858,13 @@ bool MemoryUtilities::SetInt32(const uintptr_t& memoryAddress, int32_t newValue)
     return true;
 }
 
-bool MemoryUtilities::PatchInt32(void* memoryPtr, int32_t from, int32_t to)
+bool MemoryUtilities::Internal::PatchInt32(void* memoryPtr, int32_t from, int32_t to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchInt32(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchInt32(const uintptr_t& memoryAddress, int32_t from, int32_t to)
+bool MemoryUtilities::Internal::PatchInt32(const uintptr_t& memoryAddress, int32_t from, int32_t to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -894,13 +894,13 @@ bool MemoryUtilities::PatchInt32(const uintptr_t& memoryAddress, int32_t from, i
 
 
 
-int32_t MemoryUtilities::IndirectGetInt32(void* memoryPtr)
+int32_t MemoryUtilities::Internal::IndirectGetInt32(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetInt32(memoryAddress);
 }
 
-int32_t MemoryUtilities::IndirectGetInt32(const uintptr_t& memoryAddress)
+int32_t MemoryUtilities::Internal::IndirectGetInt32(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -915,13 +915,13 @@ int32_t MemoryUtilities::IndirectGetInt32(const uintptr_t& memoryAddress)
     return *reinterpret_cast<int32_t*>(dataAddress);
 }
 
-bool MemoryUtilities::IndirectSetInt32(void* memoryPtr, int32_t newValue)
+bool MemoryUtilities::Internal::IndirectSetInt32(void* memoryPtr, int32_t newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetInt32(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetInt32(const uintptr_t& memoryAddress, int32_t newValue)
+bool MemoryUtilities::Internal::IndirectSetInt32(const uintptr_t& memoryAddress, int32_t newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -951,13 +951,13 @@ bool MemoryUtilities::IndirectSetInt32(const uintptr_t& memoryAddress, int32_t n
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchInt32(void* memoryPtr, int32_t from, int32_t to)
+bool MemoryUtilities::Internal::IndirectPatchInt32(void* memoryPtr, int32_t from, int32_t to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchInt32(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchInt32(const uintptr_t& memoryAddress, int32_t from, int32_t to)
+bool MemoryUtilities::Internal::IndirectPatchInt32(const uintptr_t& memoryAddress, int32_t from, int32_t to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -992,13 +992,13 @@ bool MemoryUtilities::IndirectPatchInt32(const uintptr_t& memoryAddress, int32_t
 
 
 
-int64_t MemoryUtilities::GetInt64(void* memoryPtr)
+int64_t MemoryUtilities::Internal::GetInt64(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetInt64(memoryAddress);
 }
 
-int64_t MemoryUtilities::GetInt64(const uintptr_t& memoryAddress)
+int64_t MemoryUtilities::Internal::GetInt64(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1008,13 +1008,13 @@ int64_t MemoryUtilities::GetInt64(const uintptr_t& memoryAddress)
     return *reinterpret_cast<int64_t*>(memoryAddress);
 }
 
-bool MemoryUtilities::SetInt64(void* memoryPtr, int64_t newValue)
+bool MemoryUtilities::Internal::SetInt64(void* memoryPtr, int64_t newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetInt64(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetInt64(const uintptr_t& memoryAddress, int64_t newValue)
+bool MemoryUtilities::Internal::SetInt64(const uintptr_t& memoryAddress, int64_t newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1039,13 +1039,13 @@ bool MemoryUtilities::SetInt64(const uintptr_t& memoryAddress, int64_t newValue)
     return true;
 }
 
-bool MemoryUtilities::PatchInt64(void* memoryPtr, int64_t from, int64_t to)
+bool MemoryUtilities::Internal::PatchInt64(void* memoryPtr, int64_t from, int64_t to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchInt64(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchInt64(const uintptr_t& memoryAddress, int64_t from, int64_t to)
+bool MemoryUtilities::Internal::PatchInt64(const uintptr_t& memoryAddress, int64_t from, int64_t to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1072,13 +1072,13 @@ bool MemoryUtilities::PatchInt64(const uintptr_t& memoryAddress, int64_t from, i
     return true;
 }
 
-int64_t MemoryUtilities::IndirectGetInt64(void* memoryPtr)
+int64_t MemoryUtilities::Internal::IndirectGetInt64(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetInt64(memoryAddress);
 }
 
-int64_t MemoryUtilities::IndirectGetInt64(const uintptr_t& memoryAddress)
+int64_t MemoryUtilities::Internal::IndirectGetInt64(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1093,13 +1093,13 @@ int64_t MemoryUtilities::IndirectGetInt64(const uintptr_t& memoryAddress)
     return *reinterpret_cast<int64_t*>(dataAddress);
 }
 
-bool MemoryUtilities::IndirectSetInt64(void* memoryPtr, int64_t newValue)
+bool MemoryUtilities::Internal::IndirectSetInt64(void* memoryPtr, int64_t newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetInt64(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetInt64(const uintptr_t& memoryAddress, int64_t newValue)
+bool MemoryUtilities::Internal::IndirectSetInt64(const uintptr_t& memoryAddress, int64_t newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1129,13 +1129,13 @@ bool MemoryUtilities::IndirectSetInt64(const uintptr_t& memoryAddress, int64_t n
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchInt64(void* memoryPtr, int64_t from, int64_t to)
+bool MemoryUtilities::Internal::IndirectPatchInt64(void* memoryPtr, int64_t from, int64_t to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchInt64(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchInt64(const uintptr_t& memoryAddress, int64_t from, int64_t to)
+bool MemoryUtilities::Internal::IndirectPatchInt64(const uintptr_t& memoryAddress, int64_t from, int64_t to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1170,13 +1170,13 @@ bool MemoryUtilities::IndirectPatchInt64(const uintptr_t& memoryAddress, int64_t
 
 
 
-float MemoryUtilities::GetFloat(void* memoryPtr)
+float MemoryUtilities::Internal::GetFloat(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetFloat(memoryAddress);
 }
 
-float MemoryUtilities::GetFloat(const uintptr_t& memoryAddress)
+float MemoryUtilities::Internal::GetFloat(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1186,13 +1186,13 @@ float MemoryUtilities::GetFloat(const uintptr_t& memoryAddress)
     return *reinterpret_cast<float*>(memoryAddress);
 }
 
-bool MemoryUtilities::SetFloat(void* memoryPtr, float newValue)
+bool MemoryUtilities::Internal::SetFloat(void* memoryPtr, float newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetFloat(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetFloat(const uintptr_t& memoryAddress, float newValue)
+bool MemoryUtilities::Internal::SetFloat(const uintptr_t& memoryAddress, float newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1217,13 +1217,13 @@ bool MemoryUtilities::SetFloat(const uintptr_t& memoryAddress, float newValue)
     return true;
 }
 
-bool MemoryUtilities::PatchFloat(void* memoryPtr, float from, float to)
+bool MemoryUtilities::Internal::PatchFloat(void* memoryPtr, float from, float to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchFloat(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchFloat(const uintptr_t& memoryAddress, float from, float to)
+bool MemoryUtilities::Internal::PatchFloat(const uintptr_t& memoryAddress, float from, float to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1250,13 +1250,13 @@ bool MemoryUtilities::PatchFloat(const uintptr_t& memoryAddress, float from, flo
     return true;
 }
 
-float MemoryUtilities::IndirectGetFloat(void* memoryPtr)
+float MemoryUtilities::Internal::IndirectGetFloat(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetFloat(memoryAddress);
 }
 
-float MemoryUtilities::IndirectGetFloat(const uintptr_t& memoryAddress)
+float MemoryUtilities::Internal::IndirectGetFloat(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1271,13 +1271,13 @@ float MemoryUtilities::IndirectGetFloat(const uintptr_t& memoryAddress)
     return *reinterpret_cast<float*>(dataAddress);
 }
 
-bool MemoryUtilities::IndirectSetFloat(void* memoryPtr, float newValue)
+bool MemoryUtilities::Internal::IndirectSetFloat(void* memoryPtr, float newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetFloat(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetFloat(const uintptr_t& memoryAddress, float newValue)
+bool MemoryUtilities::Internal::IndirectSetFloat(const uintptr_t& memoryAddress, float newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1307,13 +1307,13 @@ bool MemoryUtilities::IndirectSetFloat(const uintptr_t& memoryAddress, float new
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchFloat(void* memoryPtr, float from, float to)
+bool MemoryUtilities::Internal::IndirectPatchFloat(void* memoryPtr, float from, float to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchFloat(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchFloat(const uintptr_t& memoryAddress, float from, float to)
+bool MemoryUtilities::Internal::IndirectPatchFloat(const uintptr_t& memoryAddress, float from, float to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1348,13 +1348,13 @@ bool MemoryUtilities::IndirectPatchFloat(const uintptr_t& memoryAddress, float f
 
 
 
-double MemoryUtilities::GetDouble(void* memoryPtr)
+double MemoryUtilities::Internal::GetDouble(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetDouble(memoryAddress);
 }
 
-double MemoryUtilities::GetDouble(const uintptr_t& memoryAddress)
+double MemoryUtilities::Internal::GetDouble(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1364,13 +1364,13 @@ double MemoryUtilities::GetDouble(const uintptr_t& memoryAddress)
     return *reinterpret_cast<double*>(memoryAddress);
 }
 
-bool MemoryUtilities::SetDouble(void* memoryPtr, double newValue)
+bool MemoryUtilities::Internal::SetDouble(void* memoryPtr, double newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetDouble(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetDouble(const uintptr_t& memoryAddress, double newValue)
+bool MemoryUtilities::Internal::SetDouble(const uintptr_t& memoryAddress, double newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1395,13 +1395,13 @@ bool MemoryUtilities::SetDouble(const uintptr_t& memoryAddress, double newValue)
     return true;
 }
 
-bool MemoryUtilities::PatchDouble(void* memoryPtr, double from, double to)
+bool MemoryUtilities::Internal::PatchDouble(void* memoryPtr, double from, double to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchDouble(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchDouble(const uintptr_t& memoryAddress, double from, double to)
+bool MemoryUtilities::Internal::PatchDouble(const uintptr_t& memoryAddress, double from, double to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1428,13 +1428,13 @@ bool MemoryUtilities::PatchDouble(const uintptr_t& memoryAddress, double from, d
     return true;
 }
 
-double MemoryUtilities::IndirectGetDouble(void* memoryPtr)
+double MemoryUtilities::Internal::IndirectGetDouble(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetDouble(memoryAddress);
 }
 
-double MemoryUtilities::IndirectGetDouble(const uintptr_t& memoryAddress)
+double MemoryUtilities::Internal::IndirectGetDouble(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1449,13 +1449,13 @@ double MemoryUtilities::IndirectGetDouble(const uintptr_t& memoryAddress)
     return *reinterpret_cast<double*>(dataAddress);
 }
 
-bool MemoryUtilities::IndirectSetDouble(void* memoryPtr, double newValue)
+bool MemoryUtilities::Internal::IndirectSetDouble(void* memoryPtr, double newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetDouble(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetDouble(const uintptr_t& memoryAddress, double newValue)
+bool MemoryUtilities::Internal::IndirectSetDouble(const uintptr_t& memoryAddress, double newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1485,13 +1485,13 @@ bool MemoryUtilities::IndirectSetDouble(const uintptr_t& memoryAddress, double n
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchDouble(void* memoryPtr, double from, double to)
+bool MemoryUtilities::Internal::IndirectPatchDouble(void* memoryPtr, double from, double to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchDouble(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchDouble(const uintptr_t& memoryAddress, double from, double to)
+bool MemoryUtilities::Internal::IndirectPatchDouble(const uintptr_t& memoryAddress, double from, double to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1526,19 +1526,19 @@ bool MemoryUtilities::IndirectPatchDouble(const uintptr_t& memoryAddress, double
 
 
 
-std::string MemoryUtilities::GetString(void* memoryPtr)
+std::string MemoryUtilities::Internal::GetString(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetString(memoryAddress);
 }
 
-std::string MemoryUtilities::GetString(void* memoryPtr, size_t maxLength)
+std::string MemoryUtilities::Internal::GetString(void* memoryPtr, size_t maxLength)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetString(memoryAddress, maxLength);
 }
 
-std::string MemoryUtilities::GetString(const uintptr_t& memoryAddress)
+std::string MemoryUtilities::Internal::GetString(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1549,7 +1549,7 @@ std::string MemoryUtilities::GetString(const uintptr_t& memoryAddress)
     return std::string(strPtr);
 }
 
-std::string MemoryUtilities::GetString(const uintptr_t& memoryAddress, size_t maxLength)
+std::string MemoryUtilities::Internal::GetString(const uintptr_t& memoryAddress, size_t maxLength)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1560,13 +1560,13 @@ std::string MemoryUtilities::GetString(const uintptr_t& memoryAddress, size_t ma
     return std::string(strPtr, strnlen_s(strPtr, maxLength));
 }
 
-bool MemoryUtilities::SetString(void* memoryPtr, const std::string& newValue)
+bool MemoryUtilities::Internal::SetString(void* memoryPtr, const std::string& newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetString(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetString(const uintptr_t& memoryAddress, const std::string& newValue)
+bool MemoryUtilities::Internal::SetString(const uintptr_t& memoryAddress, const std::string& newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1591,13 +1591,13 @@ bool MemoryUtilities::SetString(const uintptr_t& memoryAddress, const std::strin
     return true;
 }
 
-bool MemoryUtilities::PatchString(void* memoryPtr, const std::string& from, const std::string& to)
+bool MemoryUtilities::Internal::PatchString(void* memoryPtr, const std::string& from, const std::string& to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchString(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchString(const uintptr_t& memoryAddress, const std::string& from, const std::string& to)
+bool MemoryUtilities::Internal::PatchString(const uintptr_t& memoryAddress, const std::string& from, const std::string& to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1628,19 +1628,19 @@ bool MemoryUtilities::PatchString(const uintptr_t& memoryAddress, const std::str
 
 
 
-std::string MemoryUtilities::IndirectGetString(void* memoryPtr)
+std::string MemoryUtilities::Internal::IndirectGetString(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetString(memoryAddress);
 }
 
-std::string MemoryUtilities::IndirectGetString(void* memoryPtr, size_t maxLength)
+std::string MemoryUtilities::Internal::IndirectGetString(void* memoryPtr, size_t maxLength)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetString(memoryAddress, maxLength);
 }
 
-std::string MemoryUtilities::IndirectGetString(const uintptr_t& memoryAddress)
+std::string MemoryUtilities::Internal::IndirectGetString(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1656,7 +1656,7 @@ std::string MemoryUtilities::IndirectGetString(const uintptr_t& memoryAddress)
     return std::string(strPtr);
 }
 
-std::string MemoryUtilities::IndirectGetString(const uintptr_t& memoryAddress, size_t maxLength)
+std::string MemoryUtilities::Internal::IndirectGetString(const uintptr_t& memoryAddress, size_t maxLength)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1672,13 +1672,13 @@ std::string MemoryUtilities::IndirectGetString(const uintptr_t& memoryAddress, s
     return std::string(strPtr, strnlen_s(strPtr, maxLength));
 }
 
-bool MemoryUtilities::IndirectSetString(void* memoryPtr, const std::string& newValue)
+bool MemoryUtilities::Internal::IndirectSetString(void* memoryPtr, const std::string& newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetString(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetString(const uintptr_t& memoryAddress, const std::string& newValue)
+bool MemoryUtilities::Internal::IndirectSetString(const uintptr_t& memoryAddress, const std::string& newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1708,13 +1708,13 @@ bool MemoryUtilities::IndirectSetString(const uintptr_t& memoryAddress, const st
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchString(void* memoryPtr, const std::string& from, const std::string& to)
+bool MemoryUtilities::Internal::IndirectPatchString(void* memoryPtr, const std::string& from, const std::string& to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchString(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchString(const uintptr_t& memoryAddress, const std::string& from, const std::string& to)
+bool MemoryUtilities::Internal::IndirectPatchString(const uintptr_t& memoryAddress, const std::string& from, const std::string& to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1750,19 +1750,19 @@ bool MemoryUtilities::IndirectPatchString(const uintptr_t& memoryAddress, const 
 
 
 
-std::wstring MemoryUtilities::GetWString(void* memoryPtr)
+std::wstring MemoryUtilities::Internal::GetWString(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetWString(memoryAddress);
 }
 
-std::wstring MemoryUtilities::GetWString(void* memoryPtr, size_t maxLength)
+std::wstring MemoryUtilities::Internal::GetWString(void* memoryPtr, size_t maxLength)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetWString(memoryAddress, maxLength);
 }
 
-std::wstring MemoryUtilities::GetWString(const uintptr_t& memoryAddress)
+std::wstring MemoryUtilities::Internal::GetWString(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1773,7 +1773,7 @@ std::wstring MemoryUtilities::GetWString(const uintptr_t& memoryAddress)
     return std::wstring(wStrPtr);
 }
 
-std::wstring MemoryUtilities::GetWString(const uintptr_t& memoryAddress, size_t maxLength)
+std::wstring MemoryUtilities::Internal::GetWString(const uintptr_t& memoryAddress, size_t maxLength)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1784,13 +1784,13 @@ std::wstring MemoryUtilities::GetWString(const uintptr_t& memoryAddress, size_t 
     return std::wstring(wStrPtr, wcsnlen_s(wStrPtr, maxLength));
 }
 
-bool MemoryUtilities::SetWString(void* memoryPtr, const std::wstring& newValue)
+bool MemoryUtilities::Internal::SetWString(void* memoryPtr, const std::wstring& newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetWString(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::SetWString(const uintptr_t& memoryAddress, const std::wstring& newValue)
+bool MemoryUtilities::Internal::SetWString(const uintptr_t& memoryAddress, const std::wstring& newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1815,13 +1815,13 @@ bool MemoryUtilities::SetWString(const uintptr_t& memoryAddress, const std::wstr
     return true;
 }
 
-bool MemoryUtilities::PatchWString(void* memoryPtr, const std::wstring& from, const std::wstring& to)
+bool MemoryUtilities::Internal::PatchWString(void* memoryPtr, const std::wstring& from, const std::wstring& to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchWString(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::PatchWString(const uintptr_t& memoryAddress, const std::wstring& from, const std::wstring& to)
+bool MemoryUtilities::Internal::PatchWString(const uintptr_t& memoryAddress, const std::wstring& from, const std::wstring& to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1852,19 +1852,19 @@ bool MemoryUtilities::PatchWString(const uintptr_t& memoryAddress, const std::ws
 
 
 
-std::wstring MemoryUtilities::IndirectGetWString(void* memoryPtr)
+std::wstring MemoryUtilities::Internal::IndirectGetWString(void* memoryPtr)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetWString(memoryAddress);
 }
 
-std::wstring MemoryUtilities::IndirectGetWString(void* memoryPtr, size_t maxLength)
+std::wstring MemoryUtilities::Internal::IndirectGetWString(void* memoryPtr, size_t maxLength)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetWString(memoryAddress, maxLength);
 }
 
-std::wstring MemoryUtilities::IndirectGetWString(const uintptr_t& memoryAddress)
+std::wstring MemoryUtilities::Internal::IndirectGetWString(const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1880,7 +1880,7 @@ std::wstring MemoryUtilities::IndirectGetWString(const uintptr_t& memoryAddress)
     return std::wstring(wStrPtr);
 }
 
-std::wstring MemoryUtilities::IndirectGetWString(const uintptr_t& memoryAddress, size_t maxLength)
+std::wstring MemoryUtilities::Internal::IndirectGetWString(const uintptr_t& memoryAddress, size_t maxLength)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1896,13 +1896,13 @@ std::wstring MemoryUtilities::IndirectGetWString(const uintptr_t& memoryAddress,
     return std::wstring(wStrPtr, wcsnlen_s(wStrPtr, maxLength));
 }
 
-bool MemoryUtilities::IndirectSetWString(void* memoryPtr, const std::wstring& newValue)
+bool MemoryUtilities::Internal::IndirectSetWString(void* memoryPtr, const std::wstring& newValue)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetWString(memoryAddress, newValue);
 }
 
-bool MemoryUtilities::IndirectSetWString(const uintptr_t& memoryAddress, const std::wstring& newValue)
+bool MemoryUtilities::Internal::IndirectSetWString(const uintptr_t& memoryAddress, const std::wstring& newValue)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1932,13 +1932,13 @@ bool MemoryUtilities::IndirectSetWString(const uintptr_t& memoryAddress, const s
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchWString(void* memoryPtr, const std::wstring& from, const std::wstring& to)
+bool MemoryUtilities::Internal::IndirectPatchWString(void* memoryPtr, const std::wstring& from, const std::wstring& to)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchWString(memoryAddress, from, to);
 }
 
-bool MemoryUtilities::IndirectPatchWString(const uintptr_t& memoryAddress, const std::wstring& from, const std::wstring& to)
+bool MemoryUtilities::Internal::IndirectPatchWString(const uintptr_t& memoryAddress, const std::wstring& from, const std::wstring& to)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1974,13 +1974,13 @@ bool MemoryUtilities::IndirectPatchWString(const uintptr_t& memoryAddress, const
 
 
 
-std::vector<uint8_t> MemoryUtilities::GetBytes(void* memoryPtr, size_t byteCount)
+std::vector<uint8_t> MemoryUtilities::Internal::GetBytes(void* memoryPtr, size_t byteCount)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return GetBytes(memoryAddress, byteCount);
 }
 
-std::vector<uint8_t> MemoryUtilities::GetBytes(const uintptr_t& memoryAddress, size_t byteCount)
+std::vector<uint8_t> MemoryUtilities::Internal::GetBytes(const uintptr_t& memoryAddress, size_t byteCount)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -1992,13 +1992,13 @@ std::vector<uint8_t> MemoryUtilities::GetBytes(const uintptr_t& memoryAddress, s
     return buffer;
 }
 
-bool MemoryUtilities::SetBytes(void* memoryPtr, const uint8_t* newBytes, size_t byteCount)
+bool MemoryUtilities::Internal::SetBytes(void* memoryPtr, const uint8_t* newBytes, size_t byteCount)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return SetBytes(memoryAddress, newBytes, byteCount);
 }
 
-bool MemoryUtilities::SetBytes(const uintptr_t& memoryAddress, const uint8_t* newBytes, size_t byteCount)
+bool MemoryUtilities::Internal::SetBytes(const uintptr_t& memoryAddress, const uint8_t* newBytes, size_t byteCount)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -2021,13 +2021,13 @@ bool MemoryUtilities::SetBytes(const uintptr_t& memoryAddress, const uint8_t* ne
     return true;
 }
 
-bool MemoryUtilities::PatchBytes(void* memoryPtr, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
+bool MemoryUtilities::Internal::PatchBytes(void* memoryPtr, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return PatchBytes(memoryAddress, fromBytes, toBytes, byteCount);
 }
 
-bool MemoryUtilities::PatchBytes(const uintptr_t& memoryAddress, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
+bool MemoryUtilities::Internal::PatchBytes(const uintptr_t& memoryAddress, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -2054,13 +2054,13 @@ bool MemoryUtilities::PatchBytes(const uintptr_t& memoryAddress, const uint8_t* 
     return true;
 }
 
-std::vector<uint8_t> MemoryUtilities::IndirectGetBytes(void* memoryPtr, size_t byteCount)
+std::vector<uint8_t> MemoryUtilities::Internal::IndirectGetBytes(void* memoryPtr, size_t byteCount)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectGetBytes(memoryAddress, byteCount);
 }
 
-std::vector<uint8_t> MemoryUtilities::IndirectGetBytes(const uintptr_t& memoryAddress, size_t byteCount)
+std::vector<uint8_t> MemoryUtilities::Internal::IndirectGetBytes(const uintptr_t& memoryAddress, size_t byteCount)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -2077,13 +2077,13 @@ std::vector<uint8_t> MemoryUtilities::IndirectGetBytes(const uintptr_t& memoryAd
     return buffer;
 }
 
-bool MemoryUtilities::IndirectSetBytes(void* memoryPtr, const uint8_t* newBytes, size_t byteCount)
+bool MemoryUtilities::Internal::IndirectSetBytes(void* memoryPtr, const uint8_t* newBytes, size_t byteCount)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectSetBytes(memoryAddress, newBytes, byteCount);
 }
 
-bool MemoryUtilities::IndirectSetBytes(const uintptr_t& memoryAddress, const uint8_t* newBytes, size_t byteCount)
+bool MemoryUtilities::Internal::IndirectSetBytes(const uintptr_t& memoryAddress, const uint8_t* newBytes, size_t byteCount)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -2110,13 +2110,13 @@ bool MemoryUtilities::IndirectSetBytes(const uintptr_t& memoryAddress, const uin
     return true;
 }
 
-bool MemoryUtilities::IndirectPatchBytes(void* memoryPtr, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
+bool MemoryUtilities::Internal::IndirectPatchBytes(void* memoryPtr, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
     return IndirectPatchBytes(memoryAddress, fromBytes, toBytes, byteCount);
 }
 
-bool MemoryUtilities::IndirectPatchBytes(const uintptr_t& memoryAddress, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
+bool MemoryUtilities::Internal::IndirectPatchBytes(const uintptr_t& memoryAddress, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -2146,4 +2146,66 @@ bool MemoryUtilities::IndirectPatchBytes(const uintptr_t& memoryAddress, const u
     VirtualProtect(target, byteCount, oldProtect, &tmp);
 
     return true;
+}
+
+
+
+
+
+
+bool MemoryUtilities::External::IsValidProcessHandle(const HANDLE& hProcess, const bool& requireQueryRights)
+{
+    if (hProcess == nullptr || hProcess == INVALID_HANDLE_VALUE) // Handle must be non-null and not INVALID_HANDLE_VALUE. Return False if it's not.
+        return false;
+
+    if (GetProcessId(hProcess) == 0) // Must be a process handle (GetProcessId returns 0 on failure). Return False if it isn't.
+        return false;
+
+    DWORD exitCode = 0;
+    if (GetExitCodeProcess(hProcess, &exitCode) == false || exitCode != STILL_ACTIVE)
+        return false;
+
+    if (requireQueryRights)
+    {
+        MEMORY_BASIC_INFORMATION mbi{};
+        if (VirtualQueryEx(hProcess, nullptr, &mbi, sizeof(mbi)) != sizeof(mbi))
+            return false;
+    }
+
+    return true;
+}
+
+bool MemoryUtilities::External::IsValidProcessHandle(const HANDLE& hProcess)
+{
+    return IsValidProcessHandle(hProcess, false);
+}
+
+
+
+
+bool MemoryUtilities::External::IsValidPtr(const HANDLE& hProcess, const void* memoryPtr)
+{
+    if (!IsValidProcessHandle(hProcess)) // Process handle must be valid and suitable. Return False if it's not.
+        return false;
+
+    MEMORY_BASIC_INFORMATION mbi{};
+
+    if (VirtualQueryEx(hProcess, memoryPtr, &mbi, sizeof(mbi)) != sizeof(mbi)) // Try to request (query) information about the given memory region, return False if attempt fails.
+        return false;
+
+    if (mbi.State != MEM_COMMIT) // Memory region must be committed (actually backed by physical memory). Return False if it's not.
+        return false;
+
+    /* Strip out guard and cache flags to examine the core protection flags. */
+    DWORD protectionFlags = mbi.Protect & ~(PAGE_GUARD | PAGE_NOCACHE | PAGE_WRITECOMBINE);
+    if ((protectionFlags & (PAGE_READONLY | PAGE_READWRITE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE)) == false) // See if we're able to request one of the read permissions (readable or executable+read), return False if we aren't.
+        return false;
+
+    return true;
+}
+
+bool MemoryUtilities::External::IsValidAddress(const HANDLE& hProcess, const uintptr_t& memoryAddress)
+{
+    void* memoryPtr = reinterpret_cast<void*>(memoryAddress);
+    return IsValidPtr(hProcess, memoryPtr);
 }
