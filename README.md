@@ -2,7 +2,7 @@
 Beginner, user friendly static library for C++ programming language.
 
 **Development Framework:** C++17
-> :grey_question: Library doesn't support C++14 and older versions out of the box, some regions would need to be rewriten due to lack of built in functionality.
+> :grey_question: Library doesn't support C++14 and older versions out of the box - some code regions would need to be rewriten due to lack of built in to language functionality.
 
 **License:** General Public License
 > :white_check_mark: No restrictions for sharing, editing & updating the library!
