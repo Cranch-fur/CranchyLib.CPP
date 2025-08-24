@@ -52,7 +52,7 @@ class MemoryUtilities
 		* @param memoryPtr - Pointer to the memory location to check.
 		* @return true if the region is committed, and has read or execute+read permissions; false otherwise.
 		*/
-		static bool IsValidPtr(void* memoryPtr);
+		static bool IsValidPtr(const void* memoryPtr);
 		/**
 		* @brief Determines whether a given memory address refers to a valid, committed, and readable (or executable) memory region.
 		* @param memoryAddress - Address of the memory location to check.
@@ -135,7 +135,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static bool GetBool(void* memoryPtr);
+		static bool GetBool(const void* memoryPtr);
 		static bool GetBool(const uintptr_t& memoryAddress);
 
 		static bool SetBool(const void* memoryPtr, bool newValue);
@@ -146,7 +146,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static bool IndirectGetBool(void* memoryPtr);
+		static bool IndirectGetBool(const void* memoryPtr);
 		static bool IndirectGetBool(const uintptr_t& memoryAddress);
 
 		static bool IndirectSetBool(const void* memoryPtr, bool newValue);
@@ -159,7 +159,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static int8_t GetInt8(void* memoryPtr);
+		static int8_t GetInt8(const void* memoryPtr);
 		static int8_t GetInt8(const uintptr_t& memoryAddress);
 
 		static bool   SetInt8(const void* memoryPtr, int8_t newValue);
@@ -170,7 +170,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static int8_t IndirectGetInt8(void* memoryPtr);
+		static int8_t IndirectGetInt8(const void* memoryPtr);
 		static int8_t IndirectGetInt8(const uintptr_t& memoryAddress);
 
 		static bool   IndirectSetInt8(const void* memoryPtr, int8_t newValue);
@@ -183,7 +183,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static int16_t GetInt16(void* memoryPtr);
+		static int16_t GetInt16(const void* memoryPtr);
 		static int16_t GetInt16(const uintptr_t& memoryAddress);
 
 		static bool    SetInt16(const void* memoryPtr, int16_t newValue);
@@ -194,7 +194,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static int16_t IndirectGetInt16(void* memoryPtr);
+		static int16_t IndirectGetInt16(const void* memoryPtr);
 		static int16_t IndirectGetInt16(const uintptr_t& memoryAddress);
 
 		static bool    IndirectSetInt16(const void* memoryPtr, int16_t newValue);
@@ -207,7 +207,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static int32_t GetInt32(void* memoryPtr);
+		static int32_t GetInt32(const void* memoryPtr);
 		static int32_t GetInt32(const uintptr_t& memoryAddress);
 
 		static bool    SetInt32(const void* memoryPtr, int32_t newValue);
@@ -218,7 +218,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static int32_t IndirectGetInt32(void* memoryPtr);
+		static int32_t IndirectGetInt32(const void* memoryPtr);
 		static int32_t IndirectGetInt32(const uintptr_t& memoryAddress);
 
 		static bool	   IndirectSetInt32(const void* memoryPtr, int32_t newValue);
@@ -231,7 +231,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static int64_t GetInt64(void* memoryPtr);
+		static int64_t GetInt64(const void* memoryPtr);
 		static int64_t GetInt64(const uintptr_t& memoryAddress);
 
 		static bool    SetInt64(const void* memoryPtr, int64_t newValue);
@@ -242,7 +242,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static int64_t IndirectGetInt64(void* memoryPtr);
+		static int64_t IndirectGetInt64(const void* memoryPtr);
 		static int64_t IndirectGetInt64(const uintptr_t& memoryAddress);
 
 		static bool    IndirectSetInt64(const void* memoryPtr, int64_t newValue);
@@ -255,7 +255,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static float GetFloat(void* memoryPtr);
+		static float GetFloat(const void* memoryPtr);
 		static float GetFloat(const uintptr_t& memoryAddress);
 
 		static bool  SetFloat(const void* memoryPtr, float newValue);
@@ -266,7 +266,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static float IndirectGetFloat(void* memoryPtr);
+		static float IndirectGetFloat(const void* memoryPtr);
 		static float IndirectGetFloat(const uintptr_t& memoryAddress);
 
 		static bool  IndirectSetFloat(const void* memoryPtr, float newValue);
@@ -279,7 +279,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static double GetDouble(void* memoryPtr);
+		static double GetDouble(const void* memoryPtr);
 		static double GetDouble(const uintptr_t& memoryAddress);
 
 		static bool   SetDouble(const void* memoryPtr, double newValue);
@@ -290,7 +290,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static double IndirectGetDouble(void* memoryPtr);
+		static double IndirectGetDouble(const void* memoryPtr);
 		static double IndirectGetDouble(const uintptr_t& memoryAddress);
 
 		static bool   IndirectSetDouble(const void* memoryPtr, double newValue);
@@ -303,7 +303,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static std::string GetString(void* memoryPtr);
+		static std::string GetString(const void* memoryPtr);
 		static std::string GetString(const void* memoryPtr, size_t maxLength);
 		static std::string GetString(const uintptr_t& memoryAddress);
 		static std::string GetString(const uintptr_t& memoryAddress, size_t maxLength);
@@ -316,7 +316,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static std::string IndirectGetString(void* memoryPtr);
+		static std::string IndirectGetString(const void* memoryPtr);
 		static std::string IndirectGetString(const void* memoryPtr, size_t maxLength);
 		static std::string IndirectGetString(const uintptr_t& memoryAddress);
 		static std::string IndirectGetString(const uintptr_t& memoryAddress, size_t maxLength);
@@ -329,7 +329,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the actual value */
-		static std::wstring GetWString(void* memoryPtr);
+		static std::wstring GetWString(const void* memoryPtr);
 		static std::wstring GetWString(const void* memoryPtr, size_t maxLength);
 		static std::wstring GetWString(const uintptr_t& memoryAddress);
 		static std::wstring GetWString(const uintptr_t& memoryAddress, size_t maxLength);
@@ -342,7 +342,7 @@ class MemoryUtilities
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
-		static std::wstring IndirectGetWString(void* memoryPtr);
+		static std::wstring IndirectGetWString(const void* memoryPtr);
 		static std::wstring IndirectGetWString(const void* memoryPtr, size_t maxLength);
 		static std::wstring IndirectGetWString(const uintptr_t& memoryAddress);
 		static std::wstring IndirectGetWString(const uintptr_t& memoryAddress, size_t maxLength);
@@ -387,6 +387,12 @@ class MemoryUtilities
 	{
 		// Description: Functions within the class allows to manipulate memory of 3'rd party processes.
 		// Search Tags: #external, #exe, #pid, #process, #readprocessmemory, #writeprocessmemory, #handle.
+	private:
+		static std::string ReadRemoteString(const HANDLE& hProcess, const uintptr_t memoryAddress, size_t maxLength);
+
+
+
+
 	public:
 		/**
 		* @brief Determines whether a given process HANDLE is valid and suitable for memory queries.
@@ -497,5 +503,177 @@ class MemoryUtilities
 
 		static bool IndirectPatchBool(const HANDLE& hProcess, const void* memoryPtr, bool from, bool to);
 		static bool IndirectPatchBool(const HANDLE& hProcess, const uintptr_t& memoryAddress, bool from, bool to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static int8_t GetInt8(const HANDLE& hProcess, const void* memoryPtr);
+		static int8_t GetInt8(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool   SetInt8(const HANDLE& hProcess, const void* memoryPtr, int8_t newValue);
+		static bool   SetInt8(const HANDLE& hProcess, const uintptr_t& memoryAddress, int8_t newValue);
+
+		static bool   PatchInt8(const HANDLE& hProcess, const void* memoryPtr, int8_t from, int8_t to);
+		static bool   PatchInt8(const HANDLE& hProcess, const uintptr_t& memoryAddress, int8_t from, int8_t to);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static int8_t IndirectGetInt8(const HANDLE& hProcess, const void* memoryPtr);
+		static int8_t IndirectGetInt8(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool   IndirectSetInt8(const HANDLE& hProcess, const void* memoryPtr, int8_t newValue);
+		static bool   IndirectSetInt8(const HANDLE& hProcess, const uintptr_t& memoryAddress, int8_t newValue);
+
+		static bool   IndirectPatchInt8(const HANDLE& hProcess, const void* memoryPtr, int8_t from, int8_t to);
+		static bool   IndirectPatchInt8(const HANDLE& hProcess, const uintptr_t& memoryAddress, int8_t from, int8_t to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static int16_t GetInt16(const HANDLE& hProcess, const void* memoryPtr);
+		static int16_t GetInt16(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool    SetInt16(const HANDLE& hProcess, const void* memoryPtr, int16_t newValue);
+		static bool    SetInt16(const HANDLE& hProcess, const uintptr_t& memoryAddress, int16_t newValue);
+
+		static bool    PatchInt16(const HANDLE& hProcess, const void* memoryPtr, int16_t from, int16_t to);
+		static bool    PatchInt16(const HANDLE& hProcess, const uintptr_t& memoryAddress, int16_t from, int16_t to);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static int16_t IndirectGetInt16(const HANDLE& hProcess, const void* memoryPtr);
+		static int16_t IndirectGetInt16(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool    IndirectSetInt16(const HANDLE& hProcess, const void* memoryPtr, int16_t newValue);
+		static bool    IndirectSetInt16(const HANDLE& hProcess, const uintptr_t& memoryAddress, int16_t newValue);
+
+		static bool    IndirectPatchInt16(const HANDLE& hProcess, const void* memoryPtr, int16_t from, int16_t to);
+		static bool    IndirectPatchInt16(const HANDLE& hProcess, const uintptr_t& memoryAddress, int16_t from, int16_t to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static int32_t GetInt32(const HANDLE& hProcess, const void* memoryPtr);
+		static int32_t GetInt32(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool    SetInt32(const HANDLE& hProcess, const void* memoryPtr, int32_t newValue);
+		static bool    SetInt32(const HANDLE& hProcess, const uintptr_t& memoryAddress, int32_t newValue);
+
+		static bool    PatchInt32(const HANDLE& hProcess, const void* memoryPtr, int32_t from, int32_t to);
+		static bool    PatchInt32(const HANDLE& hProcess, const uintptr_t& memoryAddress, int32_t from, int32_t to);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static int32_t IndirectGetInt32(const HANDLE& hProcess, const void* memoryPtr);
+		static int32_t IndirectGetInt32(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool	   IndirectSetInt32(const HANDLE& hProcess, const void* memoryPtr, int32_t newValue);
+		static bool	   IndirectSetInt32(const HANDLE& hProcess, const uintptr_t& memoryAddress, int32_t newValue);
+
+		static bool    IndirectPatchInt32(const HANDLE& hProcess, const void* memoryPtr, int32_t from, int32_t to);
+		static bool    IndirectPatchInt32(const HANDLE& hProcess, const uintptr_t& memoryAddress, int32_t from, int32_t to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static int64_t GetInt64(const HANDLE& hProcess, const void* memoryPtr);
+		static int64_t GetInt64(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool    SetInt64(const HANDLE& hProcess, const void* memoryPtr, int64_t newValue);
+		static bool    SetInt64(const HANDLE& hProcess, const uintptr_t& memoryAddress, int64_t newValue);
+
+		static bool    PatchInt64(const HANDLE& hProcess, const void* memoryPtr, int64_t from, int64_t to);
+		static bool    PatchInt64(const HANDLE& hProcess, const uintptr_t& memoryAddress, int64_t from, int64_t to);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static int64_t IndirectGetInt64(const HANDLE& hProcess, const void* memoryPtr);
+		static int64_t IndirectGetInt64(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool	   IndirectSetInt64(const HANDLE& hProcess, const void* memoryPtr, int64_t newValue);
+		static bool	   IndirectSetInt64(const HANDLE& hProcess, const uintptr_t& memoryAddress, int64_t newValue);
+
+		static bool    IndirectPatchInt64(const HANDLE& hProcess, const void* memoryPtr, int64_t from, int64_t to);
+		static bool    IndirectPatchInt64(const HANDLE& hProcess, const uintptr_t& memoryAddress, int64_t from, int64_t to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static float GetFloat(const HANDLE& hProcess, const void* memoryPtr);
+		static float GetFloat(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool  SetFloat(const HANDLE& hProcess, const void* memoryPtr, float newValue);
+		static bool  SetFloat(const HANDLE& hProcess, const uintptr_t& memoryAddress, float newValue);
+
+		static bool  PatchFloat(const HANDLE& hProcess, const void* memoryPtr, float from, float to);
+		static bool  PatchFloat(const HANDLE& hProcess, const uintptr_t& memoryAddress, float from, float to);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static float IndirectGetFloat(const HANDLE& hProcess, const void* memoryPtr);
+		static float IndirectGetFloat(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool	 IndirectSetFloat(const HANDLE& hProcess, const void* memoryPtr, float newValue);
+		static bool	 IndirectSetFloat(const HANDLE& hProcess, const uintptr_t& memoryAddress, float newValue);
+
+		static bool  IndirectPatchFloat(const HANDLE& hProcess, const void* memoryPtr, float from, float to);
+		static bool  IndirectPatchFloat(const HANDLE& hProcess, const uintptr_t& memoryAddress, float from, float to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static double GetDouble(const HANDLE& hProcess, const void* memoryPtr);
+		static double GetDouble(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool  SetDouble(const HANDLE& hProcess, const void* memoryPtr, double newValue);
+		static bool  SetDouble(const HANDLE& hProcess, const uintptr_t& memoryAddress, double newValue);
+
+		static bool  PatchDouble(const HANDLE& hProcess, const void* memoryPtr, double from, double to);
+		static bool  PatchDouble(const HANDLE& hProcess, const uintptr_t& memoryAddress, double from, double to);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static double IndirectGetDouble(const HANDLE& hProcess, const void* memoryPtr);
+		static double IndirectGetDouble(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+
+		static bool	 IndirectSetDouble(const HANDLE& hProcess, const void* memoryPtr, double newValue);
+		static bool	 IndirectSetDouble(const HANDLE& hProcess, const uintptr_t& memoryAddress, double newValue);
+
+		static bool  IndirectPatchDouble(const HANDLE& hProcess, const void* memoryPtr, double from, double to);
+		static bool  IndirectPatchDouble(const HANDLE& hProcess, const uintptr_t& memoryAddress, double from, double to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static std::string GetString(const HANDLE& hProcess, const void* memoryPtr);
+		static std::string GetString(const HANDLE& hProcess, const void* memoryPtr, size_t maxLength);
+		static std::string GetString(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+		static std::string GetString(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t maxLength);
+
+		static bool		   SetString(const HANDLE& hProcess, const void* memoryPtr, const std::string& newValue);
+		static bool		   SetString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::string& newValue);
+
+		static bool		   PatchString(const HANDLE& hProcess, const void* memoryPtr, const std::string& from, const std::string& to);
+		static bool		   PatchString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::string& from, const std::string& to);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static std::string IndirectGetString(const HANDLE& hProcess, const void* memoryPtr);
+		static std::string IndirectGetString(const HANDLE& hProcess, const void* memoryPtr, size_t maxLength);
+		static std::string IndirectGetString(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+		static std::string IndirectGetString(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t maxLength);
+
+		static bool		   IndirectSetString(const HANDLE& hProcess, const void* memoryPtr, const std::string& newValue);
+		static bool		   IndirectSetString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::string& newValue);
+
+		static bool		   IndirectPatchString(const HANDLE& hProcess, const void* memoryPtr, const std::string& from, const std::string& to);
+		static bool		   IndirectPatchString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::string& from, const std::string& to);
 	};
 };
