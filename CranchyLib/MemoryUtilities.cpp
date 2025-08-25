@@ -2197,7 +2197,7 @@ std::string MemoryUtilities::External::ReadRemoteString(const HANDLE& hProcess, 
     while (remaining > 0)
     {
         size_t toRead = std::min<size_t>(remaining, kChunk);
-        size_t bytesRead = 0;
+        SIZE_T bytesRead = 0;
 
         if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(cursor),
                                buf.data(), toRead, &bytesRead)
@@ -2244,7 +2244,7 @@ std::wstring MemoryUtilities::External::ReadRemoteWString(const HANDLE& hProcess
     {
         size_t toReadChars = std::min<size_t>(remaining, kChunk);
         size_t toReadBytes = toReadChars * static_cast<size_t>(sizeof(wchar_t));
-        size_t bytesRead = 0;
+        SIZE_T bytesRead = 0;
 
         if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(cursor),
                                buf.data(), toReadBytes, &bytesRead)
@@ -2412,7 +2412,7 @@ uintptr_t MemoryUtilities::External::AddressFollowPointerChain(const HANDLE& hPr
 
         /* Read the next pointer value from memory and add the current offset to advance to the next address in the chain. */
         uintptr_t nextPtr = 0;
-        size_t bytesRead = 0;
+        SIZE_T bytesRead = 0;
         if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(newMemoryAddress),
                                &nextPtr, sizeof(nextPtr), &bytesRead) 
             || bytesRead != sizeof(nextPtr))
@@ -2443,7 +2443,7 @@ bool MemoryUtilities::External::GetBool(const HANDLE& hProcess, const uintptr_t&
 
     /* Read and return the boolean value from the target address. */
     bool value = false;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead) 
         || bytesRead != sizeof(value))
@@ -2474,7 +2474,7 @@ bool MemoryUtilities::External::SetBool(const HANDLE& hProcess, const uintptr_t&
         return false;
 
     /* Write the new boolean value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetBool, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2498,7 +2498,7 @@ bool MemoryUtilities::External::PatchBool(const HANDLE& hProcess, const uintptr_
 
     /* Verify that the current value matches the expected one. */
     bool current = false;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead) 
         || bytesRead != sizeof(current))
@@ -2516,7 +2516,7 @@ bool MemoryUtilities::External::PatchBool(const HANDLE& hProcess, const uintptr_
         return false;
 
     /* Write the new boolean value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetBool, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2540,7 +2540,7 @@ bool MemoryUtilities::External::IndirectGetBool(const HANDLE& hProcess, const ui
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2574,7 +2574,7 @@ bool MemoryUtilities::External::IndirectSetBool(const HANDLE& hProcess, const ui
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2593,7 +2593,7 @@ bool MemoryUtilities::External::IndirectSetBool(const HANDLE& hProcess, const ui
         return false;
 
     /* Write the new boolean value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetBool, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2617,7 +2617,7 @@ bool MemoryUtilities::External::IndirectPatchBool(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2644,7 +2644,7 @@ bool MemoryUtilities::External::IndirectPatchBool(const HANDLE& hProcess, const 
         return false;
 
     /* Write the new boolean value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetBool, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2671,7 +2671,7 @@ int8_t MemoryUtilities::External::GetInt8(const HANDLE& hProcess, const uintptr_
 
     /* Read and return the 8-bit integer from the target address. */
     int8_t value = -1;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead) 
         || bytesRead != sizeof(value))
@@ -2702,7 +2702,7 @@ bool MemoryUtilities::External::SetInt8(const HANDLE& hProcess, const uintptr_t&
         return false;
 
     /* Write the new integer value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2726,7 +2726,7 @@ bool MemoryUtilities::External::PatchInt8(const HANDLE& hProcess, const uintptr_
 
     /* Verify that the current value matches the expected one. */
     int8_t current = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead) 
         || bytesRead != sizeof(current))
@@ -2744,7 +2744,7 @@ bool MemoryUtilities::External::PatchInt8(const HANDLE& hProcess, const uintptr_
         return false;
 
     /* Write the new integer value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2768,7 +2768,7 @@ int8_t MemoryUtilities::External::IndirectGetInt8(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) || bytesRead != sizeof(dataAddress))
         return -1;
@@ -2801,7 +2801,7 @@ bool MemoryUtilities::External::IndirectSetInt8(const HANDLE& hProcess, const ui
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2820,7 +2820,7 @@ bool MemoryUtilities::External::IndirectSetInt8(const HANDLE& hProcess, const ui
         return false;
 
     /* Write the new integer value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2844,7 +2844,7 @@ bool MemoryUtilities::External::IndirectPatchInt8(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2872,7 +2872,7 @@ bool MemoryUtilities::External::IndirectPatchInt8(const HANDLE& hProcess, const 
         return false;
 
     /* Write the new integer value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2899,7 +2899,7 @@ int16_t MemoryUtilities::External::GetInt16(const HANDLE& hProcess, const uintpt
 
     /* Read and return the 16-bit integer from the target address. */
     int16_t value = -1;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -2930,7 +2930,7 @@ bool MemoryUtilities::External::SetInt16(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new integer value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2954,7 +2954,7 @@ bool MemoryUtilities::External::PatchInt16(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current value matches the expected one. */
     int16_t current = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -2972,7 +2972,7 @@ bool MemoryUtilities::External::PatchInt16(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new integer value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2996,7 +2996,7 @@ int16_t MemoryUtilities::External::IndirectGetInt16(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) || bytesRead != sizeof(dataAddress))
         return -1;
@@ -3029,7 +3029,7 @@ bool MemoryUtilities::External::IndirectSetInt16(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3048,7 +3048,7 @@ bool MemoryUtilities::External::IndirectSetInt16(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new integer value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3072,7 +3072,7 @@ bool MemoryUtilities::External::IndirectPatchInt16(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3100,7 +3100,7 @@ bool MemoryUtilities::External::IndirectPatchInt16(const HANDLE& hProcess, const
         return false;
 
     /* Write the new integer value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3127,7 +3127,7 @@ int32_t MemoryUtilities::External::GetInt32(const HANDLE& hProcess, const uintpt
 
     /* Read and return the 32-bit integer from the target address. */
     int32_t value = -1;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -3158,7 +3158,7 @@ bool MemoryUtilities::External::SetInt32(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new integer value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3182,7 +3182,7 @@ bool MemoryUtilities::External::PatchInt32(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current value matches the expected one. */
     int32_t current = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -3200,7 +3200,7 @@ bool MemoryUtilities::External::PatchInt32(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new integer value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3224,7 +3224,7 @@ int32_t MemoryUtilities::External::IndirectGetInt32(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3258,7 +3258,7 @@ bool MemoryUtilities::External::IndirectSetInt32(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3277,7 +3277,7 @@ bool MemoryUtilities::External::IndirectSetInt32(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new integer value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3301,7 +3301,7 @@ bool MemoryUtilities::External::IndirectPatchInt32(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3329,7 +3329,7 @@ bool MemoryUtilities::External::IndirectPatchInt32(const HANDLE& hProcess, const
         return false;
 
     /* Write the new integer value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3356,7 +3356,7 @@ int64_t MemoryUtilities::External::GetInt64(const HANDLE& hProcess, const uintpt
 
     /* Read and return the 64-bit integer from the target address. */
     int64_t value = -1;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -3387,7 +3387,7 @@ bool MemoryUtilities::External::SetInt64(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new integer value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3411,7 +3411,7 @@ bool MemoryUtilities::External::PatchInt64(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current value matches the expected one. */
     int64_t current = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -3429,7 +3429,7 @@ bool MemoryUtilities::External::PatchInt64(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new integer value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3453,7 +3453,7 @@ int64_t MemoryUtilities::External::IndirectGetInt64(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3487,7 +3487,7 @@ bool MemoryUtilities::External::IndirectSetInt64(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3506,7 +3506,7 @@ bool MemoryUtilities::External::IndirectSetInt64(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new integer value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3530,7 +3530,7 @@ bool MemoryUtilities::External::IndirectPatchInt64(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3558,7 +3558,7 @@ bool MemoryUtilities::External::IndirectPatchInt64(const HANDLE& hProcess, const
         return false;
 
     /* Write the new integer value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3585,7 +3585,7 @@ float MemoryUtilities::External::GetFloat(const HANDLE& hProcess, const uintptr_
 
     /* Read and return the 32-bit floating-point value from the target address. */
     float value = -1.0f;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -3616,7 +3616,7 @@ bool MemoryUtilities::External::SetFloat(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new floating-point value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetFloat, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3640,7 +3640,7 @@ bool MemoryUtilities::External::PatchFloat(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current value matches the expected one. */
     float current = 0.0f;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -3658,7 +3658,7 @@ bool MemoryUtilities::External::PatchFloat(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new floating-point value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetFloat, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3682,7 +3682,7 @@ float MemoryUtilities::External::IndirectGetFloat(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3716,7 +3716,7 @@ bool MemoryUtilities::External::IndirectSetFloat(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3735,7 +3735,7 @@ bool MemoryUtilities::External::IndirectSetFloat(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new floating-point value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetFloat, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3759,7 +3759,7 @@ bool MemoryUtilities::External::IndirectPatchFloat(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3787,7 +3787,7 @@ bool MemoryUtilities::External::IndirectPatchFloat(const HANDLE& hProcess, const
         return false;
 
     /* Write the new floating-point value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetFloat, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3814,7 +3814,7 @@ double MemoryUtilities::External::GetDouble(const HANDLE& hProcess, const uintpt
 
     /* Read and return the 64-bit floating-point value from the target address. */
     double value = -1.0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -3845,7 +3845,7 @@ bool MemoryUtilities::External::SetDouble(const HANDLE& hProcess, const uintptr_
         return false;
 
     /* Write the new floating-point value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetDouble, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3869,7 +3869,7 @@ bool MemoryUtilities::External::PatchDouble(const HANDLE& hProcess, const uintpt
 
     /* Verify that the current value matches the expected one. */
     double current = 0.0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -3887,7 +3887,7 @@ bool MemoryUtilities::External::PatchDouble(const HANDLE& hProcess, const uintpt
         return false;
 
     /* Write the new floating-point value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetDouble, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3911,7 +3911,7 @@ double MemoryUtilities::External::IndirectGetDouble(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3945,7 +3945,7 @@ bool MemoryUtilities::External::IndirectSetDouble(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3964,7 +3964,7 @@ bool MemoryUtilities::External::IndirectSetDouble(const HANDLE& hProcess, const 
         return false;
 
     /* Write the new floating-point value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetDouble, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3988,7 +3988,7 @@ bool MemoryUtilities::External::IndirectPatchDouble(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4016,7 +4016,7 @@ bool MemoryUtilities::External::IndirectPatchDouble(const HANDLE& hProcess, cons
         return false;
 
     /* Write the new floating-point value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetDouble, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -4075,7 +4075,7 @@ bool MemoryUtilities::External::SetString(const HANDLE& hProcess, const uintptr_
         return false;
 
     /* Write the new string value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetStr, newValue.c_str(), byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -4099,7 +4099,7 @@ bool MemoryUtilities::External::PatchString(const HANDLE& hProcess, const uintpt
 
     /* Verify that the current value matches the expected one. */
     std::vector<char> current(from.size());
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            current.data(), static_cast<size_t>(current.size()), &bytesRead)
         || bytesRead != current.size())
@@ -4117,7 +4117,7 @@ bool MemoryUtilities::External::PatchString(const HANDLE& hProcess, const uintpt
         return false;
 
     /* Write the new string value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, to.c_str(), byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -4147,7 +4147,7 @@ std::string MemoryUtilities::External::IndirectGetString(const HANDLE& hProcess,
 
     /* Read the data pointer from memoryAddress. */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4168,7 +4168,7 @@ std::string MemoryUtilities::External::IndirectGetString(const HANDLE& hProcess,
 
     /* Read the data pointer from memoryAddress. */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4195,7 +4195,7 @@ bool MemoryUtilities::External::IndirectSetString(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress. */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4212,7 +4212,7 @@ bool MemoryUtilities::External::IndirectSetString(const HANDLE& hProcess, const 
     if (VirtualProtectEx(hProcess, targetStr, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
         return false;
 
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetStr, newValue.c_str(), byteSize, &bytesWritten);
 
     DWORD tmp;
@@ -4235,7 +4235,7 @@ bool MemoryUtilities::External::IndirectPatchString(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress. */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4263,7 +4263,7 @@ bool MemoryUtilities::External::IndirectPatchString(const HANDLE& hProcess, cons
         return false;
 
     /* Write the new string value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, to.c_str(), byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -4322,7 +4322,7 @@ bool MemoryUtilities::External::SetWString(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new string value. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetStr, newValue.c_str(), byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -4346,7 +4346,7 @@ bool MemoryUtilities::External::PatchWString(const HANDLE& hProcess, const uintp
 
     /* Verify that the current value matches the expected one. */
     std::vector<wchar_t> current(from.size());
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     size_t expectBytes = static_cast<size_t>(current.size() * sizeof(wchar_t));
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            current.data(), expectBytes, &bytesRead)
@@ -4365,7 +4365,7 @@ bool MemoryUtilities::External::PatchWString(const HANDLE& hProcess, const uintp
         return false;
 
     /* Write the new string value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, to.c_str(), byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -4395,7 +4395,7 @@ std::wstring MemoryUtilities::External::IndirectGetWString(const HANDLE& hProces
 
     /* Read the data pointer from memoryAddress. */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4416,7 +4416,7 @@ std::wstring MemoryUtilities::External::IndirectGetWString(const HANDLE& hProces
 
     /* Read the data pointer from memoryAddress. */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4443,7 +4443,7 @@ bool MemoryUtilities::External::IndirectSetWString(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress. */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4460,7 +4460,7 @@ bool MemoryUtilities::External::IndirectSetWString(const HANDLE& hProcess, const
     if (VirtualProtectEx(hProcess, targetStr, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
         return false;
 
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetStr, newValue.c_str(), byteSize, &bytesWritten);
 
     DWORD tmp;
@@ -4483,7 +4483,7 @@ bool MemoryUtilities::External::IndirectPatchWString(const HANDLE& hProcess, con
 
     /* Read the data pointer from memoryAddress. */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4512,7 +4512,7 @@ bool MemoryUtilities::External::IndirectPatchWString(const HANDLE& hProcess, con
         return false;
 
     /* Write the new string value */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, to.c_str(), byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -4540,7 +4540,7 @@ std::vector<uint8_t> MemoryUtilities::External::GetBytes(const HANDLE& hProcess,
     std::vector<uint8_t> buffer(byteCount);
 
     /* Read and return the bytes from the target address. */
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            buffer.data(), buffer.size(), &bytesRead)
         || bytesRead != buffer.size())
@@ -4570,7 +4570,7 @@ bool MemoryUtilities::External::SetBytes(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new bytes. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, newBytes.data(), byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -4599,7 +4599,7 @@ bool MemoryUtilities::External::PatchBytes(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current bytes match the expected ones. */
     std::vector<uint8_t> current(fromBytes.size());
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            current.data(), current.size(), &bytesRead)
         || bytesRead != current.size())
@@ -4615,7 +4615,7 @@ bool MemoryUtilities::External::PatchBytes(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new bytes */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, toBytes.data(),
         static_cast<size_t>(toBytes.size()), &bytesWritten);
 
@@ -4640,7 +4640,7 @@ std::vector<uint8_t> MemoryUtilities::External::IndirectGetBytes(const HANDLE& h
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4675,7 +4675,7 @@ bool MemoryUtilities::External::IndirectSetBytes(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4693,7 +4693,7 @@ bool MemoryUtilities::External::IndirectSetBytes(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new bytes. */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, newBytes.data(), byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -4719,7 +4719,7 @@ bool MemoryUtilities::External::IndirectPatchBytes(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    size_t bytesRead = 0;
+    SIZE_T bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -4750,7 +4750,7 @@ bool MemoryUtilities::External::IndirectPatchBytes(const HANDLE& hProcess, const
         return false;
 
     /* Write the new bytes */
-    size_t bytesWritten = 0;
+    SIZE_T bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, toBytes.data(),
         static_cast<size_t>(toBytes.size()), &bytesWritten);
 
