@@ -34,7 +34,8 @@ std::string FileUtilities::ReadFileContents(const std::string& filePath)
 
     std::vector<char> buffer(fileSize.QuadPart); // Allocate memory for file contents.
     DWORD bytesRead;
-    if (!ReadFile(hFile, buffer.data(), static_cast<DWORD>(fileSize.QuadPart), &bytesRead, nullptr)) {
+    if (!ReadFile(hFile, buffer.data(), static_cast<DWORD>(fileSize.QuadPart), &bytesRead, nullptr)) 
+    {
         CloseHandle(hFile);
         return std::string();
     }
