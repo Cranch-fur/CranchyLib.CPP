@@ -308,7 +308,7 @@ bool MemoryUtilities::Internal::SetBool(const uintptr_t& memoryAddress, bool new
 
     /* Cast the address to bool* */
     bool* targetBool = reinterpret_cast<bool*>(memoryAddress);
-    SIZE_T byteSize = sizeof(bool);
+    size_t byteSize = sizeof(bool);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -341,7 +341,7 @@ bool MemoryUtilities::Internal::PatchBool(const uintptr_t& memoryAddress, bool f
     bool* targetBool = reinterpret_cast<bool*>(memoryAddress);
     if (*targetBool != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(bool);
+    size_t byteSize = sizeof(bool);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -398,7 +398,7 @@ bool MemoryUtilities::Internal::IndirectSetBool(const uintptr_t& memoryAddress, 
 
     /* Cast the address to bool* */
     bool* targetBool = reinterpret_cast<bool*>(dataAddress);
-    SIZE_T byteSize = sizeof(bool);
+    size_t byteSize = sizeof(bool);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -436,7 +436,7 @@ bool MemoryUtilities::Internal::IndirectPatchBool(const uintptr_t& memoryAddress
     bool* targetBool = reinterpret_cast<bool*>(dataAddress);
     if (*targetBool != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(bool);
+    size_t byteSize = sizeof(bool);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -486,7 +486,7 @@ bool MemoryUtilities::Internal::SetInt8(const uintptr_t& memoryAddress, int8_t n
 
     /* Cast the address to int8_t* */
     int8_t* targetInt = reinterpret_cast<int8_t*>(memoryAddress);
-    SIZE_T byteSize = sizeof(int8_t);
+    size_t byteSize = sizeof(int8_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -519,7 +519,7 @@ bool MemoryUtilities::Internal::PatchInt8(const uintptr_t& memoryAddress, int8_t
     int8_t* targetInt = reinterpret_cast<int8_t*>(memoryAddress);
     if (*targetInt != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(int8_t);
+    size_t byteSize = sizeof(int8_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -576,7 +576,7 @@ bool MemoryUtilities::Internal::IndirectSetInt8(const uintptr_t& memoryAddress, 
 
     /* Cast the address to int8_t* */
     int8_t* targetInt = reinterpret_cast<int8_t*>(dataAddress);
-    SIZE_T byteSize = sizeof(int8_t);
+    size_t byteSize = sizeof(int8_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -614,7 +614,7 @@ bool MemoryUtilities::Internal::IndirectPatchInt8(const uintptr_t& memoryAddress
     int8_t* targetInt = reinterpret_cast<int8_t*>(dataAddress);
     if (*targetInt != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(int8_t);
+    size_t byteSize = sizeof(int8_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -665,7 +665,7 @@ bool MemoryUtilities::Internal::SetInt16(const uintptr_t& memoryAddress, int16_t
 
     /* Cast the address to int16_t* */
     int16_t* targetInt = reinterpret_cast<int16_t*>(memoryAddress);
-    SIZE_T byteSize = sizeof(int16_t);
+    size_t byteSize = sizeof(int16_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -698,7 +698,7 @@ bool MemoryUtilities::Internal::PatchInt16(const uintptr_t& memoryAddress, int16
     int16_t* targetInt = reinterpret_cast<int16_t*>(memoryAddress);
     if (*targetInt != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(int16_t);
+    size_t byteSize = sizeof(int16_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -755,7 +755,7 @@ bool MemoryUtilities::Internal::IndirectSetInt16(const uintptr_t& memoryAddress,
 
     /* Cast the address to int16_t* */
     int16_t* targetInt = reinterpret_cast<int16_t*>(dataAddress);
-    SIZE_T byteSize = sizeof(int16_t);
+    size_t byteSize = sizeof(int16_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -793,7 +793,7 @@ bool MemoryUtilities::Internal::IndirectPatchInt16(const uintptr_t& memoryAddres
     int16_t* targetInt = reinterpret_cast<int16_t*>(dataAddress);
     if (*targetInt != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(int16_t);
+    size_t byteSize = sizeof(int16_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -845,7 +845,7 @@ bool MemoryUtilities::Internal::SetInt32(const uintptr_t& memoryAddress, int32_t
 
     /* Cast the address to int32_t* */
     int32_t* targetInt = reinterpret_cast<int32_t*>(memoryAddress);
-    SIZE_T byteSize = sizeof(int32_t);
+    size_t byteSize = sizeof(int32_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -878,7 +878,7 @@ bool MemoryUtilities::Internal::PatchInt32(const uintptr_t& memoryAddress, int32
     int32_t* targetInt = reinterpret_cast<int32_t*>(memoryAddress);
     if (*targetInt != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(int32_t);
+    size_t byteSize = sizeof(int32_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -938,7 +938,7 @@ bool MemoryUtilities::Internal::IndirectSetInt32(const uintptr_t& memoryAddress,
 
     /* Cast the address to int32_t* */
     int32_t* targetInt = reinterpret_cast<int32_t*>(dataAddress);
-    SIZE_T byteSize = sizeof(int32_t);
+    size_t byteSize = sizeof(int32_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -976,7 +976,7 @@ bool MemoryUtilities::Internal::IndirectPatchInt32(const uintptr_t& memoryAddres
     int32_t* targetInt = reinterpret_cast<int32_t*>(dataAddress);
     if (*targetInt != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(int32_t);
+    size_t byteSize = sizeof(int32_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1026,7 +1026,7 @@ bool MemoryUtilities::Internal::SetInt64(const uintptr_t& memoryAddress, int64_t
 
     /* Cast the address to int64_t* */
     int64_t* targetInt = reinterpret_cast<int64_t*>(memoryAddress);
-    SIZE_T byteSize = sizeof(int64_t);
+    size_t byteSize = sizeof(int64_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1059,7 +1059,7 @@ bool MemoryUtilities::Internal::PatchInt64(const uintptr_t& memoryAddress, int64
     int64_t* targetInt = reinterpret_cast<int64_t*>(memoryAddress);
     if (*targetInt != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(int64_t);
+    size_t byteSize = sizeof(int64_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1116,7 +1116,7 @@ bool MemoryUtilities::Internal::IndirectSetInt64(const uintptr_t& memoryAddress,
 
     /* Cast the address to int64_t* */
     int64_t* targetInt = reinterpret_cast<int64_t*>(dataAddress);
-    SIZE_T byteSize = sizeof(int64_t);
+    size_t byteSize = sizeof(int64_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1154,7 +1154,7 @@ bool MemoryUtilities::Internal::IndirectPatchInt64(const uintptr_t& memoryAddres
     int64_t* targetInt = reinterpret_cast<int64_t*>(dataAddress);
     if (*targetInt != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(int64_t);
+    size_t byteSize = sizeof(int64_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1204,7 +1204,7 @@ bool MemoryUtilities::Internal::SetFloat(const uintptr_t& memoryAddress, float n
 
     /* Cast the address to float* */
     float* targetFloat = reinterpret_cast<float*>(memoryAddress);
-    SIZE_T byteSize = sizeof(float);
+    size_t byteSize = sizeof(float);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1237,7 +1237,7 @@ bool MemoryUtilities::Internal::PatchFloat(const uintptr_t& memoryAddress, float
     float* targetFloat = reinterpret_cast<float*>(memoryAddress);
     if (*targetFloat != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(float);
+    size_t byteSize = sizeof(float);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1294,7 +1294,7 @@ bool MemoryUtilities::Internal::IndirectSetFloat(const uintptr_t& memoryAddress,
 
     /* Cast the address to float* */
     float* targetFloat = reinterpret_cast<float*>(dataAddress);
-    SIZE_T byteSize = sizeof(float);
+    size_t byteSize = sizeof(float);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1332,7 +1332,7 @@ bool MemoryUtilities::Internal::IndirectPatchFloat(const uintptr_t& memoryAddres
     float* targetFloat = reinterpret_cast<float*>(dataAddress);
     if (*targetFloat != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(float);
+    size_t byteSize = sizeof(float);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1382,7 +1382,7 @@ bool MemoryUtilities::Internal::SetDouble(const uintptr_t& memoryAddress, double
 
     /* Cast the address to double* */
     double* targetDouble = reinterpret_cast<double*>(memoryAddress);
-    SIZE_T byteSize = sizeof(double);
+    size_t byteSize = sizeof(double);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1415,7 +1415,7 @@ bool MemoryUtilities::Internal::PatchDouble(const uintptr_t& memoryAddress, doub
     double* targetDouble = reinterpret_cast<double*>(memoryAddress);
     if (*targetDouble != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(double);
+    size_t byteSize = sizeof(double);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1472,7 +1472,7 @@ bool MemoryUtilities::Internal::IndirectSetDouble(const uintptr_t& memoryAddress
 
     /* Cast the address to double* */
     double* targetDouble = reinterpret_cast<double*>(dataAddress);
-    SIZE_T byteSize = sizeof(double);
+    size_t byteSize = sizeof(double);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1510,7 +1510,7 @@ bool MemoryUtilities::Internal::IndirectPatchDouble(const uintptr_t& memoryAddre
     double* targetDouble = reinterpret_cast<double*>(dataAddress);
     if (*targetDouble != from) // Only patch if the current value matches 'from'.
         return false;
-    SIZE_T byteSize = sizeof(double);
+    size_t byteSize = sizeof(double);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1578,7 +1578,7 @@ bool MemoryUtilities::Internal::SetString(const uintptr_t& memoryAddress, const 
 
     /* Cast the address to char* */
     char* targetStr = reinterpret_cast<char*>(memoryAddress);
-    SIZE_T byteSize = newValue.size() + 1; // +1 for null terminator
+    size_t byteSize = newValue.size() + 1; // +1 for null terminator
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1612,7 +1612,7 @@ bool MemoryUtilities::Internal::PatchString(const uintptr_t& memoryAddress, cons
     if (strncmp(currentStr, from.c_str(), from.size()) != 0)
         return false;
 
-    SIZE_T byteSize = to.size() + 1;
+    size_t byteSize = to.size() + 1;
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1695,7 +1695,7 @@ bool MemoryUtilities::Internal::IndirectSetString(const uintptr_t& memoryAddress
 
     /* Cast the address to char* */
     char* targetStr = reinterpret_cast<char*>(dataAddress);
-    SIZE_T byteSize = newValue.size() + 1;
+    size_t byteSize = newValue.size() + 1;
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1734,7 +1734,7 @@ bool MemoryUtilities::Internal::IndirectPatchString(const uintptr_t& memoryAddre
     if (strncmp(currentStr, from.c_str(), from.size()) != 0)
         return false;
 
-    SIZE_T byteSize = to.size() + 1;
+    size_t byteSize = to.size() + 1;
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1802,7 +1802,7 @@ bool MemoryUtilities::Internal::SetWString(const uintptr_t& memoryAddress, const
 
     /* Cast the address to wchar_t* */
     wchar_t* targetStr = reinterpret_cast<wchar_t*>(memoryAddress);
-    SIZE_T byteSize = (newValue.size() + 1) * sizeof(wchar_t); // +1 for null terminator
+    size_t byteSize = (newValue.size() + 1) * sizeof(wchar_t); // +1 for null terminator
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1836,7 +1836,7 @@ bool MemoryUtilities::Internal::PatchWString(const uintptr_t& memoryAddress, con
     if (wcsncmp(currentStr, from.c_str(), from.size()) != 0)
         return false;
 
-    SIZE_T byteSize = (to.size() + 1) * sizeof(wchar_t);
+    size_t byteSize = (to.size() + 1) * sizeof(wchar_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1852,9 +1852,6 @@ bool MemoryUtilities::Internal::PatchWString(const uintptr_t& memoryAddress, con
 
     return true;
 }
-
-
-
 
 std::wstring MemoryUtilities::Internal::IndirectGetWString(const void* memoryPtr)
 {
@@ -1919,7 +1916,7 @@ bool MemoryUtilities::Internal::IndirectSetWString(const uintptr_t& memoryAddres
 
     /* Cast the address to wchar_t* */
     wchar_t* targetStr = reinterpret_cast<wchar_t*>(dataAddress);
-    SIZE_T byteSize = (newValue.size() + 1) * sizeof(wchar_t);
+    size_t byteSize = (newValue.size() + 1) * sizeof(wchar_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -1958,7 +1955,7 @@ bool MemoryUtilities::Internal::IndirectPatchWString(const uintptr_t& memoryAddr
     if (wcsncmp(currentStr, from.c_str(), from.size()) != 0)
         return false;
 
-    SIZE_T byteSize = (to.size() + 1) * sizeof(wchar_t);
+    size_t byteSize = (to.size() + 1) * sizeof(wchar_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -1996,64 +1993,73 @@ std::vector<uint8_t> MemoryUtilities::Internal::GetBytes(const uintptr_t& memory
     return buffer;
 }
 
-bool MemoryUtilities::Internal::SetBytes(const void* memoryPtr, const uint8_t* newBytes, size_t byteCount)
+bool MemoryUtilities::Internal::SetBytes(const void* memoryPtr, const std::vector<uint8_t>& newBytes)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
-    return SetBytes(memoryAddress, newBytes, byteCount);
+    return SetBytes(memoryAddress, newBytes);
 }
 
-bool MemoryUtilities::Internal::SetBytes(const uintptr_t& memoryAddress, const uint8_t* newBytes, size_t byteCount)
+bool MemoryUtilities::Internal::SetBytes(const uintptr_t& memoryAddress, const std::vector<uint8_t>& newBytes)
 {
     /* Verify that the address is valid. */
-    if (IsValidAddress(memoryAddress) == false)
+    if (IsValidAddress(memoryAddress) == false || newBytes.empty())
         return false;
 
-    uint8_t* target = reinterpret_cast<uint8_t*>(memoryAddress);
+    LPVOID target = reinterpret_cast<LPVOID>(memoryAddress);
+    size_t byteSize = newBytes.size();
 
     /* Make the memory region writable. */
     DWORD oldProtect;
-    if (VirtualProtect(target, byteCount, PAGE_EXECUTE_READWRITE, &oldProtect) == false)
+    if (VirtualProtect(target, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
         return false;
 
     /* Write the new bytes. */
-    memcpy(target, newBytes, byteCount);
+    std::memcpy(target, newBytes.data(), byteSize);
 
     /* Restore the original protection. */
     DWORD tmp;
-    VirtualProtect(target, byteCount, oldProtect, &tmp);
+    VirtualProtect(target, byteSize, oldProtect, &tmp);
 
     return true;
 }
 
-bool MemoryUtilities::Internal::PatchBytes(const void* memoryPtr, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
+bool MemoryUtilities::Internal::PatchBytes(const void* memoryPtr, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
-    return PatchBytes(memoryAddress, fromBytes, toBytes, byteCount);
+    return PatchBytes(memoryAddress, fromBytes, toBytes);
 }
 
-bool MemoryUtilities::Internal::PatchBytes(const uintptr_t& memoryAddress, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
+bool MemoryUtilities::Internal::PatchBytes(const uintptr_t& memoryAddress, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
         return false;
 
-    uint8_t* target = reinterpret_cast<uint8_t*>(memoryAddress);
+    /* Sizes must match to patch deterministically. */
+    if (fromBytes.size() != toBytes.size())
+        return false;
+
+    /* Nothing to patch -> succeed. */
+    if (fromBytes.empty())
+        return true;
+
+    LPVOID target = reinterpret_cast<LPVOID>(memoryAddress);
 
     /* Verify that the current bytes match the expected ones. */
-    if (memcmp(target, fromBytes, byteCount) != 0) // Only patch if the current bytes match 'fromBytes'.
+    if (std::memcmp(target, fromBytes.data(), fromBytes.size()) != 0)
         return false;
 
-    /* Make the memory region writable */
+    /* Make the memory region writable. */
     DWORD oldProtect;
-    if (VirtualProtect(target, byteCount, PAGE_EXECUTE_READWRITE, &oldProtect) == false)
+    if (VirtualProtect(target, toBytes.size(), PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
         return false;
 
-    /* Write the new bytes */
-    memcpy(target, toBytes, byteCount);
+    /* Write the new bytes. */
+    std::memcpy(target, toBytes.data(), toBytes.size());
 
-    /* Restore the original protection */
+    /* Restore the original protection. */
     DWORD tmp;
-    VirtualProtect(target, byteCount, oldProtect, &tmp);
+    VirtualProtect(target, toBytes.size(), oldProtect, &tmp);
 
     return true;
 }
@@ -2081,13 +2087,13 @@ std::vector<uint8_t> MemoryUtilities::Internal::IndirectGetBytes(const uintptr_t
     return buffer;
 }
 
-bool MemoryUtilities::Internal::IndirectSetBytes(const void* memoryPtr, const uint8_t* newBytes, size_t byteCount)
+bool MemoryUtilities::Internal::IndirectSetBytes(const void* memoryPtr, const std::vector<uint8_t>& newBytes)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
-    return IndirectSetBytes(memoryAddress, newBytes, byteCount);
+    return IndirectSetBytes(memoryAddress, newBytes);
 }
 
-bool MemoryUtilities::Internal::IndirectSetBytes(const uintptr_t& memoryAddress, const uint8_t* newBytes, size_t byteCount)
+bool MemoryUtilities::Internal::IndirectSetBytes(const uintptr_t& memoryAddress, const std::vector<uint8_t>& newBytes)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -2098,29 +2104,35 @@ bool MemoryUtilities::Internal::IndirectSetBytes(const uintptr_t& memoryAddress,
     if (IsValidAddress(dataAddress) == false)
         return false;
 
-    uint8_t* target = reinterpret_cast<uint8_t*>(dataAddress);
+    /* Nothing to write -> succeed. */
+    if (newBytes.empty())
+        return true;
+
+    LPVOID target = reinterpret_cast<LPVOID>(dataAddress);
+    size_t byteSize = newBytes.size();
+
     /* Make the memory region writable. */
     DWORD oldProtect;
-    if (VirtualProtect(target, byteCount, PAGE_EXECUTE_READWRITE, &oldProtect) == false)
+    if (VirtualProtect(target, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
         return false;
 
     /* Write the new bytes. */
-    memcpy(target, newBytes, byteCount);
+    std::memcpy(target, newBytes.data(), byteSize);
 
     /* Restore the original protection. */
     DWORD tmp;
-    VirtualProtect(target, byteCount, oldProtect, &tmp);
+    VirtualProtect(target, byteSize, oldProtect, &tmp);
 
     return true;
 }
 
-bool MemoryUtilities::Internal::IndirectPatchBytes(const void* memoryPtr, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
+bool MemoryUtilities::Internal::IndirectPatchBytes(const void* memoryPtr, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes)
 {
     uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
-    return IndirectPatchBytes(memoryAddress, fromBytes, toBytes, byteCount);
+    return IndirectPatchBytes(memoryAddress, fromBytes, toBytes);
 }
 
-bool MemoryUtilities::Internal::IndirectPatchBytes(const uintptr_t& memoryAddress, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount)
+bool MemoryUtilities::Internal::IndirectPatchBytes(const uintptr_t& memoryAddress, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes)
 {
     /* Verify that the address is valid. */
     if (IsValidAddress(memoryAddress) == false)
@@ -2131,23 +2143,31 @@ bool MemoryUtilities::Internal::IndirectPatchBytes(const uintptr_t& memoryAddres
     if (IsValidAddress(dataAddress) == false)
         return false;
 
-    uint8_t* target = reinterpret_cast<uint8_t*>(dataAddress);
+    /* Sizes must match. */
+    if (fromBytes.size() != toBytes.size())
+        return false;
+
+    /* Nothing to patch -> succeed. */
+    if (fromBytes.empty())
+        return true;
+
+    LPVOID target = reinterpret_cast<LPVOID>(dataAddress);
 
     /* Verify that the current bytes match the expected ones. */
-    if (memcmp(target, fromBytes, byteCount) != 0) // Only patch if the current bytes match 'fromBytes'.
+    if (std::memcmp(target, fromBytes.data(), fromBytes.size()) != 0)
         return false;
 
-    /* Make the memory region writable */
+    /* Make the memory region writable. */
     DWORD oldProtect;
-    if (VirtualProtect(target, byteCount, PAGE_EXECUTE_READWRITE, &oldProtect) == false)
+    if (VirtualProtect(target, toBytes.size(), PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
         return false;
 
-    /* Write the new bytes */
-    memcpy(target, toBytes, byteCount);
+    /* Write the new bytes. */
+    std::memcpy(target, toBytes.data(), toBytes.size());
 
-    /* Restore the original protection */
+    /* Restore the original protection. */
     DWORD tmp;
-    VirtualProtect(target, byteCount, oldProtect, &tmp);
+    VirtualProtect(target, toBytes.size(), oldProtect, &tmp);
 
     return true;
 }
@@ -2166,9 +2186,9 @@ std::string MemoryUtilities::External::ReadRemoteString(const HANDLE& hProcess, 
     if (IsValidAddress(hProcess, memoryAddress) == false || maxLength == 0)
         return std::string();
 
-    const SIZE_T kChunk = 256;
+    const size_t kChunk = 256; // number of char_t per chunk.
     std::string result;
-    result.reserve(std::min<size_t>(maxLength, 256));
+    result.reserve(std::min<size_t>(maxLength, kChunk));
 
     uintptr_t cursor = memoryAddress;
     size_t remaining = maxLength;
@@ -2176,11 +2196,11 @@ std::string MemoryUtilities::External::ReadRemoteString(const HANDLE& hProcess, 
 
     while (remaining > 0)
     {
-        SIZE_T toRead = static_cast<SIZE_T>(std::min<size_t>(remaining, kChunk));
-        SIZE_T bytesRead = 0;
+        size_t toRead = std::min<size_t>(remaining, kChunk);
+        size_t bytesRead = 0;
 
         if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(cursor),
-            buf.data(), toRead, &bytesRead)
+                               buf.data(), toRead, &bytesRead)
             || bytesRead == 0)
             break; // Could not read further; return what we have.
 
@@ -2200,6 +2220,60 @@ std::string MemoryUtilities::External::ReadRemoteString(const HANDLE& hProcess, 
         remaining -= static_cast<size_t>(bytesRead);
 
         if (bytesRead < toRead)
+            break; // Likely hit an unreadable boundary.
+    }
+
+    return result; // May be exactly maxLength or shorter if we hit a boundary.
+}
+
+std::wstring MemoryUtilities::External::ReadRemoteWString(const HANDLE& hProcess, const uintptr_t memoryAddress, size_t maxLength /*= 256*/)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false || maxLength == 0)
+        return std::wstring();
+
+    const size_t kChunk = 256; // number of wchar_t per chunk.
+    std::wstring result;
+    result.reserve(std::min<size_t>(maxLength, kChunk));
+
+    uintptr_t cursor = memoryAddress;
+    size_t remaining = maxLength;
+    std::vector<wchar_t> buf(kChunk);
+
+    while (remaining > 0)
+    {
+        size_t toReadChars = std::min<size_t>(remaining, kChunk);
+        size_t toReadBytes = toReadChars * static_cast<size_t>(sizeof(wchar_t));
+        size_t bytesRead = 0;
+
+        if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(cursor),
+                               buf.data(), toReadBytes, &bytesRead)
+            || bytesRead == 0)
+            break; // Could not read further; return what we have.
+
+        // Work only with the full wchar_t elements we actually read.
+        size_t elemsRead = bytesRead / sizeof(wchar_t);
+        if (elemsRead == 0)
+            break; // Partial wchar_t or unreadable; stop.
+
+        // Look for L'\0' in the portion we actually read.
+        auto begin = buf.begin();
+        auto end = buf.begin() + elemsRead;
+        auto nulIt = std::find(begin, end, L'\0');
+        if (nulIt != end)
+        {
+            const size_t chunkLen = static_cast<size_t>(std::distance(begin, nulIt));
+            result.append(buf.data(), chunkLen);
+            return result;
+        }
+
+        // No NUL; append all characters read and continue until we hit maxLength.
+        result.append(buf.data(), static_cast<size_t>(elemsRead));
+
+        cursor += bytesRead;
+        remaining -= static_cast<size_t>(elemsRead);
+
+        if (elemsRead < toReadChars)
             break; // Likely hit an unreadable boundary.
     }
 
@@ -2338,7 +2412,7 @@ uintptr_t MemoryUtilities::External::AddressFollowPointerChain(const HANDLE& hPr
 
         /* Read the next pointer value from memory and add the current offset to advance to the next address in the chain. */
         uintptr_t nextPtr = 0;
-        SIZE_T bytesRead = 0;
+        size_t bytesRead = 0;
         if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(newMemoryAddress),
                                &nextPtr, sizeof(nextPtr), &bytesRead) 
             || bytesRead != sizeof(nextPtr))
@@ -2369,7 +2443,7 @@ bool MemoryUtilities::External::GetBool(const HANDLE& hProcess, const uintptr_t&
 
     /* Read and return the boolean value from the target address. */
     bool value = false;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead) 
         || bytesRead != sizeof(value))
@@ -2392,7 +2466,7 @@ bool MemoryUtilities::External::SetBool(const HANDLE& hProcess, const uintptr_t&
 
     /* Cast the address to bool* */
     LPVOID targetBool = reinterpret_cast<LPVOID>(memoryAddress);
-    SIZE_T byteSize = sizeof(bool);
+    size_t byteSize = sizeof(bool);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -2400,7 +2474,7 @@ bool MemoryUtilities::External::SetBool(const HANDLE& hProcess, const uintptr_t&
         return false;
 
     /* Write the new boolean value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetBool, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2424,7 +2498,7 @@ bool MemoryUtilities::External::PatchBool(const HANDLE& hProcess, const uintptr_
 
     /* Verify that the current value matches the expected one. */
     bool current = false;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead) 
         || bytesRead != sizeof(current))
@@ -2433,7 +2507,7 @@ bool MemoryUtilities::External::PatchBool(const HANDLE& hProcess, const uintptr_
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(bool);
+    size_t byteSize = sizeof(bool);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -2442,7 +2516,7 @@ bool MemoryUtilities::External::PatchBool(const HANDLE& hProcess, const uintptr_
         return false;
 
     /* Write the new boolean value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetBool, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2466,7 +2540,7 @@ bool MemoryUtilities::External::IndirectGetBool(const HANDLE& hProcess, const ui
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2500,7 +2574,7 @@ bool MemoryUtilities::External::IndirectSetBool(const HANDLE& hProcess, const ui
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2511,7 +2585,7 @@ bool MemoryUtilities::External::IndirectSetBool(const HANDLE& hProcess, const ui
 
     /* Cast the address to bool* */
     LPVOID targetBool = reinterpret_cast<LPVOID>(dataAddress);
-    SIZE_T byteSize = sizeof(bool);
+    size_t byteSize = sizeof(bool);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -2519,7 +2593,7 @@ bool MemoryUtilities::External::IndirectSetBool(const HANDLE& hProcess, const ui
         return false;
 
     /* Write the new boolean value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetBool, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2543,7 +2617,7 @@ bool MemoryUtilities::External::IndirectPatchBool(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2561,7 +2635,7 @@ bool MemoryUtilities::External::IndirectPatchBool(const HANDLE& hProcess, const 
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(bool);
+    size_t byteSize = sizeof(bool);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -2570,7 +2644,7 @@ bool MemoryUtilities::External::IndirectPatchBool(const HANDLE& hProcess, const 
         return false;
 
     /* Write the new boolean value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetBool, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2597,7 +2671,7 @@ int8_t MemoryUtilities::External::GetInt8(const HANDLE& hProcess, const uintptr_
 
     /* Read and return the 8-bit integer from the target address. */
     int8_t value = -1;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead) 
         || bytesRead != sizeof(value))
@@ -2620,7 +2694,7 @@ bool MemoryUtilities::External::SetInt8(const HANDLE& hProcess, const uintptr_t&
 
     /* Cast the address to int8_t* */
     LPVOID targetInt = reinterpret_cast<LPVOID>(memoryAddress);
-    SIZE_T byteSize = sizeof(int8_t);
+    size_t byteSize = sizeof(int8_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -2628,7 +2702,7 @@ bool MemoryUtilities::External::SetInt8(const HANDLE& hProcess, const uintptr_t&
         return false;
 
     /* Write the new integer value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2652,7 +2726,7 @@ bool MemoryUtilities::External::PatchInt8(const HANDLE& hProcess, const uintptr_
 
     /* Verify that the current value matches the expected one. */
     int8_t current = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead) 
         || bytesRead != sizeof(current))
@@ -2661,7 +2735,7 @@ bool MemoryUtilities::External::PatchInt8(const HANDLE& hProcess, const uintptr_
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(int8_t);
+    size_t byteSize = sizeof(int8_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -2670,7 +2744,7 @@ bool MemoryUtilities::External::PatchInt8(const HANDLE& hProcess, const uintptr_
         return false;
 
     /* Write the new integer value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2694,7 +2768,7 @@ int8_t MemoryUtilities::External::IndirectGetInt8(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) || bytesRead != sizeof(dataAddress))
         return -1;
@@ -2727,7 +2801,7 @@ bool MemoryUtilities::External::IndirectSetInt8(const HANDLE& hProcess, const ui
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2738,7 +2812,7 @@ bool MemoryUtilities::External::IndirectSetInt8(const HANDLE& hProcess, const ui
 
     /* Cast the address to int8_t* */
     LPVOID targetInt = reinterpret_cast<LPVOID>(dataAddress);
-    SIZE_T byteSize = sizeof(int8_t);
+    size_t byteSize = sizeof(int8_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -2746,7 +2820,7 @@ bool MemoryUtilities::External::IndirectSetInt8(const HANDLE& hProcess, const ui
         return false;
 
     /* Write the new integer value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2770,7 +2844,7 @@ bool MemoryUtilities::External::IndirectPatchInt8(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) 
         || bytesRead != sizeof(dataAddress))
@@ -2789,7 +2863,7 @@ bool MemoryUtilities::External::IndirectPatchInt8(const HANDLE& hProcess, const 
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(int8_t);
+    size_t byteSize = sizeof(int8_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -2798,7 +2872,7 @@ bool MemoryUtilities::External::IndirectPatchInt8(const HANDLE& hProcess, const 
         return false;
 
     /* Write the new integer value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2825,7 +2899,7 @@ int16_t MemoryUtilities::External::GetInt16(const HANDLE& hProcess, const uintpt
 
     /* Read and return the 16-bit integer from the target address. */
     int16_t value = -1;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -2848,7 +2922,7 @@ bool MemoryUtilities::External::SetInt16(const HANDLE& hProcess, const uintptr_t
 
     /* Cast the address to int16_t* */
     LPVOID targetInt = reinterpret_cast<LPVOID>(memoryAddress);
-    SIZE_T byteSize = sizeof(int16_t);
+    size_t byteSize = sizeof(int16_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -2856,7 +2930,7 @@ bool MemoryUtilities::External::SetInt16(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new integer value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2880,7 +2954,7 @@ bool MemoryUtilities::External::PatchInt16(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current value matches the expected one. */
     int16_t current = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -2889,7 +2963,7 @@ bool MemoryUtilities::External::PatchInt16(const HANDLE& hProcess, const uintptr
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(int16_t);
+    size_t byteSize = sizeof(int16_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -2898,7 +2972,7 @@ bool MemoryUtilities::External::PatchInt16(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new integer value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -2922,7 +2996,7 @@ int16_t MemoryUtilities::External::IndirectGetInt16(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead) || bytesRead != sizeof(dataAddress))
         return -1;
@@ -2955,7 +3029,7 @@ bool MemoryUtilities::External::IndirectSetInt16(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -2966,7 +3040,7 @@ bool MemoryUtilities::External::IndirectSetInt16(const HANDLE& hProcess, const u
 
     /* Cast the address to int16_t* */
     LPVOID targetInt = reinterpret_cast<LPVOID>(dataAddress);
-    SIZE_T byteSize = sizeof(int16_t);
+    size_t byteSize = sizeof(int16_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -2974,7 +3048,7 @@ bool MemoryUtilities::External::IndirectSetInt16(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new integer value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -2998,7 +3072,7 @@ bool MemoryUtilities::External::IndirectPatchInt16(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3017,7 +3091,7 @@ bool MemoryUtilities::External::IndirectPatchInt16(const HANDLE& hProcess, const
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(int16_t);
+    size_t byteSize = sizeof(int16_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3026,7 +3100,7 @@ bool MemoryUtilities::External::IndirectPatchInt16(const HANDLE& hProcess, const
         return false;
 
     /* Write the new integer value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3053,7 +3127,7 @@ int32_t MemoryUtilities::External::GetInt32(const HANDLE& hProcess, const uintpt
 
     /* Read and return the 32-bit integer from the target address. */
     int32_t value = -1;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -3076,7 +3150,7 @@ bool MemoryUtilities::External::SetInt32(const HANDLE& hProcess, const uintptr_t
 
     /* Cast the address to int32_t* */
     LPVOID targetInt = reinterpret_cast<LPVOID>(memoryAddress);
-    SIZE_T byteSize = sizeof(int32_t);
+    size_t byteSize = sizeof(int32_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -3084,7 +3158,7 @@ bool MemoryUtilities::External::SetInt32(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new integer value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3108,7 +3182,7 @@ bool MemoryUtilities::External::PatchInt32(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current value matches the expected one. */
     int32_t current = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -3117,7 +3191,7 @@ bool MemoryUtilities::External::PatchInt32(const HANDLE& hProcess, const uintptr
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(int32_t);
+    size_t byteSize = sizeof(int32_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3126,7 +3200,7 @@ bool MemoryUtilities::External::PatchInt32(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new integer value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3150,7 +3224,7 @@ int32_t MemoryUtilities::External::IndirectGetInt32(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3184,7 +3258,7 @@ bool MemoryUtilities::External::IndirectSetInt32(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3195,7 +3269,7 @@ bool MemoryUtilities::External::IndirectSetInt32(const HANDLE& hProcess, const u
 
     /* Cast the address to int32_t* */
     LPVOID targetInt = reinterpret_cast<LPVOID>(dataAddress);
-    SIZE_T byteSize = sizeof(int32_t);
+    size_t byteSize = sizeof(int32_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -3203,7 +3277,7 @@ bool MemoryUtilities::External::IndirectSetInt32(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new integer value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3227,7 +3301,7 @@ bool MemoryUtilities::External::IndirectPatchInt32(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3246,7 +3320,7 @@ bool MemoryUtilities::External::IndirectPatchInt32(const HANDLE& hProcess, const
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(int32_t);
+    size_t byteSize = sizeof(int32_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3255,7 +3329,7 @@ bool MemoryUtilities::External::IndirectPatchInt32(const HANDLE& hProcess, const
         return false;
 
     /* Write the new integer value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3282,7 +3356,7 @@ int64_t MemoryUtilities::External::GetInt64(const HANDLE& hProcess, const uintpt
 
     /* Read and return the 64-bit integer from the target address. */
     int64_t value = -1;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -3305,7 +3379,7 @@ bool MemoryUtilities::External::SetInt64(const HANDLE& hProcess, const uintptr_t
 
     /* Cast the address to int64_t* */
     LPVOID targetInt = reinterpret_cast<LPVOID>(memoryAddress);
-    SIZE_T byteSize = sizeof(int64_t);
+    size_t byteSize = sizeof(int64_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -3313,7 +3387,7 @@ bool MemoryUtilities::External::SetInt64(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new integer value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3337,7 +3411,7 @@ bool MemoryUtilities::External::PatchInt64(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current value matches the expected one. */
     int64_t current = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -3346,7 +3420,7 @@ bool MemoryUtilities::External::PatchInt64(const HANDLE& hProcess, const uintptr
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(int64_t);
+    size_t byteSize = sizeof(int64_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3355,7 +3429,7 @@ bool MemoryUtilities::External::PatchInt64(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new integer value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3379,7 +3453,7 @@ int64_t MemoryUtilities::External::IndirectGetInt64(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3413,7 +3487,7 @@ bool MemoryUtilities::External::IndirectSetInt64(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3424,7 +3498,7 @@ bool MemoryUtilities::External::IndirectSetInt64(const HANDLE& hProcess, const u
 
     /* Cast the address to int64_t* */
     LPVOID targetInt = reinterpret_cast<LPVOID>(dataAddress);
-    SIZE_T byteSize = sizeof(int64_t);
+    size_t byteSize = sizeof(int64_t);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -3432,7 +3506,7 @@ bool MemoryUtilities::External::IndirectSetInt64(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new integer value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3456,7 +3530,7 @@ bool MemoryUtilities::External::IndirectPatchInt64(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3475,7 +3549,7 @@ bool MemoryUtilities::External::IndirectPatchInt64(const HANDLE& hProcess, const
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(int64_t);
+    size_t byteSize = sizeof(int64_t);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3484,7 +3558,7 @@ bool MemoryUtilities::External::IndirectPatchInt64(const HANDLE& hProcess, const
         return false;
 
     /* Write the new integer value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetInt, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3511,7 +3585,7 @@ float MemoryUtilities::External::GetFloat(const HANDLE& hProcess, const uintptr_
 
     /* Read and return the 32-bit floating-point value from the target address. */
     float value = -1.0f;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -3534,7 +3608,7 @@ bool MemoryUtilities::External::SetFloat(const HANDLE& hProcess, const uintptr_t
 
     /* Cast the address to float* */
     LPVOID targetFloat = reinterpret_cast<LPVOID>(memoryAddress);
-    SIZE_T byteSize = sizeof(float);
+    size_t byteSize = sizeof(float);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -3542,7 +3616,7 @@ bool MemoryUtilities::External::SetFloat(const HANDLE& hProcess, const uintptr_t
         return false;
 
     /* Write the new floating-point value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetFloat, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3566,7 +3640,7 @@ bool MemoryUtilities::External::PatchFloat(const HANDLE& hProcess, const uintptr
 
     /* Verify that the current value matches the expected one. */
     float current = 0.0f;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -3575,7 +3649,7 @@ bool MemoryUtilities::External::PatchFloat(const HANDLE& hProcess, const uintptr
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(float);
+    size_t byteSize = sizeof(float);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3584,7 +3658,7 @@ bool MemoryUtilities::External::PatchFloat(const HANDLE& hProcess, const uintptr
         return false;
 
     /* Write the new floating-point value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetFloat, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3608,7 +3682,7 @@ float MemoryUtilities::External::IndirectGetFloat(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3642,7 +3716,7 @@ bool MemoryUtilities::External::IndirectSetFloat(const HANDLE& hProcess, const u
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3653,7 +3727,7 @@ bool MemoryUtilities::External::IndirectSetFloat(const HANDLE& hProcess, const u
 
     /* Cast the address to float* */
     LPVOID targetFloat = reinterpret_cast<LPVOID>(dataAddress);
-    SIZE_T byteSize = sizeof(float);
+    size_t byteSize = sizeof(float);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -3661,7 +3735,7 @@ bool MemoryUtilities::External::IndirectSetFloat(const HANDLE& hProcess, const u
         return false;
 
     /* Write the new floating-point value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetFloat, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3685,7 +3759,7 @@ bool MemoryUtilities::External::IndirectPatchFloat(const HANDLE& hProcess, const
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3704,7 +3778,7 @@ bool MemoryUtilities::External::IndirectPatchFloat(const HANDLE& hProcess, const
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(float);
+    size_t byteSize = sizeof(float);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3713,7 +3787,7 @@ bool MemoryUtilities::External::IndirectPatchFloat(const HANDLE& hProcess, const
         return false;
 
     /* Write the new floating-point value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetFloat, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3740,7 +3814,7 @@ double MemoryUtilities::External::GetDouble(const HANDLE& hProcess, const uintpt
 
     /* Read and return the 64-bit floating-point value from the target address. */
     double value = -1.0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &value, sizeof(value), &bytesRead)
         || bytesRead != sizeof(value))
@@ -3763,7 +3837,7 @@ bool MemoryUtilities::External::SetDouble(const HANDLE& hProcess, const uintptr_
 
     /* Cast the address to double* */
     LPVOID targetDouble = reinterpret_cast<LPVOID>(memoryAddress);
-    SIZE_T byteSize = sizeof(double);
+    size_t byteSize = sizeof(double);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -3771,7 +3845,7 @@ bool MemoryUtilities::External::SetDouble(const HANDLE& hProcess, const uintptr_
         return false;
 
     /* Write the new floating-point value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetDouble, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3795,7 +3869,7 @@ bool MemoryUtilities::External::PatchDouble(const HANDLE& hProcess, const uintpt
 
     /* Verify that the current value matches the expected one. */
     double current = 0.0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &current, sizeof(current), &bytesRead)
         || bytesRead != sizeof(current))
@@ -3804,7 +3878,7 @@ bool MemoryUtilities::External::PatchDouble(const HANDLE& hProcess, const uintpt
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(double);
+    size_t byteSize = sizeof(double);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3813,7 +3887,7 @@ bool MemoryUtilities::External::PatchDouble(const HANDLE& hProcess, const uintpt
         return false;
 
     /* Write the new floating-point value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetDouble, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3837,7 +3911,7 @@ double MemoryUtilities::External::IndirectGetDouble(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3871,7 +3945,7 @@ bool MemoryUtilities::External::IndirectSetDouble(const HANDLE& hProcess, const 
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3882,7 +3956,7 @@ bool MemoryUtilities::External::IndirectSetDouble(const HANDLE& hProcess, const 
 
     /* Cast the address to double* */
     LPVOID targetDouble = reinterpret_cast<LPVOID>(dataAddress);
-    SIZE_T byteSize = sizeof(double);
+    size_t byteSize = sizeof(double);
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -3890,7 +3964,7 @@ bool MemoryUtilities::External::IndirectSetDouble(const HANDLE& hProcess, const 
         return false;
 
     /* Write the new floating-point value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetDouble, &newValue, byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -3914,7 +3988,7 @@ bool MemoryUtilities::External::IndirectPatchDouble(const HANDLE& hProcess, cons
 
     /* Read the data pointer from memoryAddress */
     uintptr_t dataAddress = 0;
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
                            &dataAddress, sizeof(dataAddress), &bytesRead)
         || bytesRead != sizeof(dataAddress))
@@ -3933,7 +4007,7 @@ bool MemoryUtilities::External::IndirectPatchDouble(const HANDLE& hProcess, cons
     if (current != from) // Only patch if the current value matches 'from'.
         return false;
 
-    SIZE_T byteSize = sizeof(double);
+    size_t byteSize = sizeof(double);
 
     /* Make the memory region writable */
     DWORD oldProtect;
@@ -3942,7 +4016,7 @@ bool MemoryUtilities::External::IndirectPatchDouble(const HANDLE& hProcess, cons
         return false;
 
     /* Write the new floating-point value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetDouble, &to, byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -3970,7 +4044,7 @@ std::string MemoryUtilities::External::GetString(const HANDLE& hProcess, const v
 std::string MemoryUtilities::External::GetString(const HANDLE& hProcess, const uintptr_t& memoryAddress)
 {
     /* Verify that the address is valid and read a NUL-terminated string. */
-    return ReadRemoteString(hProcess, memoryAddress, 255);
+    return ReadRemoteString(hProcess, memoryAddress);
 }
 
 std::string MemoryUtilities::External::GetString(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t maxLength)
@@ -3993,7 +4067,7 @@ bool MemoryUtilities::External::SetString(const HANDLE& hProcess, const uintptr_
 
     /* Cast the address to char* */
     char* targetStr = reinterpret_cast<char*>(memoryAddress);
-    SIZE_T byteSize = newValue.size() + 1; // +1 for null terminator
+    size_t byteSize = newValue.size() + 1; // +1 for null terminator
 
     /* Make the memory region writable. */
     DWORD oldProtect;
@@ -4001,7 +4075,7 @@ bool MemoryUtilities::External::SetString(const HANDLE& hProcess, const uintptr_
         return false;
 
     /* Write the new string value. */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, targetStr, newValue.c_str(), byteSize, &bytesWritten);
 
     /* Restore the original protection. */
@@ -4025,25 +4099,25 @@ bool MemoryUtilities::External::PatchString(const HANDLE& hProcess, const uintpt
 
     /* Verify that the current value matches the expected one. */
     std::vector<char> current(from.size());
-    SIZE_T bytesRead = 0;
+    size_t bytesRead = 0;
     if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
-                           current.data(), static_cast<SIZE_T>(current.size()), &bytesRead)
+                           current.data(), static_cast<size_t>(current.size()), &bytesRead)
         || bytesRead != current.size())
         return false;
 
     if (std::memcmp(current.data(), from.c_str(), current.size()) != 0)
         return false;
 
-    /* Make the memory region writable. */
     LPVOID target = reinterpret_cast<LPVOID>(memoryAddress);
-    SIZE_T byteSize = static_cast<SIZE_T>(to.size() + 1);
+    size_t byteSize = static_cast<size_t>(to.size() + 1);
 
+    /* Make the memory region writable. */
     DWORD oldProtect;
     if (VirtualProtectEx(hProcess, target, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
         return false;
 
     /* Write the new string value */
-    SIZE_T bytesWritten = 0;
+    size_t bytesWritten = 0;
     BOOL ok = WriteProcessMemory(hProcess, target, to.c_str(), byteSize, &bytesWritten);
 
     /* Restore the original protection */
@@ -4051,4 +4125,638 @@ bool MemoryUtilities::External::PatchString(const HANDLE& hProcess, const uintpt
     VirtualProtectEx(hProcess, target, byteSize, oldProtect, &tmp);
 
     return ok && bytesWritten == byteSize;
+}
+
+std::string MemoryUtilities::External::IndirectGetString(const HANDLE& hProcess, const void* memoryPtr)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectGetString(hProcess, memoryAddress);
+}
+
+std::string MemoryUtilities::External::IndirectGetString(const HANDLE& hProcess, const void* memoryPtr, size_t maxLength)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectGetString(hProcess, memoryAddress, maxLength);
+}
+
+std::string MemoryUtilities::External::IndirectGetString(const HANDLE& hProcess, const uintptr_t& memoryAddress)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return std::string();
+
+    /* Read the data pointer from memoryAddress. */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return std::string();
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return std::string();
+
+    /* Read and return the string from the target address. */
+    return ReadRemoteString(hProcess, dataAddress);
+}
+
+std::string MemoryUtilities::External::IndirectGetString(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t maxLength)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return std::string();
+
+    /* Read the data pointer from memoryAddress. */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return std::string();
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return std::string();
+
+    /* Read and return up to maxLength (or until NUL) from the target address. */
+    return ReadRemoteString(hProcess, dataAddress, maxLength);
+}
+
+bool MemoryUtilities::External::IndirectSetString(const HANDLE& hProcess, const void* memoryPtr, const std::string& newValue)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectSetString(hProcess, memoryAddress, newValue);
+}
+
+bool MemoryUtilities::External::IndirectSetString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::string& newValue)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return false;
+
+    /* Read the data pointer from memoryAddress. */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return false;
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return false;
+
+    /* Make the memory region writable and write the new string (+1 for null terminator). */
+    LPVOID targetStr = reinterpret_cast<LPVOID>(dataAddress);
+    size_t byteSize = static_cast<size_t>(newValue.size() + 1);
+
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, targetStr, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, targetStr, newValue.c_str(), byteSize, &bytesWritten);
+
+    DWORD tmp;
+    VirtualProtectEx(hProcess, targetStr, byteSize, oldProtect, &tmp);
+
+    return ok && bytesWritten == byteSize;
+}
+
+bool MemoryUtilities::External::IndirectPatchString(const HANDLE& hProcess, const void* memoryPtr, const std::string& from, const std::string& to)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectPatchString(hProcess, memoryAddress, from, to);
+}
+
+bool MemoryUtilities::External::IndirectPatchString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::string& from, const std::string& to)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return false;
+
+    /* Read the data pointer from memoryAddress. */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return false;
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return false;
+
+    /* Verify that the current value matches the expected one (first 'from.size()' bytes). */
+    std::vector<char> current(from.size());
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(dataAddress),
+                           current.data(), static_cast<size_t>(current.size()), &bytesRead)
+        || bytesRead != current.size())
+        return false;
+
+    if (std::memcmp(current.data(), from.c_str(), current.size()) != 0)
+        return false;
+
+    LPVOID target = reinterpret_cast<LPVOID>(dataAddress);
+    size_t byteSize = static_cast<size_t>(to.size() + 1);
+
+    /* Make the memory region writable. */
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, target, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    /* Write the new string value */
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, target, to.c_str(), byteSize, &bytesWritten);
+
+    /* Restore the original protection */
+    DWORD tmp;
+    VirtualProtectEx(hProcess, target, byteSize, oldProtect, &tmp);
+
+    return ok && bytesWritten == byteSize;
+}
+
+
+
+
+std::wstring MemoryUtilities::External::GetWString(const HANDLE& hProcess, const void* memoryPtr)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return GetWString(hProcess, memoryAddress);
+}
+
+std::wstring MemoryUtilities::External::GetWString(const HANDLE& hProcess, const void* memoryPtr, size_t maxLength)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return GetWString(hProcess, memoryAddress, maxLength);
+}
+
+std::wstring MemoryUtilities::External::GetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress)
+{
+    /* Verify that the address is valid and read a NUL-terminated string. */
+    return ReadRemoteWString(hProcess, memoryAddress);
+}
+
+std::wstring MemoryUtilities::External::GetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t maxLength)
+{
+    /* Verify that the address is valid and read up to maxLength (or until NUL). */
+    return ReadRemoteWString(hProcess, memoryAddress, maxLength);
+}
+
+bool MemoryUtilities::External::SetWString(const HANDLE& hProcess, const void* memoryPtr, const std::wstring& newValue)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return SetWString(hProcess, memoryAddress, newValue);
+}
+
+bool MemoryUtilities::External::SetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::wstring& newValue)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return false;
+
+    /* Cast the address to wchar_t* */
+    wchar_t* targetStr = reinterpret_cast<wchar_t*>(memoryAddress);
+    size_t byteSize = static_cast<size_t>((newValue.size() + 1) * sizeof(wchar_t)); // +1 for null terminator
+
+    /* Make the memory region writable. */
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, targetStr, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    /* Write the new string value. */
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, targetStr, newValue.c_str(), byteSize, &bytesWritten);
+
+    /* Restore the original protection. */
+    DWORD tmp;
+    VirtualProtectEx(hProcess, targetStr, byteSize, oldProtect, &tmp);
+
+    return ok && bytesWritten == byteSize;
+}
+
+bool MemoryUtilities::External::PatchWString(const HANDLE& hProcess, const void* memoryPtr, const std::wstring& from, const std::wstring& to)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return PatchWString(hProcess, memoryAddress, from, to);
+}
+
+bool MemoryUtilities::External::PatchWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::wstring& from, const std::wstring& to)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return false;
+
+    /* Verify that the current value matches the expected one. */
+    std::vector<wchar_t> current(from.size());
+    size_t bytesRead = 0;
+    size_t expectBytes = static_cast<size_t>(current.size() * sizeof(wchar_t));
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           current.data(), expectBytes, &bytesRead)
+        || bytesRead != expectBytes)
+        return false;
+
+    if (std::char_traits<wchar_t>::compare(current.data(), from.c_str(), current.size()) != 0)
+        return false;
+
+    LPVOID target = reinterpret_cast<LPVOID>(memoryAddress);
+    size_t byteSize = static_cast<size_t>((to.size() + 1) * sizeof(wchar_t));
+
+    /* Make the memory region writable. */
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, target, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    /* Write the new string value */
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, target, to.c_str(), byteSize, &bytesWritten);
+
+    /* Restore the original protection */
+    DWORD tmp;
+    VirtualProtectEx(hProcess, target, byteSize, oldProtect, &tmp);
+
+    return ok && bytesWritten == byteSize;
+}
+
+std::wstring MemoryUtilities::External::IndirectGetWString(const HANDLE& hProcess, const void* memoryPtr)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectGetWString(hProcess, memoryAddress);
+}
+
+std::wstring MemoryUtilities::External::IndirectGetWString(const HANDLE& hProcess, const void* memoryPtr, size_t maxLength)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectGetWString(hProcess, memoryAddress, maxLength);
+}
+
+std::wstring MemoryUtilities::External::IndirectGetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return std::wstring();
+
+    /* Read the data pointer from memoryAddress. */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return std::wstring();
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return std::wstring();
+
+    /* Read and return the string from the target address. */
+    return ReadRemoteWString(hProcess, dataAddress);
+}
+
+std::wstring MemoryUtilities::External::IndirectGetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t maxLength)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return std::wstring();
+
+    /* Read the data pointer from memoryAddress. */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return std::wstring();
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return std::wstring();
+
+    /* Read and return up to maxLength (or until NUL) from the target address. */
+    return ReadRemoteWString(hProcess, dataAddress, maxLength);
+}
+
+bool MemoryUtilities::External::IndirectSetWString(const HANDLE& hProcess, const void* memoryPtr, const std::wstring& newValue)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectSetWString(hProcess, memoryAddress, newValue);
+}
+
+bool MemoryUtilities::External::IndirectSetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::wstring& newValue)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return false;
+
+    /* Read the data pointer from memoryAddress. */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return false;
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return false;
+
+    /* Make the memory region writable and write the new string (+1 for null terminator). */
+    LPVOID targetStr = reinterpret_cast<LPVOID>(dataAddress);
+    size_t byteSize = static_cast<size_t>((newValue.size() + 1) * sizeof(wchar_t));
+
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, targetStr, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, targetStr, newValue.c_str(), byteSize, &bytesWritten);
+
+    DWORD tmp;
+    VirtualProtectEx(hProcess, targetStr, byteSize, oldProtect, &tmp);
+
+    return ok && bytesWritten == byteSize;
+}
+
+bool MemoryUtilities::External::IndirectPatchWString(const HANDLE& hProcess, const void* memoryPtr, const std::wstring& from, const std::wstring& to)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectPatchWString(hProcess, memoryAddress, from, to);
+}
+
+bool MemoryUtilities::External::IndirectPatchWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::wstring& from, const std::wstring& to)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return false;
+
+    /* Read the data pointer from memoryAddress. */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return false;
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return false;
+
+    /* Verify that the current value matches the expected one (first 'from.size()' wchar_t). */
+    std::vector<wchar_t> current(from.size());
+    size_t expectBytes = static_cast<size_t>(current.size() * sizeof(wchar_t));
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(dataAddress),
+                           current.data(), expectBytes, &bytesRead)
+        || bytesRead != expectBytes)
+        return false;
+
+    if (std::char_traits<wchar_t>::compare(current.data(), from.c_str(), current.size()) != 0)
+        return false;
+
+    LPVOID target = reinterpret_cast<LPVOID>(dataAddress);
+    size_t byteSize = static_cast<size_t>((to.size() + 1) * sizeof(wchar_t));
+
+    /* Make the memory region writable. */
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, target, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    /* Write the new string value */
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, target, to.c_str(), byteSize, &bytesWritten);
+
+    /* Restore the original protection */
+    DWORD tmp;
+    VirtualProtectEx(hProcess, target, byteSize, oldProtect, &tmp);
+
+    return ok && bytesWritten == byteSize;
+}
+
+
+
+
+std::vector<uint8_t> MemoryUtilities::External::GetBytes(const HANDLE& hProcess, const void* memoryPtr, size_t byteCount)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return GetBytes(hProcess, memoryAddress, byteCount);
+}
+
+std::vector<uint8_t> MemoryUtilities::External::GetBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t byteCount)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false || byteCount == 0)
+        return {};
+
+    std::vector<uint8_t> buffer(byteCount);
+
+    /* Read and return the bytes from the target address. */
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           buffer.data(), buffer.size(), &bytesRead)
+        || bytesRead != buffer.size())
+        return {};
+
+    return buffer;
+}
+
+bool MemoryUtilities::External::SetBytes(const HANDLE& hProcess, const void* memoryPtr, const std::vector<uint8_t>& newBytes)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return SetBytes(hProcess, memoryAddress, newBytes);
+}
+
+bool MemoryUtilities::External::SetBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::vector<uint8_t>& newBytes)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false || newBytes.empty())
+        return false;
+
+    LPVOID target = reinterpret_cast<LPVOID>(memoryAddress);
+    size_t byteSize = newBytes.size();
+
+    /* Make the memory region writable. */
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, target, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    /* Write the new bytes. */
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, target, newBytes.data(), byteSize, &bytesWritten);
+
+    /* Restore the original protection. */
+    DWORD tmp;
+    VirtualProtectEx(hProcess, target, byteSize, oldProtect, &tmp);
+
+    return ok && bytesWritten == byteSize;
+}
+
+bool MemoryUtilities::External::PatchBytes(const HANDLE& hProcess, const void* memoryPtr, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return PatchBytes(hProcess, memoryAddress, fromBytes, toBytes);
+}
+
+bool MemoryUtilities::External::PatchBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress,
+    const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return false;
+
+    /* Sizes must match and be non-zero. */
+    if (fromBytes.size() == 0 || fromBytes.size() != toBytes.size())
+        return false;
+
+    /* Verify that the current bytes match the expected ones. */
+    std::vector<uint8_t> current(fromBytes.size());
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           current.data(), current.size(), &bytesRead)
+        || bytesRead != current.size())
+        return false;
+
+    if (!std::equal(current.begin(), current.end(), fromBytes.begin())) // Only patch if the current bytes match 'fromBytes'.
+        return false;
+
+    /* Make the memory region writable */
+    LPVOID target = reinterpret_cast<LPVOID>(memoryAddress);
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, target, static_cast<size_t>(toBytes.size()), PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    /* Write the new bytes */
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, target, toBytes.data(),
+        static_cast<size_t>(toBytes.size()), &bytesWritten);
+
+    /* Restore the original protection */
+    DWORD tmp;
+    VirtualProtectEx(hProcess, target, static_cast<size_t>(toBytes.size()), oldProtect, &tmp);
+
+    return ok && bytesWritten == toBytes.size();
+}
+
+std::vector<uint8_t> MemoryUtilities::External::IndirectGetBytes(const HANDLE& hProcess, const void* memoryPtr, size_t byteCount)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectGetBytes(hProcess, memoryAddress, byteCount);
+}
+
+std::vector<uint8_t> MemoryUtilities::External::IndirectGetBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t byteCount)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false || byteCount == 0)
+        return {};
+
+    /* Read the data pointer from memoryAddress */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return {};
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return {};
+
+    std::vector<uint8_t> buffer(byteCount);
+
+    /* Read and return the bytes from the target address. */
+    bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(dataAddress),
+                           buffer.data(), buffer.size(), &bytesRead)
+        || bytesRead != buffer.size())
+        return {};
+
+    return buffer;
+}
+
+bool MemoryUtilities::External::IndirectSetBytes(const HANDLE& hProcess, const void* memoryPtr, const std::vector<uint8_t>& newBytes)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectSetBytes(hProcess, memoryAddress, newBytes);
+}
+
+bool MemoryUtilities::External::IndirectSetBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::vector<uint8_t>& newBytes)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false || newBytes.empty())
+        return false;
+
+    /* Read the data pointer from memoryAddress */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return false;
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return false;
+
+    LPVOID target = reinterpret_cast<LPVOID>(dataAddress);
+    size_t byteSize = newBytes.size();
+
+    /* Make the memory region writable. */
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, target, byteSize, PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    /* Write the new bytes. */
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, target, newBytes.data(), byteSize, &bytesWritten);
+
+    /* Restore the original protection. */
+    DWORD tmp;
+    VirtualProtectEx(hProcess, target, byteSize, oldProtect, &tmp);
+
+    return ok && bytesWritten == byteSize;
+}
+
+bool MemoryUtilities::External::IndirectPatchBytes(const HANDLE& hProcess, const void* memoryPtr,
+    const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes)
+{
+    uintptr_t memoryAddress = reinterpret_cast<uintptr_t>(memoryPtr);
+    return IndirectPatchBytes(hProcess, memoryAddress, fromBytes, toBytes);
+}
+
+bool MemoryUtilities::External::IndirectPatchBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress,
+    const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes)
+{
+    /* Verify that the address is valid. */
+    if (IsValidAddress(hProcess, memoryAddress) == false)
+        return false;
+
+    /* Read the data pointer from memoryAddress */
+    uintptr_t dataAddress = 0;
+    size_t bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(memoryAddress),
+                           &dataAddress, sizeof(dataAddress), &bytesRead)
+        || bytesRead != sizeof(dataAddress))
+        return false;
+
+    if (IsValidAddress(hProcess, dataAddress) == false)
+        return false;
+
+    /* Sizes must match and be non-zero. */
+    if (fromBytes.size() == 0 || fromBytes.size() != toBytes.size())
+        return false;
+
+    /* Verify that the current bytes match the expected ones. */
+    std::vector<uint8_t> current(fromBytes.size());
+    bytesRead = 0;
+    if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(dataAddress),
+                           current.data(), current.size(), &bytesRead)
+        || bytesRead != current.size())
+        return false;
+
+    if (!std::equal(current.begin(), current.end(), fromBytes.begin())) // Only patch if the current bytes match 'fromBytes'.
+        return false;
+
+    /* Make the memory region writable */
+    LPVOID target = reinterpret_cast<LPVOID>(dataAddress);
+    DWORD oldProtect;
+    if (VirtualProtectEx(hProcess, target, static_cast<size_t>(toBytes.size()), PAGE_EXECUTE_READWRITE, &oldProtect) == FALSE)
+        return false;
+
+    /* Write the new bytes */
+    size_t bytesWritten = 0;
+    BOOL ok = WriteProcessMemory(hProcess, target, toBytes.data(),
+        static_cast<size_t>(toBytes.size()), &bytesWritten);
+
+    /* Restore the original protection */
+    DWORD tmp;
+    VirtualProtectEx(hProcess, target, static_cast<size_t>(toBytes.size()), oldProtect, &tmp);
+
+    return ok && bytesWritten == toBytes.size();
 }

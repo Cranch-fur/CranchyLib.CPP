@@ -360,22 +360,22 @@ class MemoryUtilities
 		static std::vector<uint8_t> GetBytes(const void* memoryPtr, size_t byteCount);
 		static std::vector<uint8_t> GetBytes(const uintptr_t& memoryAddress, size_t byteCount);
 
-		static bool					SetBytes(const void* memoryPtr, const uint8_t* newBytes, size_t byteCount);
-		static bool					SetBytes(const uintptr_t& memoryAddress, const uint8_t* newBytes, size_t byteCount);
+		static bool					SetBytes(const void* memoryPtr, const std::vector<uint8_t>& newBytes);
+		static bool					SetBytes(const uintptr_t& memoryAddress, const std::vector<uint8_t>& newBytes);
 
-		static bool					PatchBytes(const void* memoryPtr, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount);
-		static bool					PatchBytes(const uintptr_t& memoryAddress, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount);
+		static bool					PatchBytes(const void* memoryPtr, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes);
+		static bool					PatchBytes(const uintptr_t& memoryAddress, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes);
 
 
 		/* For when 'memoryAddress' contains the address that leads to the value */
 		static std::vector<uint8_t> IndirectGetBytes(const void* memoryPtr, size_t byteCount);
 		static std::vector<uint8_t> IndirectGetBytes(const uintptr_t& memoryAddress, size_t byteCount);
 
-		static bool					IndirectSetBytes(const void* memoryPtr, const uint8_t* newBytes, size_t byteCount);
-		static bool					IndirectSetBytes(const uintptr_t& memoryAddress, const uint8_t* newBytes, size_t byteCount);
+		static bool					IndirectSetBytes(const void* memoryPtr, const std::vector<uint8_t>& newBytes);
+		static bool					IndirectSetBytes(const uintptr_t& memoryAddress, const std::vector<uint8_t>& newBytes);
 
-		static bool					IndirectPatchBytes(const void* memoryPtr, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount);
-		static bool					IndirectPatchBytes(const uintptr_t& memoryAddress, const uint8_t* fromBytes, const uint8_t* toBytes, size_t byteCount);
+		static bool					IndirectPatchBytes(const void* memoryPtr, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes);
+		static bool					IndirectPatchBytes(const uintptr_t& memoryAddress, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes);
 	};
 
 
@@ -388,7 +388,8 @@ class MemoryUtilities
 		// Description: Functions within the class allows to manipulate memory of 3'rd party processes.
 		// Search Tags: #external, #exe, #pid, #process, #readprocessmemory, #writeprocessmemory, #handle.
 	private:
-		static std::string ReadRemoteString(const HANDLE& hProcess, const uintptr_t memoryAddress, size_t maxLength);
+		static std::string ReadRemoteString(const HANDLE& hProcess, const uintptr_t memoryAddress, size_t maxLength = 256);
+		static std::wstring ReadRemoteWString(const HANDLE& hProcess, const uintptr_t memoryAddress, size_t maxLength = 256);
 
 
 
@@ -675,5 +676,57 @@ class MemoryUtilities
 
 		static bool		   IndirectPatchString(const HANDLE& hProcess, const void* memoryPtr, const std::string& from, const std::string& to);
 		static bool		   IndirectPatchString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::string& from, const std::string& to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static std::wstring GetWString(const HANDLE& hProcess, const void* memoryPtr);
+		static std::wstring GetWString(const HANDLE& hProcess, const void* memoryPtr, size_t maxLength);
+		static std::wstring GetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+		static std::wstring GetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t maxLength);
+
+		static bool		   SetWString(const HANDLE& hProcess, const void* memoryPtr, const std::wstring& newValue);
+		static bool		   SetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::wstring& newValue);
+
+		static bool		   PatchWString(const HANDLE& hProcess, const void* memoryPtr, const std::wstring& from, const std::wstring& to);
+		static bool		   PatchWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::wstring& from, const std::wstring& to);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static std::wstring IndirectGetWString(const HANDLE& hProcess, const void* memoryPtr);
+		static std::wstring IndirectGetWString(const HANDLE& hProcess, const void* memoryPtr, size_t maxLength);
+		static std::wstring IndirectGetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress);
+		static std::wstring IndirectGetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t maxLength);
+
+		static bool		    IndirectSetWString(const HANDLE& hProcess, const void* memoryPtr, const std::wstring& newValue);
+		static bool		    IndirectSetWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::wstring& newValue);
+
+		static bool		    IndirectPatchWString(const HANDLE& hProcess, const void* memoryPtr, const std::wstring& from, const std::wstring& to);
+		static bool		    IndirectPatchWString(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::wstring& from, const std::wstring& to);
+
+
+
+
+		/* For when 'memoryAddress' contains the actual value */
+		static std::vector<uint8_t> GetBytes(const HANDLE& hProcess, const void* memoryPtr, size_t byteCount);
+		static std::vector<uint8_t> GetBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t byteCount);
+
+		static bool					SetBytes(const HANDLE& hProcess, const void* memoryPtr, const std::vector<uint8_t>& newBytes);
+		static bool					SetBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::vector<uint8_t>& newBytes);
+
+		static bool					PatchBytes(const HANDLE& hProcess, const void* memoryPtr, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes);
+		static bool					PatchBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes);
+
+
+		/* For when 'memoryAddress' contains the address that leads to the value */
+		static std::vector<uint8_t> IndirectGetBytes(const HANDLE& hProcess, const void* memoryPtr, size_t byteCount);
+		static std::vector<uint8_t> IndirectGetBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, size_t byteCount);
+
+		static bool					IndirectSetBytes(const HANDLE& hProcess, const void* memoryPtr, const std::vector<uint8_t>& newBytes);
+		static bool					IndirectSetBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::vector<uint8_t>& newBytes);
+
+		static bool					IndirectPatchBytes(const HANDLE& hProcess, const void* memoryPtr, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes);
+		static bool					IndirectPatchBytes(const HANDLE& hProcess, const uintptr_t& memoryAddress, const std::vector<uint8_t>& fromBytes, const std::vector<uint8_t>& toBytes);
 	};
 };
