@@ -20,20 +20,40 @@
 class WindowsUtilities
 {
 public:
+    /**
+    * @brief Basic information about a target process.
+    * @param handle - Process handle.
+    * @param processId - Process ID.
+    * @param imageBase - Base address of the main module GetModuleHandle(nullptr).
+    * @param entryPoint - Entry point address [VA] (imageBase + AddressOfEntryPoint [RVA]).
+    */
+    struct ProcessInformation 
+    {
+        HANDLE  handle     = nullptr;
+        DWORD   processId  = 0;
+        HMODULE imageBase  = nullptr;
+        LPVOID  entryPoint = nullptr;
+    };
+
+
+
+
+
+
     enum class E_ClipboardFormat
     {
         None,
-        TextAnsi,          // CF_TEXT
-        TextUnicode,       // CF_UNICODETEXT
-        Bitmap,            // CF_BITMAP
-        Dib,               // CF_DIB
-        DibV5,             // CF_DIBV5
-        MetafilePict,      // CF_METAFILEPICT
-        EnhancedMetafile,  // CF_ENHMETAFILE
-        Palette,           // CF_PALETTE
-        FileList,          // CF_HDROP
-        Locale,            // CF_LOCALE
-        Custom             // Any other format (ID > CF_GDIOBJLAST)
+        TextAnsi,          /// CF_TEXT.
+        TextUnicode,       /// CF_UNICODETEXT.
+        Bitmap,            /// CF_BITMAP.
+        Dib,               /// CF_DIB.
+        DibV5,             /// CF_DIBV5.
+        MetafilePict,      /// CF_METAFILEPICT.
+        EnhancedMetafile,  /// CF_ENHMETAFILE.
+        Palette,           /// CF_PALETTE.
+        FileList,          /// CF_HDROP.
+        Locale,            /// CF_LOCALE.
+        Custom             /// Any other format (ID > CF_GDIOBJLAST).
     };
 
 
@@ -149,8 +169,11 @@ public:
     static bool StartProcess(const std::string& executablePath, const std::string& startupArguments = "");
 
 
-    static DWORD FindProcessIdByExeName(const std::wstring& exeName);
-    static HANDLE FindProcessByExeName(const std::wstring& exeName, DWORD desiredAccess = PROCESS_ALL_ACCESS);
+    static HMODULE GetMainModuleBase(DWORD processId);
+    static LPVOID GetRemoteEntryPoint(HANDLE hProcess, HMODULE imageBase);
+    static ProcessInformation GetProcessByName(const std::string& exeName, const DWORD& desiredAccess = PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_VM_READ);
+    static ProcessInformation GetProcessByName(const std::wstring& exeName, const DWORD& desiredAccess = PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_VM_READ);
+    static ProcessInformation GetProcessByPID(const DWORD& processId, const DWORD& desiredAccess);
 
 
     static bool CloseProcess(HANDLE hProcess);

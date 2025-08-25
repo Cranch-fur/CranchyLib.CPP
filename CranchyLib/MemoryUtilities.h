@@ -10,7 +10,7 @@
 
 
 
-class MemoryUtilities
+namespace MemoryUtilities
 {
 	class Convertion
 	{

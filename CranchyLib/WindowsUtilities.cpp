@@ -833,40 +833,121 @@ bool WindowsUtilities::StartProcess(const std::string& executablePath, const std
 
 
 
-DWORD WindowsUtilities::FindProcessIdByExeName(const std::wstring& exeName)
+HMODULE WindowsUtilities::GetMainModuleBase(DWORD processId)
 {
-    DWORD pid = 0;
-    HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if (snap == INVALID_HANDLE_VALUE)
-        return 0;
+    HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, processId);
+    if (snap == INVALID_HANDLE_VALUE) 
+        return nullptr;
 
+    MODULEENTRY32W me{};
+    me.dwSize = sizeof(me);
+    HMODULE base = nullptr;
 
-    PROCESSENTRY32W pe;
+    if (Module32FirstW(snap, &me)) 
+        base = me.hModule;
+
+    CloseHandle(snap);
+    return base;
+}
+
+LPVOID WindowsUtilities::GetRemoteEntryPoint(HANDLE hProcess, HMODULE imageBase)
+{
+    if (!hProcess || !imageBase) 
+        return nullptr;
+
+    IMAGE_DOS_HEADER dos{};
+    SIZE_T br = 0;
+    if (!ReadProcessMemory(hProcess, imageBase, &dos, sizeof(dos), &br) 
+        || dos.e_magic != IMAGE_DOS_SIGNATURE)
+        return nullptr;
+
+    // Read NT headers (buffer sized for 64-bit header; fine for 32-bit too).
+    BYTE ntBuf[sizeof(IMAGE_NT_HEADERS64)]{};
+    auto ntAddr = reinterpret_cast<const BYTE*>(imageBase) + dos.e_lfanew;
+
+    if (!ReadProcessMemory(hProcess, ntAddr, ntBuf, sizeof(ntBuf), &br))
+        return nullptr;
+
+    const IMAGE_NT_HEADERS64* nt64 = reinterpret_cast<const IMAGE_NT_HEADERS64*>(ntBuf);
+    if (nt64->Signature != IMAGE_NT_SIGNATURE) return nullptr;
+
+    // Check optional header type and take AddressOfEntryPoint.
+    if (nt64->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC) 
+    {
+        DWORD epRva = nt64->OptionalHeader.AddressOfEntryPoint;
+        return const_cast<BYTE*>(reinterpret_cast<const BYTE*>(imageBase)) + epRva;
+    }
+    else 
+    {
+        const auto* nt32 = reinterpret_cast<const IMAGE_NT_HEADERS32*>(ntBuf);
+        if (nt32->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR32_MAGIC) return nullptr;
+        DWORD epRva = nt32->OptionalHeader.AddressOfEntryPoint;
+        return const_cast<BYTE*>(reinterpret_cast<const BYTE*>(imageBase)) + epRva;
+    }
+}
+
+WindowsUtilities::ProcessInformation WindowsUtilities::GetProcessByName(const std::string& exeName, const DWORD& desiredAccess)
+{
+    return GetProcessByName(std::wstring(exeName.begin(), exeName.end()), desiredAccess);
+}
+
+WindowsUtilities::ProcessInformation WindowsUtilities::GetProcessByName(const std::wstring& exeName, const DWORD& desiredAccess)
+{
+    ProcessInformation result{};
+
+    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (snapshot == INVALID_HANDLE_VALUE)
+        return result;
+
+    PROCESSENTRY32W pe{};
     pe.dwSize = sizeof(pe);
 
-
-    if (Process32FirstW(snap, &pe)) 
+    if (Process32FirstW(snapshot, &pe)) 
     {
         do 
         {
             if (_wcsicmp(pe.szExeFile, exeName.c_str()) == 0) 
             {
-                pid = pe.th32ProcessID;
+                HANDLE hProcess = OpenProcess(desiredAccess, FALSE, pe.th32ProcessID);
+                if (!hProcess) 
+                    break;
+
+                HMODULE base = GetMainModuleBase(pe.th32ProcessID);
+                LPVOID entry = GetRemoteEntryPoint(hProcess, base);
+
+                result.handle = hProcess;
+                result.processId = pe.th32ProcessID;
+                result.imageBase = base;
+                result.entryPoint = entry;
                 break;
             }
-        } while (Process32NextW(snap, &pe));
+        } while (Process32NextW(snapshot, &pe));
     }
 
-
-    CloseHandle(snap);
-    return pid;
+    CloseHandle(snapshot);
+    return result;
 }
 
-
-HANDLE WindowsUtilities::FindProcessByExeName(const std::wstring& exeName, DWORD desiredAccess)
+WindowsUtilities::ProcessInformation WindowsUtilities::GetProcessByPID(const DWORD& processId, const DWORD& desiredAccess)
 {
-    DWORD pid = FindProcessIdByExeName(exeName);
-    return (pid != 0) ? OpenProcess(desiredAccess, FALSE, pid) : nullptr;
+    ProcessInformation result{};
+
+    if (processId == 0)
+        return result;
+
+    HANDLE hProcess = OpenProcess(desiredAccess, FALSE, processId);
+    if (!hProcess)
+        return result;
+
+    HMODULE base = GetMainModuleBase(processId);
+    LPVOID entry = base ? GetRemoteEntryPoint(hProcess, base) : nullptr;
+
+    result.handle = hProcess;
+    result.processId = processId;
+    result.imageBase = base;
+    result.entryPoint = entry;
+
+    return result;
 }
 
 
